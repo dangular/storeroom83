@@ -13,5 +13,7 @@ results
 
 npm-debug.log
 node_modules
+bower_components
+build
 .idea
 .DS_Store
