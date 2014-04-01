@@ -29,9 +29,9 @@ module.exports = function(grunt) {
         less: {
             build: {
                 files: {
-                    "build/app.css": "src/app.less",
-                    "build/dashboard.css": "src/dashboard.less",
-                    "build/app-bootstrap.css": "src/app-bootstrap.less"
+                    "public/app.css": "src/app.less",
+                    "public/dashboard.css": "src/dashboard.less",
+                    "public/app-bootstrap.css": "src/app-bootstrap.less"
                 }
             }
         },
@@ -45,7 +45,7 @@ module.exports = function(grunt) {
         concat: {
             build: {
                 src: 'src/**/*.js',
-                dest: 'build/app.js'
+                dest: 'public/app.js'
             }
         },
         copy: {
@@ -53,24 +53,20 @@ module.exports = function(grunt) {
                 cwd: 'src/images',
                 expand: true,
                 src: '**/*',
-                dest: 'build/images/'
+                dest: 'public/images/'
             },
             dist: {
-                cwd: 'build',
+                cwd: 'public',
                 expand: true,
                 src: '**/*',
                 dest: 'dist/'
             }
         },
         clean: {
-            build: ['build'],
+            build: ['public'],
             dist: ['dist']
         },
         watch: {
-            jade: {
-                files: "<%= jade.build.src %>",
-                tasks: "jade"
-            },
             concat: {
                 files: "<%= concat.build.src %>",
                 tasks: "concat"
@@ -82,7 +78,7 @@ module.exports = function(grunt) {
         }
     });
 
-    grunt.registerTask('build', ['clean:build', 'copy:build', 'jade','less','concat']);
+    grunt.registerTask('build', ['clean:build', 'copy:build', 'less','concat']);
     grunt.registerTask('default', ['build','watch']);
     grunt.registerTask('package', ['build', 'clean:dist', 'copy:dist', 'uglify']);
 

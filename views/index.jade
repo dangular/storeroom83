@@ -1,0 +1,79 @@
+doctype
+html
+    head
+        meta(charset='utf-8')
+        meta(name='viewport', content='width=device-width, initial-scale=1.0')
+        meta(name='description', content='Storeroom 83 inventory and asset management application')
+        meta(name='author', content='dangular')
+        base(href='/')
+        title Storeroom 83
+        link(rel="shortcut icon", href="/images/ico/favicon.ico")
+        link(rel='stylesheet', href='/app-bootstrap.css')
+        link(rel='stylesheet', href='/dashboard.css')
+        link(rel='stylesheet', href='/font-awesome/css/font-awesome.min.css')
+        link(rel='stylesheet', href='/app.css')
+
+    body(ng-app="app")
+        .navbar.navbar-inverse.navbar-fixed-top(role='navigation')
+            .container-fluid
+                .navbar-header
+                    button.navbar-toggle(type='button', data-toggle='collapse', data-target='.navbar-collapse')
+                        span.sr-only Toggle navigation
+                        span.icon-bar
+                        span.icon-bar
+                        span.icon-bar
+                    a.navbar-brand(ui-sref="dashboard") Storeroom 83
+                .navbar-collapse.collapse
+                    ul.nav.navbar-nav.navbar-right
+                        li
+                            a(href='#') Settings
+                        li
+                            a(href='#') Profile
+                        li
+                            a(href='#') Help
+                    form.navbar-form.navbar-right
+                        input.form-control(type='text', placeholder='Search...')
+        .container-fluid
+            .row
+                .col-sm-3.col-md-2.sidebar
+                    ul.nav.nav-sidebar
+                        li(ng-class="{active: $state.current.activeNav === 'dashboard'}")
+                            a(ui-sref="dashboard")
+                                i.fa.fa-tachometer.fa-fw
+                                | &nbsp;Dashboard
+                    ul.nav.nav-sidebar
+                        li(ng-class="{active: $state.current.activeNav === 'inventory'}")
+                            a(ui-sref="inventory")
+                                i.fa.fa-barcode.fa-fw
+                                | &nbsp;Inventory
+                        li(ng-class="{active: $state.current.activeNav === 'work'}")
+                            a(ui-sref="work")
+                                i.fa.fa-wrench.fa-fw
+                                | &nbsp;Work Orders
+                        li(ng-class="{active: $state.current.activeNav === 'assets'}")
+                            a(ui-sref="assets")
+                                i.fa.fa-building-o.fa-fw
+                                | &nbsp;Asset Management
+
+                        li(ng-class="{active: $state.current.activeNav === 'purchasing'}")
+                            a(ui-sref="purchasing")
+                                i.fa.fa-money.fa-fw
+                                | &nbsp;Purchasing
+                        li(ng-class="{active: $state.current.activeNav === 'maintenance'}")
+                            a(ui-sref="maintenance")
+                                i.fa.fa-calendar.fa-fw
+                                | &nbsp;Maintenance Planning
+                .col-sm-9.col-sm-offset-3.col-md-10.col-md-offset-2.main(ui-view)
+        //
+           Bootstrap core JavaScript
+              ==================================================
+        //
+           Placed at the end of the document so the pages load faster
+        script(src='/jquery/dist/jquery.min.js')
+        script(src='/angular/angular.min.js')
+        script(src='/angular-bootstrap/ui-bootstrap.min.js')
+        script(src='/angular-ui-router/release/angular-ui-router.min.js')
+        script(src='/app.js')
+
+
+
