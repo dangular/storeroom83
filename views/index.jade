@@ -13,7 +13,7 @@ html
         link(rel='stylesheet', href='/font-awesome/css/font-awesome.min.css')
         link(rel='stylesheet', href='/app.css')
 
-    body(ng-app="app")
+    body(ng-app="app", ng-controller="AppController")
         .navbar.navbar-inverse.navbar-fixed-top(role='navigation')
             .container-fluid
                 .navbar-header
@@ -43,18 +43,28 @@ html
                                 | &nbsp;Dashboard
                     ul.nav.nav-sidebar
                         li(ng-class="{active: $state.current.activeNav === 'inventory'}")
-                            a(ui-sref="inventory")
+                            a(ng-click="sidebarService.collapsed.inventory = !sidebarService.collapsed.inventory")
                                 i.fa.fa-barcode.fa-fw
                                 | &nbsp;Inventory
+                            ul.nav.sub-nav(collapse="sidebarService.collapsed.inventory")
+                                li(ng-class="{active: $state.current.activeSubNav === 'storerooms'}")
+                                    a(ui-sref="inventory.storerooms") Storerooms
+                                li(ng-class="{active: $state.current.activeSubNav === 'items'}")
+                                    a(ui-sref="inventory.items") Item Master
+
                         li(ng-class="{active: $state.current.activeNav === 'work'}")
                             a(ui-sref="work")
                                 i.fa.fa-wrench.fa-fw
                                 | &nbsp;Work Orders
-                        li(ng-class="{active: $state.current.activeNav === 'assets'}")
-                            a(ui-sref="assets")
-                                i.fa.fa-building-o.fa-fw
+                        li(ng-class="{active: $state.current.activeNav === 'am'}")
+                            a(ng-click="sidebarService.collapsed.am = !sidebarService.collapsed.am")
+                                i.fa.fa-barcode.fa-fw
                                 | &nbsp;Asset Management
-
+                            ul.nav.sub-nav(collapse="sidebarService.collapsed.am")
+                                li(ng-class="{active: $state.current.activeSubNav === 'assets'}")
+                                    a(ui-sref="am.assets") Assets
+                                li(ng-class="{active: $state.current.activeSubNav === 'locations'}")
+                                    a(ui-sref="am.locations") Locations
                         li(ng-class="{active: $state.current.activeNav === 'purchasing'}")
                             a(ui-sref="purchasing")
                                 i.fa.fa-money.fa-fw

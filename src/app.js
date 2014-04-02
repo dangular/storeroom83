@@ -10,6 +10,9 @@ app.config(['$stateProvider','$locationProvider','$urlRouterProvider', function(
 
     $urlRouterProvider.otherwise("/dashboard");
 
+    $urlRouterProvider.when('/inventory','/inventory/storerooms');
+    $urlRouterProvider.when('/am', '/am/assets');
+
     $stateProvider
         .state('dashboard', {
             url: '/dashboard',
@@ -18,13 +21,35 @@ app.config(['$stateProvider','$locationProvider','$urlRouterProvider', function(
         })
         .state('inventory', {
             url: '/inventory',
-            activeNav: 'inventory',
-            templateUrl: '/partials/inventory/index'
+            templateUrl: '/partials/inventory/layout'
         })
-        .state('assets', {
+        .state('inventory.storerooms', {
+            url: '/storerooms',
+            activeNav: 'inventory',
+            activeSubNav: 'storerooms',
+            templateUrl: '/partials/inventory/storerooms'
+        })
+        .state('inventory.items', {
+            url: '/items',
+            activeNav: 'inventory',
+            activeSubNav: 'items',
+            templateUrl: '/partials/inventory/items'
+        })
+        .state('am', {
+            url: '/am',
+            templateUrl: '/partials/am/layout'
+        })
+        .state('am.assets', {
             url: '/assets',
-            activeNav: 'assets',
-            templateUrl: '/partials/assets/index'
+            activeNav: 'am',
+            activeSubNav: 'assets',
+            templateUrl: '/partials/am/assets'
+        })
+        .state('am.locations', {
+            url: '/locations',
+            activeNav: 'am',
+            activeSubNav: 'locations',
+            templateUrl: '/partials/am/locations'
         })
         .state('work', {
             url: '/work',
@@ -46,5 +71,24 @@ app.config(['$stateProvider','$locationProvider','$urlRouterProvider', function(
 app.run(['$rootScope','$state', function($rootScope, $state){
 
     $rootScope.$state = $state;
+
+
+}]);
+
+app.service('sidebarService', function() {
+    return {
+        collapsed: {
+            inventory: true,
+            work: true,
+            purchasing: true,
+            am: true,
+            maintenance: true
+        }
+    }
+});
+
+app.controller('AppController', ['$scope', '$state', 'sidebarService', function($scope, $state, sidebarService){
+
+    $scope.sidebarService = sidebarService;
 
 }]);
