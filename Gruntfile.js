@@ -10,42 +10,42 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks("grunt-contrib-concat");
     grunt.loadNpmTasks("grunt-contrib-clean");
     grunt.loadNpmTasks("grunt-contrib-watch");
+    grunt.loadNpmTasks("grunt-karma");
 
     grunt.initConfig({
         pkg: grunt.file.readJSON("package.json"),
 
-        jade: {
-            build: {
-                options: {
-                    pretty: true
-                },
-                expand: true,
-                cwd: "src",
-                src: "**/*.jade",
-                dest: "build",
-                ext: ".html"
+        karma: {
+            unit: {
+                configFile: 'karma/karma.conf.js',
+                background: true
             }
         },
         less: {
             build: {
                 files: {
-                    "public/app.css": "src/app.less",
-                    "public/dashboard.css": "src/dashboard.less",
-                    "public/app-bootstrap.css": "src/app-bootstrap.less"
+                    "public/css/app.css": "src/less/app.less",
+                    "public/css/dashboard.css": "src/less/dashboard.less",
+                    "public/css/app-bootstrap.css": "src/less/app-bootstrap.less"
                 }
             }
         },
         uglify: {
             dist: {
                 files: {
-                    "dist/app.js": "<%= concat.build.dest %>"
+                    "dist/js/app.js": "<%= concat.app.dest %>",
+                    "dist/js/components.js": "<%= concat.components.dest %>"
                 }
             }
         },
         concat: {
-            build: {
-                src: 'src/**/*.js',
-                dest: 'public/app.js'
+            app: {
+                src: ['src/app/**/*.js','!src/app/**/*.spec.js'],
+                dest: 'public/js/app.js'
+            },
+            components: {
+                src: 'src/components/**/*.js',
+                dest: 'public/js/components.js'
             }
         },
         copy: {
@@ -67,19 +67,31 @@ module.exports = function(grunt) {
             dist: ['dist']
         },
         watch: {
-            concat: {
-                files: "<%= concat.build.src %>",
-                tasks: "concat"
+            app: {
+                files: "<%= concat.app.src %>",
+                tasks: "concat:app"
+            },
+            components: {
+                files: "<%= concat.components.src %>",
+                tasks: "concat:components"
             },
             less: {
-                files: "src/**/*.less",
+                files: "src/less/**/*.less",
                 tasks: "less"
+            },
+            copy: {
+                files: "src/images/**/*",
+                tasks: "copy:build"
+            },
+            karma: {
+                files: ['src/app/**/*.js'],
+                tasks: ['karma:unit:run']
             }
         }
     });
 
     grunt.registerTask('build', ['clean:build', 'copy:build', 'less','concat']);
-    grunt.registerTask('default', ['build','watch']);
+    grunt.registerTask('default', ['build', 'karma:unit:start', 'watch']);
     grunt.registerTask('package', ['build', 'clean:dist', 'copy:dist', 'uglify']);
 
 };

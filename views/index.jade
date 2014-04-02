@@ -8,10 +8,10 @@ html
         base(href='/')
         title Storeroom 83
         link(rel="shortcut icon", href="/images/ico/favicon.ico")
-        link(rel='stylesheet', href='/app-bootstrap.css')
-        link(rel='stylesheet', href='/dashboard.css')
         link(rel='stylesheet', href='/font-awesome/css/font-awesome.min.css')
-        link(rel='stylesheet', href='/app.css')
+        link(rel='stylesheet', href='/css/app-bootstrap.css')
+        link(rel='stylesheet', href='/css/dashboard.css')
+        link(rel='stylesheet', href='/css/app.css')
 
     body(ng-app="app", ng-controller="AppController")
         .navbar.navbar-inverse.navbar-fixed-top(role='navigation')
@@ -22,7 +22,9 @@ html
                         span.icon-bar
                         span.icon-bar
                         span.icon-bar
-                    a.navbar-brand(ui-sref="dashboard") Storeroom 83
+                    a.navbar-brand(ui-sref="dashboard")
+                        i.fa.fa-lg.fa-barcode
+                        | &nbsp; Storeroom 83
                 .navbar-collapse.collapse
                     ul.nav.navbar-nav.navbar-right
                         li(ng-class="{active: $state.current.activeNav === 'settings'}")
@@ -58,7 +60,7 @@ html
                                 | &nbsp;Work Orders
                         li(ng-class="{active: $state.current.activeNav === 'am'}")
                             a(ng-click="sidebarService.collapsed.am = !sidebarService.collapsed.am")
-                                i.fa.fa-barcode.fa-fw
+                                i.fa.fa-building-o.fa-fw
                                 | &nbsp;Asset Management
                             ul.nav.sub-nav(collapse="sidebarService.collapsed.am")
                                 li(ng-class="{active: $state.current.activeSubNav === 'assets'}")
@@ -83,7 +85,8 @@ html
         script(src='/angular/angular.min.js')
         script(src='/angular-bootstrap/ui-bootstrap.min.js')
         script(src='/angular-ui-router/release/angular-ui-router.min.js')
-        script(src='/app.js')
+        script(src='/js/app.js')
+        script(src='/js/components.js')
 
 
 
