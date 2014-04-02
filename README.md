@@ -99,7 +99,7 @@ You should see:
 Express server listening on port 3000
 ```
 
-Navigate to (http://localhost:3000)
+Navigate to [http://localhost:3000](http://localhost:3000)
 
 
 ## Running Tests
