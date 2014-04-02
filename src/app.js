@@ -68,10 +68,16 @@ app.config(['$stateProvider','$locationProvider','$urlRouterProvider', function(
         });
 }]);
 
-app.run(['$rootScope','$state', function($rootScope, $state){
+app.run(['$rootScope','$state', 'sidebarService', function($rootScope, $state, sidebarService){
 
     $rootScope.$state = $state;
 
+    $rootScope.$on('$stateChangeStart',function(event, toState) {
+        var activeNav = toState['activeNav'];
+        if (activeNav) {
+            sidebarService.collapsed[activeNav] = false;
+        }
+    });
 
 }]);
 
