@@ -90,7 +90,7 @@ This will execute several tasks including cleaning any existing files, copying r
 To start node, run the following command:
 
 ```
-$node server.js
+$ node server.js
 ```
 
 You should see:
@@ -99,7 +99,7 @@ You should see:
 Express server listening on port 3000
 ```
 
-Navigate to [http://localhost:3000]
+Navigate to (http://localhost:3000)
 
 
 ## Running Tests
