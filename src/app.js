@@ -65,6 +65,21 @@ app.config(['$stateProvider','$locationProvider','$urlRouterProvider', function(
             url: '/maintenance',
             activeNav: 'maintenance',
             templateUrl: '/partials/maintenance/index'
+        })
+        .state('profile', {
+            url: '/profile',
+            activeNav: 'profile',
+            templateUrl: '/partials/profile/profile'
+        })
+        .state('settings', {
+            url: '/settings',
+            activeNav: 'settings',
+            templateUrl: '/partials/settings/settings'
+        })
+        .state('help', {
+            url: '/help',
+            activeNav: 'help',
+            templateUrl: '/partials/help/help'
         });
 }]);
 
@@ -74,7 +89,7 @@ app.run(['$rootScope','$state', 'sidebarService', function($rootScope, $state, s
 
     $rootScope.$on('$stateChangeStart',function(event, toState) {
         var activeNav = toState['activeNav'];
-        if (activeNav) {
+        if (activeNav && sidebarService.collapsed[activeNav] != null) {
             sidebarService.collapsed[activeNav] = false;
         }
     });

@@ -25,12 +25,12 @@ html
                     a.navbar-brand(ui-sref="dashboard") Storeroom 83
                 .navbar-collapse.collapse
                     ul.nav.navbar-nav.navbar-right
-                        li
-                            a(href='#') Settings
-                        li
-                            a(href='#') Profile
-                        li
-                            a(href='#') Help
+                        li(ng-class="{active: $state.current.activeNav === 'settings'}")
+                            a(ui-sref="settings") Settings
+                        li(ng-class="{active: $state.current.activeNav === 'profile'}")
+                            a(ui-sref="profile") Profile
+                        li(ng-class="{active: $state.current.activeNav === 'help'}")
+                            a(ui-sref="help") Help
                     form.navbar-form.navbar-right
                         input.form-control(type='text', placeholder='Search...')
         .container-fluid
