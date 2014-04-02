@@ -19,6 +19,11 @@ module.exports = function(grunt) {
             unit: {
                 configFile: 'karma/karma.conf.js',
                 background: true
+            },
+            continuous: {
+                configFile: 'karma/karma.conf.js',
+                singleRun: true,
+                browsers: ['PhantomJS']
             }
         },
         less: {
@@ -93,5 +98,6 @@ module.exports = function(grunt) {
     grunt.registerTask('build', ['clean:build', 'copy:build', 'less','concat']);
     grunt.registerTask('default', ['build', 'karma:unit:start', 'watch']);
     grunt.registerTask('package', ['build', 'clean:dist', 'copy:dist', 'uglify']);
+    grunt.registerTask('test', ['build','karma:continuous']);
 
 };
