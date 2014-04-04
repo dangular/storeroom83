@@ -9,8 +9,8 @@ angular.module('app', ['ui.router','ui.bootstrap'])
         $rootScope.$state = $state;
 
         $rootScope.$on('$stateChangeStart',function(event, toState) {
-            var activeNav = toState['activeNav'];
-            if (activeNav && sidebarService.collapsed[activeNav] != null) {
+            var activeNav = toState.activeNav;
+            if (activeNav && sidebarService.collapsed[activeNav]) {
                 sidebarService.collapsed[activeNav] = false;
             }
         });
@@ -26,7 +26,7 @@ angular.module('app', ['ui.router','ui.bootstrap'])
                 am: true,
                 maintenance: true
             }
-        }
+        };
     })
 
     .controller('AppController', ['$scope', 'sidebarService', function($scope, sidebarService){

@@ -10,6 +10,7 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks("grunt-contrib-concat");
     grunt.loadNpmTasks("grunt-contrib-clean");
     grunt.loadNpmTasks("grunt-contrib-watch");
+    grunt.loadNpmTasks("grunt-contrib-jshint");
     grunt.loadNpmTasks("grunt-karma");
 
     grunt.initConfig({
@@ -42,6 +43,13 @@ module.exports = function(grunt) {
                     "dist/js/components.js": "<%= concat.components.dest %>"
                 }
             }
+        },
+        jshint: {
+            options: {
+                curly: true,
+                eqeqeq: true
+            },
+            target: "<%= concat.app.src %>"
         },
         concat: {
             app: {
@@ -95,7 +103,7 @@ module.exports = function(grunt) {
         }
     });
 
-    grunt.registerTask('build', ['clean:build', 'copy:build', 'less','concat']);
+    grunt.registerTask('build', ['jshint', 'clean:build', 'copy:build', 'less', 'concat']);
     grunt.registerTask('default', ['build', 'karma:unit:start', 'watch']);
     grunt.registerTask('package', ['build', 'clean:dist', 'copy:dist', 'uglify']);
     grunt.registerTask('test', ['build','karma:continuous']);

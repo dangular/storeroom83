@@ -48,12 +48,13 @@ html
                             a(ng-click="sidebarService.collapsed.inventory = !sidebarService.collapsed.inventory")
                                 i.fa.fa-barcode.fa-fw
                                 | &nbsp;Inventory
+                                i.pull-right.fa.fa-plus-square-o.fa-fw(ng-show="sidebarService.collapsed.inventory")
+                                i.pull-right.fa.fa-minus-square-o.fa-fw(ng-show="!sidebarService.collapsed.inventory")
                             ul.nav.sub-nav(collapse="sidebarService.collapsed.inventory")
                                 li(ng-class="{active: $state.current.activeSubNav === 'storerooms'}")
                                     a(ui-sref="inventory.storerooms") Storerooms
                                 li(ng-class="{active: $state.current.activeSubNav === 'items'}")
                                     a(ui-sref="inventory.items") Item Master
-
                         li(ng-class="{active: $state.current.activeNav === 'work'}")
                             a(ui-sref="work")
                                 i.fa.fa-wrench.fa-fw
@@ -62,6 +63,8 @@ html
                             a(ng-click="sidebarService.collapsed.am = !sidebarService.collapsed.am")
                                 i.fa.fa-building-o.fa-fw
                                 | &nbsp;Asset Management
+                                i.pull-right.fa.fa-plus-square-o.fa-fw(ng-show="sidebarService.collapsed.am")
+                                i.pull-right.fa.fa-minus-square-o.fa-fw(ng-show="!sidebarService.collapsed.am")
                             ul.nav.sub-nav(collapse="sidebarService.collapsed.am")
                                 li(ng-class="{active: $state.current.activeSubNav === 'assets'}")
                                     a(ui-sref="am.assets") Assets

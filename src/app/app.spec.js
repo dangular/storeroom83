@@ -46,6 +46,15 @@ describe('App spec', function(){
                 expect(service.collapsed.inventory).toBe(false);
             });
         });
+
+        it('sidebar state attribute should be changed', function(){
+            service.collapsed.inventory = true;
+            location.path('/inventory/items');
+            rootScope.$digest();
+            timeout(function(){
+                expect(service.collapsed.inventory).toBe(false);
+            });
+        });
     })
 
 });
