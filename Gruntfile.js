@@ -12,10 +12,14 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks("grunt-contrib-watch");
     grunt.loadNpmTasks("grunt-contrib-jshint");
     grunt.loadNpmTasks("grunt-karma");
+    grunt.loadNpmTasks("grunt-env");
+    grunt.loadNpmTasks("grunt-cafe-mocha");
 
     grunt.initConfig({
         pkg: grunt.file.readJSON("package.json"),
-
+        env: {
+            test: { NODE_ENV: 'TEST' }
+        },
         karma: {
             unit: {
                 configFile: 'karma/karma.conf.js',
@@ -25,6 +29,14 @@ module.exports = function(grunt) {
                 configFile: 'karma/karma.conf.js',
                 singleRun: true,
                 browsers: ['PhantomJS']
+            }
+        },
+        cafemocha: {
+            test: {
+                src: 'test/*.js',
+                options: {
+                    ui: 'bdd'
+                }
             }
         },
         less: {
@@ -106,6 +118,6 @@ module.exports = function(grunt) {
     grunt.registerTask('build', ['jshint', 'clean:build', 'copy:build', 'less', 'concat']);
     grunt.registerTask('default', ['build', 'karma:unit:start', 'watch']);
     grunt.registerTask('package', ['build', 'clean:dist', 'copy:dist', 'uglify']);
-    grunt.registerTask('test', ['build','karma:continuous']);
+    grunt.registerTask('test', ['env:test', 'build', 'cafemocha:test', 'karma:continuous']);
 
 };

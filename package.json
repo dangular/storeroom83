@@ -8,7 +8,9 @@
   "dependencies": {
     "express": "3.4.4",
     "jade": "~0.31.2",
-    "request": "^2.34.0"
+    "request": "^2.34.0",
+    "nconf": "^0.6.9",
+    "winston": "^0.7.3"
   },
   "devDependencies": {
     "grunt": "^0.4.4",
@@ -29,6 +31,8 @@
     "grunt-contrib-jshint": "^0.10.0",
     "supertest": "^0.10.0",
     "mocha": "^1.18.2",
-    "should": "^3.2.0"
+    "should": "^3.2.0",
+    "grunt-env": "^0.4.1",
+    "grunt-cafe-mocha": "^0.1.12"
   }
 }

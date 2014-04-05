@@ -1,6 +1,8 @@
 /*
  * GET home page.
  */
+var logger = require("../lib/logger"),
+    config = require("../lib/configuration");
 
 exports.index = function(req, res){
     res.render('index');
@@ -17,10 +19,8 @@ exports.heartbeat = function(req, res) {
 };
 
 exports.healthCheck = function (req, res) {
-    res.json({
-        status: 'OK',
-        application: 'Storeroom83',
-        version: '0.0.1',
-        author: 'dangular'
-    });
+    logger.debug("Health Check called...");
+    var appInfo = config.get("application");
+    appInfo.status = 'OK';
+    res.json(appInfo);
 };

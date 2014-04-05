@@ -119,13 +119,7 @@ To run unit tests you can execute the "test" grunt task:
 $ grunt test
 ```
 
-This will execute the unit client side Jasmine tests (note spec files are co-mingled in the src/app directory next to production code per [Google's new recommended file layout](http://blog.angularjs.org/2014/02/an-angularjs-style-guide-and-best.html).  It will do so in a headless browser (PhantomJS).
-
-Grunt is not yet configured to execute the server-side mocha tests (coming soon). In the meantime, you can execute the mocha tests from the command line.  Currently, there are only 2 mocha tests in the ./test directory.
-
-```
-$ mocha
-```
+This will execute the Jasmine and Mocha unit tests.  Note the client side Jasmin spec files are co-mingled in the src/app directory next to production code per [Google's new recommended file layout](http://blog.angularjs.org/2014/02/an-angularjs-style-guide-and-best.html).  The client side tests will run in a headless (PhantomJS) browser using the karma test runner.  The server-side mocha tests spin up an instance of the express server so that routes can be tested.
 
 ## Development Workflow
 

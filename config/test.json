@@ -1,0 +1,10 @@
+{
+    "express": {
+        "port": 8000
+    },
+    "logger": {
+        "filename": "logs/test.log.json",
+        "level": "debug"
+    }
+
+}
