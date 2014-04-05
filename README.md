@@ -30,9 +30,10 @@ Some of the technologies planned for Storeroom 83 include:
 
 #### Testing/Continuous Integration
 
-* Jasmine
-* Karma
-* Grunt
+* Jasmine (client side tests)
+* Karma (client side test runner)
+* Mocha (server side tests)
+* Grunt (build/task automation)
 * Protractor
 
 #### Source Repository
