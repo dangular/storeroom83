@@ -75,6 +75,14 @@ Once this is complete, run bower install from within the working directory.  Thi
 $ bower install
 ```
 
+#### Mocha
+
+To execute the server-side mocha tests from the command line you will want to install mocha globally:
+
+```
+$ npm install -g mocha
+```
+
 ### Building Storeroom83
 
 There is a pre-configured Gruntfile with some tasks pre-defined for building the application.  Run:
@@ -90,13 +98,13 @@ This will execute several tasks including cleaning any existing files, copying r
 To start node, run the following command:
 
 ```
-$ node server.js
+$ npm start
 ```
 
 You should see:
 
 ```
-Express server listening on port 3000
+Server listening on port 3000
 ```
 
 Navigate to [http://localhost:3000](http://localhost:3000)
@@ -110,7 +118,13 @@ To run unit tests you can execute the "test" grunt task:
 $ grunt test
 ```
 
-This will execute the unit tests (note spec files are co-mingled in the src/app directory next to production code per [Google's new recommended file layout](http://blog.angularjs.org/2014/02/an-angularjs-style-guide-and-best.html).  It will do so in a headless browser (PhantomJS).
+This will execute the unit client side Jasmine tests (note spec files are co-mingled in the src/app directory next to production code per [Google's new recommended file layout](http://blog.angularjs.org/2014/02/an-angularjs-style-guide-and-best.html).  It will do so in a headless browser (PhantomJS).
+
+Grunt is not yet configured to execute the server-side mocha tests (coming soon). In the meantime, you can execute the mocha tests from the command line.  Currently, there are only 2 mocha tests in the ./test directory.
+
+```
+$ mocha
+```
 
 ## Development Workflow
 
