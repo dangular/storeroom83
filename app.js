@@ -1,5 +1,6 @@
-var app = require('./server');
-var config = require('./lib/configuration');
+var app = require('./server'),
+    config = require('./lib/configuration'),
+    db = require('./lib/model/db');
 
 app.set('port', config.get("express:port"));
 

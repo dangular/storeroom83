@@ -3,7 +3,7 @@
         "port": 8000
     },
     "logger": {
-        "filename": "logs/test.log.json",
+        "filename": "logs/test.log",
         "level": "debug"
     }
 
