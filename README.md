@@ -84,6 +84,20 @@ To execute the server-side mocha tests from the command line you will want to in
 $ npm install -g mocha
 ```
 
+#### MongoDB
+
+Storeroom83 requires MongoDB.  To install MongoDB, follow the instructions in the [MongoDB Manual](http://docs.mongodb.org/manual/). You will also need to create a data/db directory within the project directory.  The MongoDB data directory can be located anywhere, however the startup script start_mongodb.sh assumes there is a ./data/db directory within the current project directory.  After installing MongoDB, execute the startup script:
+
+```
+$ ./start_mongodb.sh
+```
+
+If you have problems executing the script, make sure the script has execute permissions:
+
+```
+$ sudo chmod +x start_mongodb.sh
+```
+
 ### Building Storeroom83
 
 There is a pre-configured Gruntfile with some tasks pre-defined for building the application.  Run:
