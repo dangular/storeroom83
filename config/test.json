@@ -3,8 +3,10 @@
         "port": 8000
     },
     "logger": {
-        "filename": "logs/test.log",
+        "filename": "test.log",
         "level": "debug"
+    },
+    "mongodb": {
+        "dbURI": "mongodb://localhost/Storeroom83"
     }
-
 }
