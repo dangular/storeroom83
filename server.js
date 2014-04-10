@@ -9,6 +9,8 @@ var express = require('express'),
 
 var app = express();
 
+require('./lib/model/db');
+
 /**
  * Configuration
  */
@@ -35,7 +37,6 @@ if (app.get('env') === 'production') {
     // TODO
 }
 
-
 /**
  * Routes
  */
@@ -45,6 +46,8 @@ app.get('/', routes.index);
 app.get('/partials/:module/:partial', routes.partials);
 app.get('/heartbeat', routes.heartbeat);
 app.get('/healthCheck', routes.healthCheck);
+
+require('./routes/inventory')(app);
 
 // redirect all others to the index (HTML5 history)
 app.get('*', routes.index);

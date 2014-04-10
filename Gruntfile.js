@@ -15,10 +15,13 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks("grunt-env");
     grunt.loadNpmTasks("grunt-cafe-mocha");
 
+    grunt.loadTasks("./tasks");
+
     grunt.initConfig({
         pkg: grunt.file.readJSON("package.json"),
         env: {
-            test: { NODE_ENV: 'TEST' }
+            test: { NODE_ENV: 'test' },
+            dev: { NODE_ENV: 'development'}
         },
         karma: {
             unit: {
@@ -115,9 +118,16 @@ module.exports = function(grunt) {
         }
     });
 
+    grunt.registerTask('printenv', function(){
+        console.log(process.env);
+    });
+
     grunt.registerTask('build', ['jshint', 'clean:build', 'copy:build', 'less', 'concat']);
     grunt.registerTask('default', ['build', 'karma:unit:start', 'watch']);
     grunt.registerTask('package', ['build', 'clean:dist', 'copy:dist', 'uglify']);
     grunt.registerTask('test', ['env:test', 'build', 'cafemocha:test', 'karma:continuous']);
+    grunt.registerTask('seedTestDatabase', ['env:test', 'dropDatabase', 'seedDatabase']);
+    grunt.registerTask('seedDevDatabase', ['env:dev', 'dropDatabase', 'seedDatabase']);
+
 
 };

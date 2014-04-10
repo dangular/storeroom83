@@ -2,7 +2,7 @@
  * Created by dhayes on 3/31/14.
  * app.js
  */
-angular.module('app', ['ui.router','ui.bootstrap'])
+angular.module('app', ['ui.router','ui.bootstrap','inventory'])
 
     .run(['$rootScope','$state', 'sidebarService', function($rootScope, $state, sidebarService){
 

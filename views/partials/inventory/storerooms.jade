@@ -1,4 +1,17 @@
 //
    Created by dhayes on 4/1/14.
-h1.page-header Storerooms
+h3.page-header Storerooms
+
+table.table.table-hover.table-condensed
+    thead
+        tr
+            th Name
+            th Description
+            th Created On
+    tbody
+        tr(ng-repeat="row in storerooms")
+            td {{row.name}}
+            td {{row.description}}
+            td {{row.createdOn | date:'medium'}}
+
 

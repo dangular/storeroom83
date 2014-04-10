@@ -18,22 +18,6 @@ angular.module('app')
                 activeNav: 'dashboard',
                 templateUrl: '/partials/dashboard/index'
             })
-            .state('inventory', {
-                url: '/inventory',
-                templateUrl: '/partials/inventory/layout'
-            })
-            .state('inventory.storerooms', {
-                url: '/storerooms',
-                activeNav: 'inventory',
-                activeSubNav: 'storerooms',
-                templateUrl: '/partials/inventory/storerooms'
-            })
-            .state('inventory.items', {
-                url: '/items',
-                activeNav: 'inventory',
-                activeSubNav: 'items',
-                templateUrl: '/partials/inventory/items'
-            })
             .state('am', {
                 url: '/am',
                 templateUrl: '/partials/am/layout'

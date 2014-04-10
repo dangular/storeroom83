@@ -7,6 +7,6 @@
         "level": "debug"
     },
     "mongodb": {
-        "dbURI": "mongodb://localhost/Storeroom83"
+        "dbURI": "mongodb://localhost/Storeroom83_test"
     }
 }

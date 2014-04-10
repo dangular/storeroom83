@@ -117,66 +117,6 @@ describe("Routes test", function() {
         });
     });
 
-    describe('storerooms route', function(){
-        beforeEach(inject(function($httpBackend){
-            $httpBackend.expectGET('/partials/inventory/layout')
-                .respond(200, 'Layout html');
-            $httpBackend.expectGET('/partials/inventory/storerooms')
-                .respond(200, 'Storerooms html');
-        }));
-
-        it('should change states', function(){
-            location.path('/inventory/storerooms');
-            rootScope.$digest();
-            timeout(function(){
-                expect(state.current.name).toBe('storerooms');
-            });
-        });
-
-        it('should have activeNav set', function() {
-            location.path('/inventory/storerooms');
-            rootScope.$digest();
-            timeout(function(){
-                expect(state.activeNav).toBe('inventory');
-            })
-        });
-
-        it('should resolve to URL', function() {
-            expect(state.href('inventory.storerooms')).toEqual('/inventory/storerooms');
-        });
-
-    });
-
-    describe('items route', function(){
-        beforeEach(inject(function($httpBackend){
-            $httpBackend.expectGET('/partials/inventory/layout')
-                .respond(200, 'Layout html');
-            $httpBackend.expectGET('/partials/inventory/items')
-                .respond(200, 'Items html');
-        }));
-
-        it('should change states', function(){
-            location.path('/inventory/items');
-            rootScope.$digest();
-            timeout(function(){
-                expect(state.current.name).toBe('items');
-            });
-        });
-
-        it('should have activeNav set', function() {
-            location.path('/inventory/items');
-            rootScope.$digest();
-            timeout(function(){
-                expect(state.activeNav).toBe('inventory');
-            })
-        });
-
-        it('should resolve to URL', function() {
-            expect(state.href('inventory.items')).toEqual('/inventory/items');
-        });
-
-    });
-
     describe('assets route', function(){
         beforeEach(inject(function($httpBackend){
             $httpBackend.expectGET('/partials/am/layout')

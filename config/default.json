@@ -5,6 +5,7 @@
         "version": "0.0.1"
     },
     "logger": {
-        "path": "./logs"
+        "path": "./logs",
+        "truncateOnStart": true
     }
 }
