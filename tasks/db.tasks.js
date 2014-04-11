@@ -44,8 +44,10 @@ module.exports = function(grunt) {
             var storeroom1 = new inventoryModels.Storeroom({'name':'CENTRAL', 'description': 'Central Storeroom'});
             var storeroom2 = new inventoryModels.Storeroom({'name': 'EAST', 'description': 'East Storeroom'});
             var storeroom3 = new inventoryModels.Storeroom({'name': 'WEST', 'description': 'West Storeroom'});
+            var storeroom4 = new inventoryModels.Storeroom({'name': 'NORTH', 'description': 'North Storeroom'});
+            var storeroom5 = new inventoryModels.Storeroom({'name': 'SOUTH', 'description': 'South Storeroom'});
 
-            inventoryModels.Storeroom.create([storeroom1, storeroom2, storeroom3], function(err) {
+            inventoryModels.Storeroom.create([storeroom1, storeroom2, storeroom3, storeroom4, storeroom5], function(err) {
                 if (!err) {
                     console.log('Created Storerooms');
                 }

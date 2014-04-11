@@ -2,7 +2,9 @@
  * Created by dhayes on 4/2/14.
  */
 angular.module('app')
-    .config(['$stateProvider', function($stateProvider){
+    .config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $urlRouterProvider){
+
+        $urlRouterProvider.when('/inventory','/inventory/storerooms');
 
         $stateProvider
             .state('inventory', {

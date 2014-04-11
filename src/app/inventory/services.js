@@ -2,22 +2,22 @@
  * Created by: dhayes on 4/8/14.
  * Filename: services
  */
-angular.module('inventory.services', [])
+angular.module('inventory.services', ['restangular'])
 
-.service('StoreroomRepository', ['$q','$http', '$log', function($q,$http,$log) {
-        var list = function() {
-            var deferred = $q.defer();
-            $http.get('/api/inventory/storeroom').success(function(storerooms) {
-                deferred.resolve(storerooms);
-            }).error(function(err) {
-                $log.error(err);
-                deferred.reject(err);
-            });
-            return deferred.promise;
-        };
+    .factory('StoreroomRepository', ['Restangular', function(Restangular) {
+        var rest = Restangular.withConfig(function(Configurer) {
+            Configurer.setBaseUrl('/api/inventory');
+        });
+
+        var storerooms = rest.all('storerooms');
 
         return {
-            list: list
+            list: function() {
+                return storerooms.getList();
+            },
+            remove: function(storeroom) {
+                return storerooms.customDELETE(storeroom._id);
+            }
         };
-
     }]);
+

@@ -22,7 +22,7 @@ describe("Routes test", function() {
             $httpBackend = _$httpBackend_;
             $httpBackend.expectGET('/partials/inventory/layout')
                 .respond(200, 'Layout html');
-            $httpBackend.expectGET('/api/inventory/storeroom')
+            $httpBackend.expectGET('/api/inventory/storerooms')
                 .respond(200, ['foo','bar']);
             $httpBackend.expectGET('/partials/inventory/storerooms')
                 .respond(200, 'Storerooms html');

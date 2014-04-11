@@ -8,10 +8,13 @@ table.table.table-hover.table-condensed
             th Name
             th Description
             th Created On
+            th
     tbody
         tr(ng-repeat="row in storerooms")
             td {{row.name}}
             td {{row.description}}
             td {{row.createdOn | date:'medium'}}
+            td
+                a.btn.btn-warning.btn-xs(ng-href="", ng-click="remove(row)") Delete
 
 

@@ -26,6 +26,8 @@ describe("Inventory Services", function() {
 
         });
 
+        // test for remove()
+
      });
 
 });

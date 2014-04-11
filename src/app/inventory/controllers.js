@@ -4,6 +4,12 @@
  */
 angular.module('inventory.controllers', [])
 
-    .controller('StoreroomController', ['$scope', 'storerooms', function($scope, storerooms) {
+    .controller('StoreroomController', ['$scope', 'storerooms', 'StoreroomRepository', function($scope, storerooms, repository) {
         $scope.storerooms = storerooms;
+
+        $scope.remove = function(storeroom) {
+            repository.remove(storeroom).then(function(){
+                $scope.storerooms = _.without($scope.storerooms, storeroom);
+            });
+        };
     }]);

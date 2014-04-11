@@ -7,7 +7,6 @@ angular.module('app')
         $locationProvider.html5Mode(true);
 
         $urlRouterProvider.when('/','/dashboard');
-        $urlRouterProvider.when('/inventory','/inventory/storerooms');
         $urlRouterProvider.when('/am', '/am/assets');
 
         $urlRouterProvider.otherwise("/");
