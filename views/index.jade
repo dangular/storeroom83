@@ -9,11 +9,14 @@ html
         title Storeroom 83
         link(rel="shortcut icon", href="/images/ico/favicon.ico")
         link(rel='stylesheet', href='/font-awesome/css/font-awesome.min.css')
+        link(rel='stylesheet', href='/animate.css/animate.min.css')
+        link(rel='stylesheet', href='/angular-growl/build/angular-growl.min.css')
         link(rel='stylesheet', href='/css/app-bootstrap.css')
         link(rel='stylesheet', href='/css/dashboard.css')
         link(rel='stylesheet', href='/css/app.css')
 
     body(ng-app="app", ng-controller="AppController")
+        div(data-growl)
         .navbar.navbar-inverse.navbar-fixed-top(role='navigation')
             .container-fluid
                 .navbar-header
@@ -78,11 +81,18 @@ html
                             a(ui-sref="maintenance")
                                 i.fa.fa-calendar.fa-fw
                                 | &nbsp;Maintenance Planning
-                .col-sm-9.col-sm-offset-3.col-md-10.col-md-offset-2.main(ui-view)
+                .col-sm-9.col-sm-offset-3.col-md-10.col-md-offset-2.main
+                    div
+                        alert(ng-repeat="alert in alerts", type="alert.type", close="closeInlineAlert($index)") {{ alert.msg }}
+                    div(ui-view)
         script(src='/jquery/dist/jquery.min.js')
         script(src='/angular/angular.min.js')
+        script(src='/angular-sanitize/angular-sanitize.min.js')
         script(src='/angular-bootstrap/ui-bootstrap.min.js')
+        script(src='/angular-bootstrap/ui-bootstrap-tpls.min.js')
         script(src='/angular-ui-router/release/angular-ui-router.min.js')
+        script(src='/angular-growl/build/angular-growl.min.js')
+        script(src='/angular-animate/angular-animate.min.js')
         script(src='/lodash/dist/lodash.min.js')
         script(src='/restangular/dist/restangular.min.js')
         script(src='/js/app.js')
