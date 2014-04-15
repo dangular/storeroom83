@@ -44,7 +44,7 @@ angular.module('app', ['ngAnimate', 'ngSanitize', 'ui.router', 'ui.bootstrap', '
     .service('AlertService', ['$rootScope', '$timeout', 'growl', 'alertAutoCloseTimeout', function($rootScope, $timeout, growl, alertAutoCloseTimeout) {
         $rootScope.inlineAlerts = [];
 
-        $rootScope.closeInLineAlert = function (index) {
+        $rootScope.closeInlineAlert = function (index) {
             $rootScope.inlineAlerts.splice(index, 1);
         };
 

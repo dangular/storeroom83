@@ -1,3 +1,4 @@
+@import "../../bower_components/bootstrap-theme-white-plum/less/variables";
 
 /*
  * Base structure
@@ -15,7 +16,7 @@ body {
 
 .sub-header {
   padding-bottom: 10px;
-  border-bottom: 1px solid #eee;
+  border-bottom: 1px solid @gray-lighter;
 }
 
 
@@ -38,8 +39,8 @@ body {
     padding: 20px;
     overflow-x: hidden;
     overflow-y: auto; /* Scrollable contents if viewport is shorter than content. */
-    background-color: #f5f5f5;
-    border-right: 1px solid #eee;
+    background-color: @list-group-hover-bg;
+    border-right: 1px solid @gray-lighter;
   }
 }
 
@@ -54,8 +55,11 @@ body {
   padding-left: 20px;
 }
 .nav-sidebar > .active > a {
-  color: #fff;
-  background-color: #428bca;
+  color: @navbar-default-bg;
+  background-color: @brand-primary;
+}
+.nav-sidebar > .active > a:hover {
+  color: @brand-primary;
 }
 
 

@@ -11,7 +11,7 @@ html
         link(rel='stylesheet', href='/font-awesome/css/font-awesome.min.css')
         link(rel='stylesheet', href='/animate.css/animate.min.css')
         link(rel='stylesheet', href='/angular-growl/build/angular-growl.min.css')
-        link(rel='stylesheet', href='/css/app-bootstrap.css')
+        link(rel='stylesheet', href='/bootstrap-theme-white-plum/dist/css/bootstrap.min.css')
         link(rel='stylesheet', href='/css/dashboard.css')
         link(rel='stylesheet', href='/css/app.css')
 
@@ -83,8 +83,8 @@ html
                                 | &nbsp;Maintenance Planning
                 .col-sm-9.col-sm-offset-3.col-md-10.col-md-offset-2.main
                     div
-                        alert(ng-repeat="alert in alerts", type="alert.type", close="closeInlineAlert($index)") {{ alert.msg }}
-                    div(ui-view)
+                        alert(ng-repeat="alert in inlineAlerts", type="alert.type", close="closeInlineAlert($index)") {{ alert.msg }}
+                    .view(ui-view)
         script(src='/jquery/dist/jquery.min.js')
         script(src='/angular/angular.min.js')
         script(src='/angular-sanitize/angular-sanitize.min.js')

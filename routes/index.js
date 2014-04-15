@@ -10,8 +10,13 @@ exports.index = function(req, res){
 
 exports.partials = function(req, res) {
     var module = req.params.module;
+    var subModule = req.params.subModule;
     var partial = req.params.partial;
-    res.render('partials/'+module+'/'+partial);
+    if (subModule) {
+        res.render('partials/'+module+'/'+subModule+'/'+partial);
+    } else {
+        res.render('partials/'+module+'/'+partial);
+    }
 };
 
 exports.heartbeat = function(req, res) {

@@ -11,7 +11,10 @@
     "request": "^2.34.0",
     "nconf": "^0.6.9",
     "winston": "^0.7.3",
-    "mongoose": "^3.8.8"
+    "mongoose": "^3.8.8",
+    "lodash": "^2.4.1",
+    "mongoose-merge-plugin": "0.0.4",
+    "mongoose-timestamp": "^0.2.1"
   },
   "devDependencies": {
     "grunt": "^0.4.4",

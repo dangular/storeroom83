@@ -15,7 +15,7 @@ describe("Routes test", function() {
 
     }));
 
-    describe('storerooms route', function(){
+    describe('storerooms list route', function(){
         var $httpBackend;
 
         beforeEach(inject(function(_$httpBackend_){
@@ -24,20 +24,22 @@ describe("Routes test", function() {
                 .respond(200, 'Layout html');
             $httpBackend.expectGET('/api/inventory/storerooms')
                 .respond(200, ['foo','bar']);
-            $httpBackend.expectGET('/partials/inventory/storerooms')
-                .respond(200, 'Storerooms html');
+            $httpBackend.expectGET('/partials/inventory/storerooms/layout')
+                .respond(200, 'Storerooms layout');
+            $httpBackend.expectGET('/partials/inventory/storerooms/list')
+                .respond(200, 'Storerooms list');
         }));
 
         it('should change states', function(){
-            location.path('/inventory/storerooms');
+            location.path('/inventory/storerooms/list');
             rootScope.$digest();
             timeout(function(){
-                expect(state.current.name).toBe('storerooms');
+                expect(state.current.name).toBe('storerooms.list');
             });
         });
 
         it('should have activeNav set', function() {
-            location.path('/inventory/storerooms');
+            location.path('/inventory/storerooms/list');
             rootScope.$digest();
             timeout(function(){
                 expect(state.activeNav).toBe('inventory');
@@ -45,7 +47,7 @@ describe("Routes test", function() {
         });
 
         it('should resolve to URL', function() {
-            expect(state.href('inventory.storerooms')).toEqual('/inventory/storerooms');
+            expect(state.href('inventory.storerooms.list')).toEqual('/inventory/storerooms/list');
         });
 
     });

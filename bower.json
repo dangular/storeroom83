@@ -15,7 +15,8 @@
     "angular-animate": "~1.2.16",
     "animate.css": "~3.1.0",
     "angular-growl": "~0.4.0",
-    "angular-sanitize": "~1.2.16"
+    "angular-sanitize": "~1.2.16",
+    "bootstrap-theme-white-plum": "~0.3.0"
   },
   "devDependencies": {
     "angular-mocks": "~1.2.15"

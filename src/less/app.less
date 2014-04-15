@@ -12,8 +12,17 @@
   font-weight: bold;
 }
 
+/* Modal shift fix  */
+body.modal-open, .modal-open .navbar-fixed-top, .modal-open .navbar-fixed-bottom {
+  margin-right: 0;
+}
+
+.modal {
+  overflow-y: auto;
+}
+
 /* Animations */
-.alert {
+alert {
   &.ng-enter {
     -webkit-animation: fadeInDown 1s;
     -moz-animation: fadeInDown 1s;
@@ -47,5 +56,19 @@
   &.ng-leave {
     -webkit-animation: fadeOutUp 1s;
     animation: fadeOutUp 1s;
+  }
+}
+
+.view {
+  &.ng-enter {
+    -webkit-animation: fadeIn 1s;
+    animation: fadeIn 1s;
+  }
+}
+
+tr {
+  &.ng-leave {
+    -webkit-animation: fadeOut 0.5s;
+    animation: fadeOut 0.5s;
   }
 }

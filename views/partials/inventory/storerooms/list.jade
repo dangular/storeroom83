@@ -1,0 +1,20 @@
+h3.page-header Storerooms
+    a.btn.btn-sm.btn-default.pull-right(ui-sref="inventory.storerooms.new") Add Storeroom
+table.table.table-hover.table-condensed
+    thead
+        tr
+            th Name
+            th Description
+            th Created On
+            th Updated On
+            th
+    tbody
+        tr(ng-repeat="row in storerooms")
+            td
+                a(ui-sref="inventory.storerooms.show({id:row._id})") {{row.name}}
+            td {{row.description}}
+            td {{row.createdAt | date:'medium'}}
+            td {{row.updatedAt | date:'medium'}}
+            td.btn-toolbar
+                a.btn.btn-default.btn-xs(ui-sref="inventory.storerooms.edit({id:row._id})") Edit
+                a.btn.btn-danger.btn-xs(ng-href="", ng-click="remove(row)") Delete

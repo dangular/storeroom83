@@ -5,8 +5,8 @@
 describe("Inventory Controllers", function() {
     beforeEach(module('app'));
 
-    describe("StoreroomController", function() {
-        var storeroomController, scope;
+    describe("StoreroomsController", function() {
+        var storeroomsController, scope;
 
         beforeEach(inject(function($controller){
             var storerooms = [
@@ -15,7 +15,7 @@ describe("Inventory Controllers", function() {
                 {_id: "3", name: "THREE"}
             ];
             scope = {};
-            storeroomController = $controller('StoreroomController', {$scope: scope, storerooms: storerooms});
+            storeroomsController = $controller('StoreroomsController', {$scope: scope, storerooms: storerooms});
         }));
 
         it("should have storerooms defined on scope", function() {

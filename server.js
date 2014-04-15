@@ -44,6 +44,7 @@ if (app.get('env') === 'production') {
 // serve index and view partials
 app.get('/', routes.index);
 app.get('/partials/:module/:partial', routes.partials);
+app.get('/partials/:module/:subModule/:partial', routes.partials);
 app.get('/heartbeat', routes.heartbeat);
 app.get('/healthCheck', routes.healthCheck);
 
