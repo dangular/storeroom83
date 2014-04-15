@@ -5,11 +5,12 @@
 describe("Inventory Services", function() {
     beforeEach(module('app'));
 
-    describe("StoreroomRepository", function() {
-        var storeroomRepository;
+    describe("RestRepository", function() {
+        var repo;
 
         beforeEach(inject(function($injector){
-            storeroomRepository = $injector.get('StoreroomRepository');
+            var RestRepository = $injector.get('RestRepository');
+            repo = RestRepository('storerooms', '/api/inventory');
         }));
 
         describe("list()", function() {
@@ -18,9 +19,9 @@ describe("Inventory Services", function() {
             }));
 
             it("should return a list of storerooms", function() {
-                storeroomRepository.list().then(function(storerooms) {
-                    expect(storerooms).toBeDefined();
-                    expect(storerooms.length).toBe(3);
+                repo.list().then(function(entities) {
+                    expect(entities).toBeDefined();
+                    expect(entities.length).toBe(3);
                 });
             });
 

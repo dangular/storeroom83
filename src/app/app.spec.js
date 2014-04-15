@@ -29,8 +29,6 @@ describe('App spec', function(){
         }));
 
         beforeEach(inject(function($httpBackend){
-            $httpBackend.expectGET('/partials/inventory/layout')
-                .respond(200, 'Layout HTML');
             $httpBackend.expectGET('/partials/inventory/items')
                 .respond(200, 'Items HTML');
         }));

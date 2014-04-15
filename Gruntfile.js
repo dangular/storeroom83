@@ -72,7 +72,7 @@ module.exports = function(grunt) {
                 dest: 'public/js/app.js'
             },
             components: {
-                src: 'src/components/**/*.js',
+                src: ['src/components/**/*.js', '!src/components/**/*.spec.js'],
                 dest: 'public/js/components.js'
             }
         },

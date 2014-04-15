@@ -9,7 +9,7 @@ table.table.table-hover.table-condensed
             th Updated On
             th
     tbody
-        tr(ng-repeat="row in storerooms")
+        tr(ng-repeat="row in entities")
             td
                 a(ui-sref="inventory.storerooms.show({id:row._id})") {{row.name}}
             td {{row.description}}

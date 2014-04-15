@@ -1,22 +1,13 @@
 doctype
 
-h3.page-header
-    | {{pageTitle}}
-    a.btn.btn-default.btn-sm.pull-right(ui-sref="inventory.storerooms") Cancel
+s83-form-header(form-title="{{pageTitle}}", cancel-state="inventory.storerooms.list")
 
 form.form(role="form", name="storeroomForm", novalidate)
     .row
         fieldset.col-md-4
-            .form-group
-                label.control-label(for="name") Name
-                input.form-control.input-sm#name(type="text", placeholder="Name", ng-model="storeroom.name", ng-required)
-            .form-group
-                label.control-label(for="description") Description
-                input.form-control.input-sm#description(type="text", placeholder="Description", ng-model="storeroom.description", ng-required)
-    h4.page-header
-    .row
-        .col-md-12.btn-toolbar.text-center
-            button.btn.btn-primary(ng-click="save()") Save
-            a.btn.btn-default(ui-sref="inventory.storerooms") Cancel
+            s83-entity-text-input(elementId='name', label='Name', placeholder='Name', model='entity.name')
+            s83-entity-text-input(elementId='description', label='Description', placeholder='Description', model='entity.description')
 
+
+    s83-form-footer(save-button-text="Save", cancel-button-text="Cancel", cancel-state="inventory.storerooms.list", on-save="save()")
 

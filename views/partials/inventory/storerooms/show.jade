@@ -8,14 +8,14 @@ doctype
 .col-md-3
     .panel.panel-default
         .panel-heading
-            h3.panel-title {{storeroom.name}}
-                a.btn.btn-default.btn-xs.pull-right(ui-sref="inventory.storerooms.edit({id:storeroom._id})") Edit
+            h3.panel-title {{entity.name}}
+                a.btn.btn-default.btn-xs.pull-right(ui-sref="inventory.storerooms.edit({id:entity._id})") Edit
         .panel-body
             dl
                 dt Description
-                dd {{storeroom.description}}
+                dd {{entity.description}}
                 dt Created
-                dd {{storeroom.createdAt | date:'medium'}}
+                dd {{entity.createdAt | date:'medium'}}
                 dt Updated
-                dd {{storeroom.updatedAt | date:'medium'}}
+                dd {{entity.updatedAt | date:'medium'}}
 
