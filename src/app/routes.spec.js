@@ -7,16 +7,18 @@ describe("Routes test", function() {
 
     var location, state, rootScope, timeout;
 
-    beforeEach(inject(function(_$location_, _$state_, _$rootScope_, _$timeout_){
+    beforeEach(inject(function(_$location_, _$state_, _$rootScope_, _$timeout_, Auth){
         rootScope = _$rootScope_;
         location = _$location_;
         state = _$state_;
         timeout = _$timeout_;
-
+        Auth.setUser({_id: '1', email: 'test@test.com', firstName: 'Test', lastUser: 'User', roles: ['admin']});
     }));
 
     describe('profile route', function(){
         beforeEach(inject(function($httpBackend){
+            $httpBackend.expectGET('/partials/app')
+                .respond(200, 'App Layout HTML');
             $httpBackend.expectGET('/partials/profile/profile')
                 .respond(200, 'Profile HTML');
         }));
@@ -37,6 +39,8 @@ describe("Routes test", function() {
 
     describe('settings route', function(){
         beforeEach(inject(function($httpBackend){
+            $httpBackend.expectGET('/partials/app')
+                .respond(200, 'App Layout HTML');
             $httpBackend.expectGET('/partials/settings/settings')
                 .respond(200, 'Settings HTML');
         }));
@@ -57,6 +61,8 @@ describe("Routes test", function() {
 
     describe('help route', function(){
         beforeEach(inject(function($httpBackend){
+            $httpBackend.expectGET('/partials/app')
+                .respond(200, 'App Layout HTML');
             $httpBackend.expectGET('/partials/help/help')
                 .respond(200, 'Help HTML');
         }));
@@ -77,6 +83,8 @@ describe("Routes test", function() {
 
     describe('dashboard route', function(){
         beforeEach(inject(function($httpBackend){
+            $httpBackend.expectGET('/partials/app')
+                .respond(200, 'App Layout HTML');
             $httpBackend.expectGET('/partials/dashboard/index')
                 .respond(200, 'Dashboard html');
         }));
@@ -104,6 +112,8 @@ describe("Routes test", function() {
 
     describe('default route', function(){
         beforeEach(inject(function($httpBackend){
+            $httpBackend.expectGET('/partials/app')
+                .respond(200, 'App Layout HTML');
             $httpBackend.expectGET('/partials/dashboard/index')
                 .respond(200, 'Dashboard html');
         }));
@@ -119,6 +129,8 @@ describe("Routes test", function() {
 
     describe('assets route', function(){
         beforeEach(inject(function($httpBackend){
+            $httpBackend.expectGET('/partials/app')
+                .respond(200, 'App Layout HTML');
             $httpBackend.expectGET('/partials/am/layout')
                 .respond(200, 'Layout html');
             $httpBackend.expectGET('/partials/am/assets')
@@ -149,6 +161,8 @@ describe("Routes test", function() {
 
     describe('locations route', function(){
         beforeEach(inject(function($httpBackend){
+            $httpBackend.expectGET('/partials/app')
+                .respond(200, 'App Layout HTML');
             $httpBackend.expectGET('/partials/am/layout')
                 .respond(200, 'Layout html');
             $httpBackend.expectGET('/partials/am/locations')

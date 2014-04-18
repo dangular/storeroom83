@@ -61,8 +61,7 @@ module.exports = function(grunt) {
         },
         jshint: {
             options: {
-                curly: true,
-                eqeqeq: true
+                jshintrc: true
             },
             target: "<%= concat.app.src %>"
         },
@@ -126,8 +125,12 @@ module.exports = function(grunt) {
     grunt.registerTask('default', ['build', 'karma:unit:start', 'watch']);
     grunt.registerTask('package', ['build', 'clean:dist', 'copy:dist', 'uglify']);
     grunt.registerTask('test', ['env:test', 'build', 'cafemocha:test', 'karma:continuous']);
-    grunt.registerTask('seedTestDatabase', ['env:test', 'dropDatabase', 'seedDatabase']);
-    grunt.registerTask('seedDevDatabase', ['env:dev', 'dropDatabase', 'seedDatabase']);
+    grunt.registerTask('dropTestDatabase', ['env:test', 'dropDatabase']);
+    grunt.registerTask('dropDevDatabase', ['env:dev', 'dropDatabase']);
+    grunt.registerTask('addTestUsers', ['env:test', 'addUsers']);
+    grunt.registerTask('addDevUsers', ['env:dev', 'addUsers']);
+    grunt.registerTask('addTestStorerooms', ['env:test', 'addStorerooms']);
+    grunt.registerTask('addDevStorerooms', ['env:dev', 'addStorerooms']);
 
 
 };

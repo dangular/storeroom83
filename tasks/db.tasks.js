@@ -2,21 +2,20 @@
  * Created by: dhayes on 4/9/14.
  * Filename: db.tasks
  */
-var mongoose = require('mongoose');
+
 
 module.exports = function(grunt) {
     grunt.registerTask('dropDatabase', 'Drop the database', function() {
-
         var config = require('../lib/configuration');
         var dbURI = config.get('mongodb:dbURI');
-
-        mongoose.connect(dbURI);
+        var mongoose = require('mongoose');
 
         // async mode
         var done = this.async();
 
+        mongoose.connect(dbURI);
+
         mongoose.connection.on('open', function () {
-            console.log("connected to mongo ["+dbURI+"]");
             mongoose.connection.db.dropDatabase(function(err) {
                 if(err) {
                     console.log(err);
@@ -26,35 +25,73 @@ module.exports = function(grunt) {
                 mongoose.connection.close(done);
             });
         });
+
     });
 
-    grunt.registerTask('seedDatabase', 'Seed the database', function() {
+    grunt.registerTask('addUsers', 'create users', function() {
         var config = require('../lib/configuration');
         var dbURI = config.get('mongodb:dbURI');
-
-        var inventoryModels = require('../lib/model/inventory');
-
-        mongoose.connect(dbURI);
+        var mongoose = require('mongoose');
 
         // async mode
         var done = this.async();
 
+        mongoose.connect(dbURI);
+
+        require('../lib/models/user');
+
+        var User = mongoose.model('User');
+
+        var user = new User({username:'admin',password:'admin',email:'admin@storeroom83.com',firstName:'Admin',lastName:'Administrator'});
+
         mongoose.connection.on('open', function () {
-            console.log("connected to mongo ["+dbURI+"]");
-            var storeroom1 = new inventoryModels.Storeroom({'name':'CENTRAL', 'description': 'Central Storeroom'});
-            var storeroom2 = new inventoryModels.Storeroom({'name': 'EAST', 'description': 'East Storeroom'});
-            var storeroom3 = new inventoryModels.Storeroom({'name': 'WEST', 'description': 'West Storeroom'});
-            var storeroom4 = new inventoryModels.Storeroom({'name': 'NORTH', 'description': 'North Storeroom'});
-            var storeroom5 = new inventoryModels.Storeroom({'name': 'SOUTH', 'description': 'South Storeroom'});
-
-            inventoryModels.Storeroom.create([storeroom1, storeroom2, storeroom3, storeroom4, storeroom5], function(err) {
-                if (!err) {
-                    console.log('Created Storerooms');
+            console.log("in create users");
+            user.save(function(err) {
+                if(err) {
+                    console.log('Error: ' + err);
+                    mongoose.connection.close(done);
+                } else {
+                    console.log('saved user: ' + user.username);
+                    mongoose.connection.close(done);
                 }
-                mongoose.connection.close(done);
-            });
 
+            });
         });
+
     });
+
+    grunt.registerTask('addStorerooms','create storerooms', function() {
+        var config = require('../lib/configuration');
+        var dbURI = config.get('mongodb:dbURI');
+        var mongoose = require('mongoose');
+
+        // async mode
+        var done = this.async();
+
+        mongoose.connect(dbURI);
+
+        require('../lib/models/storerooms');
+
+        var Storeroom = mongoose.model('Storeroom');
+        var storeroom1 = new Storeroom({'name':'CENTRAL', 'description': 'Central Storeroom'});
+        var storeroom2 = new Storeroom({'name': 'EAST', 'description': 'East Storeroom'});
+        var storeroom3 = new Storeroom({'name': 'WEST', 'description': 'West Storeroom'});
+        var storeroom4 = new Storeroom({'name': 'NORTH', 'description': 'North Storeroom'});
+        var storeroom5 = new Storeroom({'name': 'SOUTH', 'description': 'South Storeroom'});
+
+        mongoose.connection.on('open', function () {
+            Storeroom.create([storeroom1, storeroom2, storeroom3, storeroom4, storeroom5], function(err) {
+                if (err) {
+                    console.log(err);
+                    mongoose.connection.close(done);
+                } else {
+                    console.log('Created Storerooms');
+                    mongoose.connection.close(done);
+                }
+
+            });
+        });
+
+     });
 
 };

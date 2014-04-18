@@ -70,7 +70,7 @@ angular.module('entity.controllers',['alert.services'])
                     $state.go($state.current.successState);
                 }, function(err){
                     $log.error(err);
-                    alertService.inline('danger', 'Saved failed\n\n'+err.data.error.message);
+                    alertService.inline('danger', 'Saved failed: '+err.statusText);
                 });
 
             } else {
@@ -79,7 +79,7 @@ angular.module('entity.controllers',['alert.services'])
                     $state.go($state.current.successState);
                 }, function(err){
                     $log.error(err);
-                    alertService.inline('danger', 'Saved failed\n\n'+err.data.error.message);
+                    alertService.inline('danger', 'Saved failed: '+err.statusText, true);
                 });
 
             }

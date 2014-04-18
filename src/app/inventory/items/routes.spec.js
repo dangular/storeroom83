@@ -7,15 +7,17 @@ describe("Items routes test", function() {
 
     beforeEach(module('app'));
 
-    beforeEach(inject(function(_$location_, _$state_, _$rootScope_, _$timeout_){
+    beforeEach(inject(function(_$location_, _$state_, _$rootScope_, _$timeout_, Auth){
         rootScope = _$rootScope_;
         location = _$location_;
         state = _$state_;
         timeout = _$timeout_;
-
+        Auth.setUser({_id: '1', email: 'test@test.com', firstName: 'Test', lastUser: 'User', roles: ['admin']});
     }));
 
     beforeEach(inject(function($httpBackend){
+        $httpBackend.expectGET('/partials/app')
+            .respond(200, 'App Layout HTML');
         $httpBackend.expectGET('/partials/inventory/items')
             .respond(200, 'Items html');
     }));

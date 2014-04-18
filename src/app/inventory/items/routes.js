@@ -1,6 +1,8 @@
 /**
  * Created by dhayes on 4/2/14.
  */
+'use strict';
+
 angular.module('app')
     .config(['$stateProvider', function($stateProvider){
 

@@ -100,10 +100,18 @@ $ sudo chmod +x start_mongodb.sh
 
 #### Seeding the Database
 
-If you have set up MongoDB, you can seed the database with a few objects to get started.  Currently, there are only a small number of Storeroom documents but the seed data will grow over time.  To seed the development database execute the following Grunt task:
+If you have set up MongoDB, you can seed the database with a few objects to get started.  Currently, there are only a small number of Storeroom documents but the seed data will grow over time.  To seed the development database execute the following Grunt tasks:
 
 ```
-$ grunt seedDevDatabase
+$ grunt dropDevDatabase // drops dev database
+```
+
+```
+$ grunt addDevUsers // adds admin user
+```
+
+```
+$ grunt addDevStorerooms // add storerooms
 ```
 
 ### Building Storeroom83

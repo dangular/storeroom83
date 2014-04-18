@@ -1,0 +1,23 @@
+
+doctype
+
+.navbar.navbar-inverse.navbar-fixed-top(role='navigation')
+    .container-fluid
+        .navbar-header
+            button.navbar-toggle(type='button', data-toggle='collapse', data-target='.navbar-collapse')
+                span.sr-only Toggle navigation
+                span.icon-bar
+                span.icon-bar
+                span.icon-bar
+            a.navbar-brand(ui-sref="login")
+                i.fa.fa-lg.fa-barcode
+                | &nbsp; Storeroom 83
+
+.container
+    div
+        alert(ng-repeat="alert in inlineAlerts", type="alert.type", close="closeInlineAlert($index)") {{ alert.msg }}
+    form.form-signin(role="form" novalidate)
+        h2.form-signin-heading Please Login
+        input.form-control.input-sm(type="text", ng-model="model.username", placeholder="Username", required, autofocus)
+        input.form-control.input-sm(type="password", ng-model="model.password", placeholder="Password", required)
+        button.btn.btn-primary.btn-block(type="submit", ng-click="login()") Login

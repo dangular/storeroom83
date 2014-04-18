@@ -1,0 +1,73 @@
+doctype
+
+.navbar.navbar-inverse.navbar-fixed-top(role='navigation')
+    .container-fluid
+        .navbar-header
+            button.navbar-toggle(type='button', data-toggle='collapse', data-target='.navbar-collapse')
+                span.sr-only Toggle navigation
+                span.icon-bar
+                span.icon-bar
+                span.icon-bar
+            a.navbar-brand(ui-sref="dashboard")
+                i.fa.fa-lg.fa-barcode
+                | &nbsp; Storeroom 83
+        .navbar-collapse.collapse
+            ul.nav.navbar-nav.navbar-right
+                li(ng-class="{active: $state.current.activeNav === 'settings'}")
+                    a(ui-sref="settings") Settings
+                li(ng-class="{active: $state.current.activeNav === 'profile'}")
+                    a(ui-sref="profile") Profile
+                li(ng-class="{active: $state.current.activeNav === 'help'}")
+                    a(ui-sref="help") Help
+                li.navbar-text Welcome, {{Auth.getName()}}
+                li
+                    a(ng-click="logout()") Logout
+
+
+.container-fluid
+    .row
+        .col-sm-3.col-md-2.sidebar
+            ul.nav.nav-sidebar
+                li(ng-class="{active: $state.current.activeNav === 'dashboard'}")
+                    a(ui-sref="dashboard")
+                        i.fa.fa-tachometer.fa-fw
+                        | &nbsp;Dashboard
+            ul.nav.nav-sidebar
+                li(ng-class="{active: $state.current.activeNav === 'inventory'}")
+                    a(ng-click="sidebarService.collapsed.inventory = !sidebarService.collapsed.inventory")
+                        i.fa.fa-barcode.fa-fw
+                        | &nbsp;Inventory
+                        i.pull-right.fa.fa-plus-square-o.fa-fw(ng-show="sidebarService.collapsed.inventory")
+                        i.pull-right.fa.fa-minus-square-o.fa-fw(ng-show="!sidebarService.collapsed.inventory")
+                    ul.nav.sub-nav(collapse="sidebarService.collapsed.inventory")
+                        li(ng-class="{active: $state.current.activeSubNav === 'storerooms'}")
+                            a(ui-sref="inventory.storerooms") Storerooms
+                        li(ng-class="{active: $state.current.activeSubNav === 'items'}")
+                            a(ui-sref="inventory.items") Item Master
+                li(ng-class="{active: $state.current.activeNav === 'work'}")
+                    a(ui-sref="work")
+                        i.fa.fa-wrench.fa-fw
+                        | &nbsp;Work Orders
+                li(ng-class="{active: $state.current.activeNav === 'am'}")
+                    a(ng-click="sidebarService.collapsed.am = !sidebarService.collapsed.am")
+                        i.fa.fa-building-o.fa-fw
+                        | &nbsp;Asset Management
+                        i.pull-right.fa.fa-plus-square-o.fa-fw(ng-show="sidebarService.collapsed.am")
+                        i.pull-right.fa.fa-minus-square-o.fa-fw(ng-show="!sidebarService.collapsed.am")
+                    ul.nav.sub-nav(collapse="sidebarService.collapsed.am")
+                        li(ng-class="{active: $state.current.activeSubNav === 'assets'}")
+                            a(ui-sref="am.assets") Assets
+                        li(ng-class="{active: $state.current.activeSubNav === 'locations'}")
+                            a(ui-sref="am.locations") Locations
+                li(ng-class="{active: $state.current.activeNav === 'purchasing'}")
+                    a(ui-sref="purchasing")
+                        i.fa.fa-money.fa-fw
+                        | &nbsp;Purchasing
+                li(ng-class="{active: $state.current.activeNav === 'maintenance'}")
+                    a(ui-sref="maintenance")
+                        i.fa.fa-calendar.fa-fw
+                        | &nbsp;Maintenance Planning
+        .col-sm-9.col-sm-offset-3.col-md-10.col-md-offset-2.main
+            div
+                alert(ng-repeat="alert in inlineAlerts", type="alert.type", close="closeInlineAlert($index)") {{ alert.msg }}
+            .view(ui-view)

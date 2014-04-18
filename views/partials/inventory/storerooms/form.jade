@@ -1,6 +1,6 @@
 doctype
 
-s83-form-header(form-title="{{pageTitle}}", cancel-state="inventory.storerooms.list")
+s83-form-header(form-title="{{pageTitle}}", show-cancel="true", cancel-state="inventory.storerooms.list")
 
 form.form(role="form", name="storeroomForm", novalidate)
     .row
@@ -9,5 +9,5 @@ form.form(role="form", name="storeroomForm", novalidate)
             s83-entity-text-input(elementId='description', label='Description', placeholder='Description', model='entity.description')
 
 
-    s83-form-footer(save-button-text="Save", cancel-button-text="Cancel", cancel-state="inventory.storerooms.list", on-save="save()")
+    s83-form-footer(save-button-text="Save", show-cancel="true", cancel-button-text="Cancel", cancel-state="inventory.storerooms.list", on-save="save()")
 

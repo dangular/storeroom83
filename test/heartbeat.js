@@ -2,7 +2,7 @@
  * Created by: dhayes on 4/5/14.
  * Filename: heartbeat
  */
-var app = require('../app'),
+var app = require('../server'),
     request = require('supertest');
 
 describe('storeroom83 heartbeat api', function(){

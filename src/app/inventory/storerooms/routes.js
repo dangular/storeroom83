@@ -1,6 +1,8 @@
 /**
  * Created by dhayes on 4/2/14.
  */
+'use strict';
+
 angular.module('app')
     .config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $urlRouterProvider){
 
@@ -11,25 +13,27 @@ angular.module('app')
 
         var showDetail = {
                 tabs: [
-                    { heading: "Storeroom Items", route: "inventory.storerooms.show.items", active: false },
-                    { heading: "Detail 2", route: "inventory.storerooms.show.detail2", active: false },
-                    { heading: "Back to List", route: "inventory.storerooms.list", active: false}
+                    { heading: 'Storeroom Items', route: 'inventory.storerooms.show.items', active: false },
+                    { heading: 'Detail 2', route: 'inventory.storerooms.show.detail2', active: false },
+                    { heading: 'Back to List', route: 'inventory.storerooms.list', active: false}
                 ]
             };
 
-        $urlRouterProvider.when('/inventory/storerooms', '/inventory/storerooms/list');
-        $urlRouterProvider.when('/inventory/storerooms/:id/show', '/inventory/storerooms/:id/show/items');
+        $urlRouterProvider.when('/inventory/storerooms', ['stateMapper', function(stateMapper){
+            return stateMapper.redirectIfAuthenticated('inventory.storerooms.list');
+        }]);
+        $urlRouterProvider.when('/inventory/storerooms/:id/show', ['stateMapper', function(stateMapper){
+            return stateMapper.redirectIfAuthenticated('inventory.storerooms.show.items');
+        }]);
 
         $stateProvider
             .state(baseStateName, {
                 url: baseUrl,
-                activeNav: activeNav,
-                activeSubNav: activeSubNav,
                 template: '<div class="view" ui-view/>',
                 controller: 'EntityController',
                 resolve: {
                     repository: ['RestRepository', function(RestRepository) {
-                        return RestRepository(collectionName, baseApiUrl);
+                        return new RestRepository(collectionName, baseApiUrl);
                     }],
                     entityName: function() {
                         return entityName;
@@ -44,10 +48,11 @@ angular.module('app')
                 controller: 'ListController',
                 resolve: {
                     entities: ['RestRepository', function(RestRepository) {
-                        var repo = RestRepository(collectionName, baseApiUrl);
+                        var repo = new RestRepository(collectionName, baseApiUrl);
                         return repo.list();
                     }]
-                }
+                },
+                restricted: true
             })
             .state(baseStateName+'.new', {
                 url: '/new',
@@ -71,20 +76,18 @@ angular.module('app')
                 templateUrl: partialsPath+'/form',
                 resolve: {
                     entity: ['RestRepository', '$stateParams', function(RestRepository, $stateParams) {
-                        var repo = RestRepository(collectionName, baseApiUrl);
+                        var repo = new RestRepository(collectionName, baseApiUrl);
                         return repo.edit($stateParams.id);
                     }]
                 }
             })
             .state(baseStateName+'.show', {
                 url: '/:id/show',
-                activeNav: activeNav,
-                activeSubNav: activeSubNav,
                 controller: 'ShowController',
                 templateUrl: partialsPath+'/show',
                 resolve: {
                     entity: ['RestRepository', '$stateParams', function(RestRepository, $stateParams) {
-                        var repo = RestRepository(collectionName, baseApiUrl);
+                        var repo = new RestRepository(collectionName, baseApiUrl);
                         return repo.load($stateParams.id);
                     }],
                     tabs: function() {

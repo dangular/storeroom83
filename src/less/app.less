@@ -21,20 +21,32 @@ body.modal-open, .modal-open .navbar-fixed-top, .modal-open .navbar-fixed-bottom
   overflow-y: auto;
 }
 
+/* Login */
+.form-signin {
+  max-width: 330px;
+  padding: 15px;
+  margin: 0 auto;
+
+  .form-control {
+    margin: 10px 0;
+  }
+}
+
+
 /* Animations */
-alert {
+.alert {
   &.ng-enter {
-    -webkit-animation: fadeInDown 1s;
-    -moz-animation: fadeInDown 1s;
-    -ms-animation: fadeInDown 1s;
-    animation: fadeInDown 1s;
+    -webkit-animation: fadeInDown 0.5s;
+    -moz-animation: fadeInDown 0.5s;
+    -ms-animation: fadeInDown 0.5s;
+    animation: fadeInDown 0.5s;
   }
 
   &.ng-leave {
-    -webkit-animation: fadeOutUp 1s;
-    -moz-animation: fadeOutUp 1s;
-    -ms-animation: fadeOutUp 1s;
-    animation: fadeOutUp 1s;
+    -webkit-animation: fadeOutUp 0.5s;
+    -moz-animation: fadeOutUp 0.5s;
+    -ms-animation: fadeOutUp 0.5s;
+    animation: fadeOutUp 0.5s;
   }
 }
 
@@ -49,20 +61,20 @@ alert {
 
 .growl-item {
   &.ng-enter {
-    -webkit-animation: fadeInDown 1s;
-    animation: fadeInDown 1s;
+    -webkit-animation: fadeInDown 0.5s;
+    animation: fadeInDown 0.5s;
   }
 
   &.ng-leave {
-    -webkit-animation: fadeOutUp 1s;
-    animation: fadeOutUp 1s;
+    -webkit-animation: fadeOutUp 0.5s;
+    animation: fadeOutUp 0.5s;
   }
 }
 
 .view {
   &.ng-enter {
-    -webkit-animation: fadeIn 1s;
-    animation: fadeIn 1s;
+    -webkit-animation: fadeIn 0.5s;
+    animation: fadeIn 0.5s;
   }
 }
 

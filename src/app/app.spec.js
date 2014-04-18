@@ -5,6 +5,10 @@
 describe('App spec', function(){
     beforeEach(module("app"));
 
+    beforeEach(inject(function(Auth){
+        Auth.setUser({_id: '1', email: 'test@test.com', firstName: 'Test', lastUser: 'User', roles: ['admin']});
+    }));
+
     describe('App controller', function(){
         var appCtrl, scope;
         beforeEach(inject(function($controller, $rootScope, sidebarService){
@@ -29,6 +33,8 @@ describe('App spec', function(){
         }));
 
         beforeEach(inject(function($httpBackend){
+            $httpBackend.expectGET('/partials/app')
+                .respond(200, 'App Layout HTML');
             $httpBackend.expectGET('/partials/inventory/items')
                 .respond(200, 'Items HTML');
         }));
