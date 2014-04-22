@@ -1,13 +1,15 @@
 doctype
 
-s83-form-header(form-title="{{pageTitle}}", show-cancel="true", cancel-state="inventory.storerooms.list")
-
-form.form(role="form", name="storeroomForm", novalidate)
+form.form(submit-valid="save()", role="form", name="storeroomForm", novalidate)
+    s83-form-header(form-title="{{pageTitle}}", show-cancel="true", cancel-button-text="Cancel", on-cancel="backToPrevious()")
     .row
         fieldset.col-md-4
-            s83-entity-text-input(elementId='name', label='Name', placeholder='Name', model='entity.name')
-            s83-entity-text-input(elementId='description', label='Description', placeholder='Description', model='entity.description')
+            field(ng-model='entity.name', template='inputCapitalized', type='text', label='Name', required, ng-minlength='4', capitalize)
+                validator(key='required') Name is required
+                validator(key='minlength') Name must be at least 4 characters in length
+            field(ng-model='entity.description', type='text', label='Description', required)
+                validator(key='required') Description is required
 
+    s83-form-footer(save-button-text="Save", show-cancel="true", cancel-button-text="Cancel", on-cancel="backToPrevious()")
 
-    s83-form-footer(save-button-text="Save", show-cancel="true", cancel-button-text="Cancel", cancel-state="inventory.storerooms.list", on-save="save()")
 

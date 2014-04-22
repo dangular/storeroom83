@@ -48,9 +48,8 @@ angular.module('entity.controllers',['alert.services'])
 
     }])
 
-    .controller('EntityFormController', ['entity', '$scope', 'AlertService', '$state', '$log', function(entity, $scope, alertService, $state, $log) {
+    .controller('EntityFormController', ['entity', '$scope', '$rootScope', 'AlertService', '$state', '$log', '$window', function(entity, $scope, $rootScope, alertService, $state, $log, $window) {
         $scope.entity = entity;
-
         var isNew = function() {
             return !$scope.entity._id;
         };
@@ -62,6 +61,14 @@ angular.module('entity.controllers',['alert.services'])
         }
 
         $scope.isNew = isNew;
+
+        $scope.backToPrevious = function() {
+            if ($rootScope.previousState){
+                $state.go($rootScope.previousState, $rootScope.previousStateParams);
+            } else {
+                $window.history.back();
+            }
+        };
 
         $scope.save = function() {
             if (!isNew()) {

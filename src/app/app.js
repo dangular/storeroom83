@@ -54,6 +54,13 @@ angular.module('app', ['ngAnimate', 'ngSanitize', 'ngCookies', 'ui.router', 'ent
 
         });
 
+        $rootScope.$on('$stateChangeSuccess', function(event, toState, toParams, fromState, fromParams){
+            if (fromState && fromState.name) {
+                $rootScope.previousState = fromState;
+                $rootScope.previousStateParams = fromParams;
+            }
+        });
+
         $rootScope.$on('auth:loginRequired', function() {
             $state.go('login');
         });
