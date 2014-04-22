@@ -4,7 +4,7 @@
  */
 angular.module('entity.directives', [])
 
-    .directive('s83FormHeader', function() {
+    .directive('formHeader', function() {
         return {
             restrict: 'E',
             scope: {
@@ -19,7 +19,7 @@ angular.module('entity.directives', [])
         }
     })
 
-    .directive('s83FormFooter', function() {
+    .directive('formFooter', function() {
         return {
             restrict: 'E',
             require: '^form',

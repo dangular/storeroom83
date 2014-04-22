@@ -1,7 +1,7 @@
 doctype
 
 form.form(submit-valid="save()", role="form", name="storeroomForm", novalidate)
-    s83-form-header(form-title="{{pageTitle}}", show-cancel="true", cancel-button-text="Cancel", on-cancel="backToPrevious()")
+    form-header(form-title="{{pageTitle}}", show-cancel="true", cancel-button-text="Cancel", on-cancel="backToPrevious()")
     .row
         fieldset.col-md-4
             field(ng-model='entity.name', template='inputCapitalized', type='text', label='Name', required, ng-minlength='4', capitalize)
@@ -10,6 +10,6 @@ form.form(submit-valid="save()", role="form", name="storeroomForm", novalidate)
             field(ng-model='entity.description', type='text', label='Description', required)
                 validator(key='required') Description is required
 
-    s83-form-footer(save-button-text="Save", show-cancel="true", cancel-button-text="Cancel", on-cancel="backToPrevious()")
+    form-footer(save-button-text="Save", show-cancel="true", cancel-button-text="Cancel", on-cancel="backToPrevious()")
 
 
