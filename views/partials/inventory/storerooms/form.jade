@@ -4,7 +4,7 @@ form.form(submit-valid="save()", role="form", name="storeroomForm", novalidate)
     form-header(form-title="{{pageTitle}}", show-cancel="true", cancel-button-text="Cancel", on-cancel="backToPrevious()")
     .row
         fieldset.col-md-4
-            field(ng-model='entity.name', template='inputCapitalized', type='text', label='Name', required, ng-minlength='4', capitalize)
+            field(ng-model='entity.name', type='text', label='Name', required, ng-minlength='4', capitalize)
                 validator(key='required') Name is required
                 validator(key='minlength') Name must be at least 4 characters in length
             field(ng-model='entity.description', type='text', label='Description', required)

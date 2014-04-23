@@ -74,7 +74,7 @@ angular.module('entity.controllers',['alert.services'])
             if (!isNew()) {
                 $scope.repository.update($scope.entity).then(function(saved) {
                     alertService.growl('success', $scope.entityName + ' '+saved.name+' updated successfully', true);
-                    $state.go($state.current.successState);
+                    $scope.backToPrevious();
                 }, function(err){
                     $log.error(err);
                     alertService.inline('danger', 'Saved failed: '+err.statusText);
@@ -83,7 +83,7 @@ angular.module('entity.controllers',['alert.services'])
             } else {
                 $scope.repository.save($scope.entity).then(function(saved) {
                     alertService.growl('success', $scope.entityName+' '+saved.name+' created successfully', true);
-                    $state.go($state.current.successState);
+                    $scope.backToPrevious();
                 }, function(err){
                     $log.error(err);
                     alertService.inline('danger', 'Saved failed: '+err.statusText, true);

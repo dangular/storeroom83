@@ -9,7 +9,7 @@ angular.module('app')
         var collectionName = 'storerooms', baseApiUrl = '/api/inventory',
             activeNav = 'inventory', activeSubNav = 'storerooms', entityName = 'Storeroom',
             partialsPath = '/partials/inventory/storerooms', baseUrl = '/storerooms',
-            baseStateName = 'inventory.storerooms', formSuccessState = 'inventory.storerooms.list';
+            baseStateName = 'inventory.storerooms';
 
         var showDetail = {
                 tabs: [
@@ -58,7 +58,6 @@ angular.module('app')
                 url: '/new',
                 activeNav: activeNav,
                 activeSubNav: activeSubNav,
-                successState: formSuccessState,
                 controller: 'EntityFormController',
                 templateUrl: partialsPath+'/form',
                 resolve: {
@@ -71,7 +70,6 @@ angular.module('app')
                 url: '/:id/edit',
                 activeNav: activeNav,
                 activeSubNav: activeSubNav,
-                successState: formSuccessState,
                 controller: 'EntityFormController',
                 templateUrl: partialsPath+'/form',
                 resolve: {

@@ -74,10 +74,6 @@ angular.module('entity.directives', [])
                 '<label class="control-label">{{label}}</label>'+
                 '<input class="form-control input-sm">'+
                 '<small class="text-danger validation-label" ng-repeat="(key, error) in $field.$error" ng-show="error && ($field.$dirty || $form.attempt )"> {{$validationMessages[key]}}</small>',
-            inputCapitalized: '<div class="form-group" ng-class="{\'has-error\': $field.$invalid && ($field.$dirty || $form.attempt )}">'+
-                '<label class="control-label">{{label}}</label>'+
-                '<input class="form-control input-sm" capitalize="true">'+
-                '<small class="text-danger validation-label" ng-repeat="(key, error) in $field.$error" ng-show="error && ($field.$dirty || $form.attempt )"> {{$validationMessages[key]}}</small>',
             select: '<div class="form-group" ng-class="{\'has-error\' : $field.$invalid && $field.$dirty}">'+
                 '<label class="control-label">{{label}}</label>'+
                 '<select class="form-control input-sm"></select>'+
