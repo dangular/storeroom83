@@ -60,6 +60,10 @@ angular.module('entity.directives', [])
                         });
                     }
                 });
+
+                scope.$on('$destroy', function() {
+                    formElement.unbind('submit');
+                });
             }
         };
     }])
@@ -220,6 +224,10 @@ angular.module('entity.directives', [])
                         scope.changeDelay();
                         //scope.$apply();
                     }, attrs.delay || 500);
+                });
+
+                scope.$on('$destroy', function() {
+                    element.unbind('keyup paste search');
                 });
             }
         };
