@@ -4,7 +4,7 @@
  */
 'use strict';
 
-angular.module('app', ['ngAnimate', 'ngSanitize', 'ngCookies', 'ui.router', 'entity.controllers', 'entity.services', 'entity.directives', 'alert.services'])
+angular.module('app', ['ngAnimate', 'ngSanitize', 'ngCookies', 'ui.router', 'elasticsearch', 'entity.controllers', 'entity.services', 'entity.directives', 'alert.services'])
 
     .config(['$httpProvider', function($httpProvider) {
         var interceptor = ['$q', '$rootScope', function($q, $rootScope) {
@@ -140,6 +140,13 @@ angular.module('app', ['ngAnimate', 'ngSanitize', 'ngCookies', 'ui.router', 'ent
             }
         };
     })
+
+    .service('elasticClient', ['esFactory', function (esFactory) {
+        return esFactory({
+            host: 'localhost:9200'
+            // ...
+        });
+    }])
 
     .controller('AppController', ['$scope', 'Auth', 'sidebarService', '$location', 'AlertService', function($scope, Auth, sidebarService, $location, AlertService){
 

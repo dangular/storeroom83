@@ -35,7 +35,7 @@ angular.module('entity.directives', [])
             template: "<h4 class='page-header'></h4>" +
                 "<div class='row'>" +
                 "   <div class='col-md-12 btn-toolbar text-center'>"+
-                "       <button type='submit' class='btn btn-primary' ng-disabled='form.$invalid || form.$pristine'>{{saveButtonText}}</button>"+
+                "       <button type='submit' class='btn btn-primary' ng-disabled='form.$invalid || form.$pristine || form.attempt'>{{saveButtonText}}</button>"+
                 "       <a ng-if='showCancel' class='btn btn-default' ng-click='onCancel()'>{{cancelButtonText}}</a>"+
                 "   </div>"+
                 "</div>"
@@ -203,6 +203,24 @@ angular.module('entity.directives', [])
                 };
                 modelCtrl.$parsers.push(capitalize);
                 capitalize(scope[attrs.ngModel]);
+            }
+        };
+    })
+
+    .directive('changeDelay', function() {
+        return {
+            scope: {
+                changeDelay: '&'
+            },
+            link: function(scope, element, attrs) {
+                var timeout;
+                element.on('keyup paste search', function() {
+                    clearTimeout(timeout);
+                    timeout = setTimeout(function() {
+                        scope.changeDelay();
+                        //scope.$apply();
+                    }, attrs.delay || 500);
+                });
             }
         };
     });

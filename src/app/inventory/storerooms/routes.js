@@ -46,13 +46,14 @@ angular.module('app')
                 activeSubNav: activeSubNav,
                 templateUrl: partialsPath+'/list',
                 controller: 'ListController',
-                resolve: {
-                    entities: ['RestRepository', function(RestRepository) {
-                        var repo = new RestRepository(collectionName, baseApiUrl);
-                        return repo.list();
-                    }]
-                },
-                restricted: true
+                index: 'storerooms',
+                type: 'storeroom',
+                colHeaders: [
+                    {title: 'Name', sortField: 'name'},
+                    {title: 'Description', sortField: 'description'},
+                    {title: 'Created At', sortField: 'createdAt'},
+                    {title: 'Updated At', sortField: 'updatedAt'}
+                ]
             })
             .state(baseStateName+'.new', {
                 url: '/new',

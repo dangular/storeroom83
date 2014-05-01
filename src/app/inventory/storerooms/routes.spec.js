@@ -19,11 +19,12 @@ describe("Routes test", function() {
         $httpBackend = _$httpBackend_;
         $httpBackend.expectGET('/partials/app')
             .respond(200, 'App Layout HTML');
-        $httpBackend.expectGET('/api/inventory/storerooms')
-            .respond(200, ['foo','bar']);
         $httpBackend.expectGET('/partials/inventory/storerooms/list')
             .respond(200, 'Storerooms list');
+        $httpBackend.expectPOST('storeroom_index/storerooms/_search')
+            .respond(200, ['foo','bar']);
     }));
+
 
     it('should change states', function(){
         location.path('/inventory/storerooms/list');
