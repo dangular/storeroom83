@@ -143,7 +143,14 @@ angular.module('entity.controllers',['alert.services'])
             var queryString = $scope.searchParams.query;
 
             if (angular.isString(queryString) && queryString.length > 0) {
-                q = { prefix: { _all: queryString } }
+                // q = { prefix: { _all: queryString } }
+                q = {
+                    multi_match: {
+                        query: queryString,
+                        type: 'phrase_prefix',
+                        fields: ['name', 'description']
+                    }
+                }
             } else {
                 q = { match_all: {} }
             }
