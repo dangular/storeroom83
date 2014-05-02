@@ -52,8 +52,12 @@ angular.module('app')
                         return '<a href="'+row.href+'">'+row.source.name+'</a>';
                     }},
                     {title: 'Description', sortField: 'description', dataField: 'description'},
-                    {title: 'Created At', sortField: 'createdAt', dataField: 'createdAt'},
-                    {title: 'Updated At', sortField: 'updatedAt', dataField: 'updatedAt'}
+                    {title: 'Created At', sortField: 'createdAt', render: function(row, scope, filter) {
+                        return filter('date')(row.source.createdAt, 'medium');
+                    }},
+                    {title: 'Updated At', sortField: 'updatedAt', render: function(row, scope, filter) {
+                        return filter('date')(row.source.updatedAt, 'medium');
+                    }}
                 ],
                 actionList: [
                     {btnLabel: 'Edit', btnClass:'btn-default', onClick: function(row, scope) {

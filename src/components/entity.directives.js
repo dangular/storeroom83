@@ -250,7 +250,7 @@ angular.module('entity.directives', ['ui.bootstrap'])
                 '</thead>'+
                 '<tbody>' +
                     '<tr ng-repeat="row in results.items">' +
-                        '<td ng-repeat="header in headers" ng-bind-html="row.source[header.dataField] || header.render(row)"></td>'+
+                        '<td ng-repeat="header in headers" ng-bind-html="row.source[header.dataField] || invokeRenderAction(header.render, row)"></td>'+
                         '<td class="btn-toolbar">'+
                             '<a ng-repeat="action in actionList" class="btn btn-xs" ng-class="action.btnClass" ng-click="invokeRowAction(action.onClick, row)">{{action.btnLabel}}</a>'+
                         '</td>'+
