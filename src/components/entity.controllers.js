@@ -4,10 +4,10 @@
  */
 angular.module('entity.controllers',['alert.services'])
 
-    .controller('EntityController', ['repository', 'entityName', '$scope', '$timeout', function(repository, entityName, $scope, $timeout) {
-        $scope.repository = repository;
+    .controller('EntityController', ['repository', '$scope', '$state', '$timeout', function(repository, $scope, $state, $timeout) {
 
-        $scope.entityName = entityName;
+        $scope.repository = repository;
+        $scope.entityName = $state.current.entityName;
 
         // scoping searchParams in top level controller so they don't go away as user performs operations on entities
         // and then returns to list.
@@ -30,10 +30,6 @@ angular.module('entity.controllers',['alert.services'])
     .controller('ShowController', ['$scope', '$state', 'entity', 'tabs', function($scope, $state, entity, tabs) {
         $scope.entity = entity;
         $scope.tabs = tabs;
-
-        $scope.go = function(route){
-            $state.go(route);
-        };
 
         $scope.active = function(route){
             return $state.is(route);
@@ -97,6 +93,7 @@ angular.module('entity.controllers',['alert.services'])
 
     .controller('ListController', ['$scope', '$state', 'elasticClient', 'AlertService', 'ConfirmService', function($scope, $state, elasticClient, alertService, confirmService){
         $scope.headers = $state.current.colHeaders;
+        $scope.actionList = $state.current.actionList;
 
         var convertElasticSearchResults = function(raw) {
             return {
@@ -104,7 +101,10 @@ angular.module('entity.controllers',['alert.services'])
                 page: $scope.searchParams.page,
                 pages: Math.ceil(raw.hits.total / $scope.searchParams.perPage),
                 items: _.map(raw.hits.hits, function(hit) {
-                    return hit._source;
+                    return {
+                        source: hit._source,
+                        href: $state.href($state.current.showStateName, {id: hit._id})
+                    }
                 })
             }
         };
@@ -167,12 +167,12 @@ angular.module('entity.controllers',['alert.services'])
             });
         };
 
-        $scope.remove = function(entity) {
+        $scope.remove = function(row) {
 
-            confirmService.confirm("Are you sure you want to delete "+$scope.entityName+" "+entity.name, function () {
-                $scope.repository.remove(entity).then(function(){
-                    $scope.results.items = _.without($scope.results.items, entity);
-                    alertService.growl('success', $scope.entityName + ' '+entity.name+' successfully removed.', true);
+            confirmService.confirm("Are you sure you want to delete "+$scope.entityName+" "+row.source[$state.current.labelField], function () {
+                $scope.repository.remove(row.source).then(function(){
+                    $scope.results.items = _.without($scope.results.items, row);
+                    alertService.growl('success', $scope.entityName + ' '+row.source[$state.current.labelField]+' successfully removed.', true);
                 }, function(err){
                     alertService.inline('danger', err.message, true);
                 });

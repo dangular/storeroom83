@@ -148,8 +148,9 @@ angular.module('app', ['ngAnimate', 'ngSanitize', 'ngCookies', 'ui.router', 'ela
         });
     }])
 
-    .controller('AppController', ['$scope', 'Auth', 'sidebarService', '$location', 'AlertService', function($scope, Auth, sidebarService, $location, AlertService){
+    .controller('AppController', ['$scope', '$state', 'Auth', 'sidebarService', '$location', 'AlertService', function($scope, $state, Auth, sidebarService, $location, AlertService){
 
+        $scope.$state = $state;
         $scope.sidebarService = sidebarService;
         $scope.Auth = Auth;
 

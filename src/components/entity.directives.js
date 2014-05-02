@@ -2,7 +2,7 @@
  * Created by: dhayes on 4/15/14.
  * Filename: entity.directives
  */
-angular.module('entity.directives', [])
+angular.module('entity.directives', ['ui.bootstrap'])
 
     .directive('formHeader', function() {
         return {
@@ -189,6 +189,94 @@ angular.module('entity.directives', [])
             }
         };
     }])
+
+    .directive('searchHeader', function() {
+        var template =
+            '<form class="form-inline" role="form">'+
+                '<div class="form-group col-md-4">'+
+                    '<label for="searchQuery">Search Query</label>'+
+                    '<input id="searchQuery" class="form-control input-sm" change-delay="search()" delay="400" ng-model="searchParams.query" placeholder="Enter Query Text">'+
+                '</div>'+
+                '<div class="form-group col-md-1">'+
+                    '<label for="searchRefresh">Refresh</label>'+
+                    '<button id="searchRefresh" class="form-control input-sm btn btn-sm btn-success" ng-click="search()">'+
+                        '<i class="fa fa-refresh"></i>'+
+                    '</button>'+
+                '</div>'+
+                '<div class="form-group col-md-1">'+
+                    '<label for="searchClear">Clear</label>'+
+                    '<button id="searchClear" class="form-control input-sm btn btn-sm btn-warning" ng-click="clear()">'+
+                        '<i class="fa fa-undo"></i>'+
+                    '</button>'+
+                '</div>'+
+                '<div class="form-group col-md-1">'+
+                    '<label for="searchPerPage">Per Page</label>'+
+                    '<select id="searchPerPage" class="form-control input-sm" ng-change="search()" ng-model="searchParams.perPage" ng-options="value for value in pageSizeOptions">'+
+                '</div>'+
+            '</form>';
+        return {
+            template: template,
+            restrict: 'E',
+            replace: true
+        }
+    })
+
+    .directive('searchResultsFooter', function() {
+        var template =
+            '<h5> Found {{results.total}} records'+
+                '<span class="pull-right clearfix" ng-show="results.total">Showing page {{results.page}} of {{results.pages}}</span>'+
+            '</h5>';
+        return {
+            template: template,
+            restrict: 'E',
+            replace: true
+        }
+    })
+
+    .directive('searchResultsTable', function() {
+        var template =
+            '<table class="table table-condensed table-hover">'+
+                '<thead>'+
+                    '<tr>'+
+                        '<th ng-repeat="header in headers">'+
+                            '<a href="" ng-click="sort(header.sortField)">{{header.title}}'+
+                                '<span class="sort-container" ng-show="searchParams.sortField === header.sortField">'+
+                                    '<i ng-class="{true: \'fa fa-arrow-up\', false: \'fa fa-arrow-down\'}[searchParams.sortDirection === \'asc\']"></i>'+
+                                '</span>'+
+                            '</a>'+
+                        '</th>'+
+                        '<th></th>'+
+                    '</tr>'+
+                '</thead>'+
+                '<tbody>' +
+                    '<tr ng-repeat="row in results.items">' +
+                        '<td ng-repeat="header in headers" ng-bind-html="row.source[header.dataField] || header.render(row)"></td>'+
+                        '<td class="btn-toolbar">'+
+                            '<a ng-repeat="action in actionList" class="btn btn-xs" ng-class="action.btnClass" ng-click="invokeRowAction(action.onClick, row)">{{action.btnLabel}}</a>'+
+                        '</td>'+
+                    '</tr>'+
+                '</tbody>'+
+            '</table>';
+        return {
+            template: template,
+            restrict: 'E',
+            replace: true,
+            controller: ['$scope', '$filter', function($scope, $filter) {
+
+                $scope.invokeRenderAction = function(fn, row) {
+                    if (fn) {
+                        return fn(row, $scope, $filter);
+                    } else {
+                        return false;
+                    }
+                };
+
+                $scope.invokeRowAction = function(fn, row) {
+                    fn(row, $scope);
+                }
+            }]
+        }
+    })
 
     .directive('capitalize', function() {
         return {

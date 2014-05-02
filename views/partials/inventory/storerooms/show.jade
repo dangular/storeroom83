@@ -2,7 +2,7 @@ doctype
 
 .col-md-9
     tabset
-        tab(ng-repeat="t in tabs", heading="{{t.heading}}", select="go(t.route)", active="t.active")
+        tab(ng-repeat="t in tabs", heading="{{t.heading}}", select="$state.go(t.route)", active="t.active")
     .view(ui-view)
 
 .col-md-3

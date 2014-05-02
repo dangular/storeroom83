@@ -15,6 +15,7 @@ angular.module('app')
             .state('inventory', {
                 parent: 'app',
                 url: '/inventory',
+                activeNav: 'inventory',
                 template: '<div class="view" ui-view/>'
             });
 

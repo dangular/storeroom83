@@ -1,48 +1,14 @@
+doctype
+
 h3.page-header Storerooms
     a.btn.btn-sm.btn-default.pull-right(ui-sref="inventory.storerooms.new")
         i.fa.fa-plus.fa-lg
         | &nbsp;Add Storeroom
 
-form.form-inline(role="form")
-    .form-group.col-md-4
-        label(for="searchQuery") Search Query
-        input#searchQuery.form-control.input-sm(change-delay="search()", delay="400", ng-model="searchParams.query", placeholder="Enter Query Text")
-    .form-group.col-md-1
-        label(for="searchRefresh") Refresh
-        button#searchRefresh.form-control.input-sm.btn.btn-sm.btn-success(ng-click="search()")
-            i.fa.fa-refresh
-    .form-group.col-md-1
-        label(for="searchClear") Clear
-        button#searchClear.form-control.input-sm.btn.btn-sm.btn-warning(ng-click="clear()")
-            i.fa.fa-undo
-    .form-group.col-md-1
-        label(for="searchPerPage") Per Page
-        select#searchPerPage.form-control.input-sm(ng-model="searchParams.perPage", ng-change="search()", ng-options="value for value in pageSizeOptions")
+search-header
 
-    pagination(on-select-page="goToPage(page)", total-items="results.total", page="results.page", items-per-page="searchParams.perPage", max-size="5", class="pagination-sm pull-right", boundary-links="true")
+pagination(on-select-page="goToPage(page)", total-items="results.total", page="results.page", items-per-page="searchParams.perPage", max-size="5", class="pagination-sm pull-right", boundary-links="true")
 
+search-results-table
 
-table.table.table-hover.table-condensed
-    thead
-        tr
-            th(ng-repeat="header in headers")
-                a(href="", ng-click="sort(header.sortField)") {{header.title}}
-                    span.sort-container(ng-show="searchParams.sortField === header.sortField")
-                        i(ng-class="{true: 'fa fa-arrow-up', false: 'fa fa-arrow-down'}[searchParams.sortDirection === 'asc']")
-            th
-
-    tbody
-        tr(ng-repeat="row in results.items")
-            td
-                a(ui-sref="inventory.storerooms.show({id:row._id})") {{row.name}}
-            td {{row.description}}
-            td {{row.createdAt | date:'medium'}}
-            td {{row.updatedAt | date:'medium'}}
-            td.btn-toolbar
-                a.btn.btn-default.btn-xs(ui-sref="inventory.storerooms.edit({id:row._id})") Edit
-                a.btn.btn-danger.btn-xs(ng-href="", ng-click="remove(row)") Delete
-
-h5 Found {{results.total}} Storerooms.
-    span.pull-right.clearfix(ng-show="results.total") Showing page {{results.page}} of {{results.pages}}
-
-
+search-results-footer

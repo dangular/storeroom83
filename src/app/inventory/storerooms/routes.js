@@ -22,22 +22,19 @@ angular.module('app')
         $urlRouterProvider.when('/inventory/storerooms', ['stateMapper', function(stateMapper){
             return stateMapper.redirectIfAuthenticated('inventory.storerooms.list');
         }]);
-        $urlRouterProvider.when('/inventory/storerooms/:id/show', ['stateMapper', function(stateMapper){
-            return stateMapper.redirectIfAuthenticated('inventory.storerooms.show.items');
-        }]);
 
         $stateProvider
             .state(baseStateName, {
                 url: baseUrl,
                 template: '<div class="view" ui-view/>',
                 controller: 'EntityController',
+                activeNav: activeNav,
+                activeSubNav: activeSubNav,
+                entityName: entityName,
                 resolve: {
                     repository: ['RestRepository', function(RestRepository) {
                         return new RestRepository(collectionName, baseApiUrl);
-                    }],
-                    entityName: function() {
-                        return entityName;
-                    }
+                    }]
                 }
             })
             .state(baseStateName+'.list', {
@@ -48,11 +45,23 @@ angular.module('app')
                 controller: 'ListController',
                 index: 'storerooms',
                 type: 'storeroom',
+                showStateName: baseStateName +'.show.items',
+                labelField: 'name',
                 colHeaders: [
-                    {title: 'Name', sortField: 'name'},
-                    {title: 'Description', sortField: 'description'},
-                    {title: 'Created At', sortField: 'createdAt'},
-                    {title: 'Updated At', sortField: 'updatedAt'}
+                    {title: 'Name', sortField: 'name', render: function(row){
+                        return '<a href="'+row.href+'">'+row.source.name+'</a>';
+                    }},
+                    {title: 'Description', sortField: 'description', dataField: 'description'},
+                    {title: 'Created At', sortField: 'createdAt', dataField: 'createdAt'},
+                    {title: 'Updated At', sortField: 'updatedAt', dataField: 'updatedAt'}
+                ],
+                actionList: [
+                    {btnLabel: 'Edit', btnClass:'btn-default', onClick: function(row, scope) {
+                        scope.$state.go('inventory.storerooms.edit', {id: row.source._id}); }
+                    },
+                    {btnLabel: 'Delete', btnClass: 'btn-danger', onClick: function(row, scope) {
+                        scope.remove(row); }
+                    }
                 ]
             })
             .state(baseStateName+'.new', {
@@ -68,7 +77,7 @@ angular.module('app')
                 }
             })
             .state(baseStateName+'.edit', {
-                url: '/:id/edit',
+                url: '/{id:[0-9a-fA-F]{1,24}}/edit',
                 activeNav: activeNav,
                 activeSubNav: activeSubNav,
                 controller: 'EntityFormController',
@@ -81,7 +90,9 @@ angular.module('app')
                 }
             })
             .state(baseStateName+'.show', {
-                url: '/:id/show',
+                url: '/{id:[0-9a-fA-F]{1,24}}/show',
+                activeNav: activeNav,
+                activeSubNav: activeSubNav,
                 controller: 'ShowController',
                 templateUrl: partialsPath+'/show',
                 resolve: {
@@ -95,17 +106,17 @@ angular.module('app')
                 }
             })
             // The following states are almost always CUSTOM
-            .state(baseStateName+'.show.items', {
-                url: '/items',
-                activeNav: activeNav,
-                activeSubNav: activeSubNav,
-                templateUrl: partialsPath+'/items'
-            })
             .state(baseStateName+'.show.detail2', {
-                url: '/detail2',
                 activeNav: activeNav,
                 activeSubNav: activeSubNav,
+                url: '/detail2',
                 templateUrl: partialsPath+'/detail2'
+            })
+            .state(baseStateName+'.show.items', {
+                activeNav: activeNav,
+                activeSubNav: activeSubNav,
+                url: '/items',
+                templateUrl: partialsPath+'/items'
             });
 
 

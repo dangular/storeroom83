@@ -8,14 +8,18 @@ angular.module('app')
     .config(['$stateProvider','$locationProvider','$urlRouterProvider', function($stateProvider, $locationProvider, $urlRouterProvider){
         $locationProvider.html5Mode(true);
 
-        $urlRouterProvider.when('/', ['stateMapper', function(stateMapper) {
-            return stateMapper.redirectIfAuthenticated('dashboard');
-        }]);
+        $urlRouterProvider.otherwise(function($injector, $location){
+            var auth = $injector.get('Auth');
+            if (auth.isLoggedIn()) {
+                $location.path('/dashboard');
+            } else {
+                $location.path('/login');
+            }
+        });
+
         $urlRouterProvider.when('/am', ['stateMapper', function(stateMapper){
             return stateMapper.redirectIfAuthenticated('am.assets');
         }]);
-
-        $urlRouterProvider.otherwise('/login');
 
         $stateProvider
             .state('login', {
