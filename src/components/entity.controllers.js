@@ -148,7 +148,7 @@ angular.module('entity.controllers',['alert.services'])
                     multi_match: {
                         query: queryString,
                         type: 'phrase_prefix',
-                        fields: ['name', 'description']
+                        fields: $state.current.searchFields
                     }
                 }
             } else {

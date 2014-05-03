@@ -7,8 +7,8 @@
 angular.module('app')
     .config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $urlRouterProvider){
 
-        $urlRouterProvider.when('/inventory', ['stateMapper', function(stateMapper){
-            return stateMapper.redirectIfAuthenticated('inventory.storerooms.list');
+        $urlRouterProvider.when('/inventory', ['urlRouteMapper', function(routeMapper){
+            return routeMapper.whenAuthenticated('inventory.storerooms.list');
         }]);
 
         $stateProvider

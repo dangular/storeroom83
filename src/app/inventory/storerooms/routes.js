@@ -19,8 +19,8 @@ angular.module('app')
                 ]
             };
 
-        $urlRouterProvider.when('/inventory/storerooms', ['stateMapper', function(stateMapper){
-            return stateMapper.redirectIfAuthenticated('inventory.storerooms.list');
+        $urlRouterProvider.when('/inventory/storerooms', ['urlRouteMapper', function(routeMapper){
+            return routeMapper.whenAuthenticated('inventory.storerooms.list');
         }]);
 
         $stateProvider
@@ -47,6 +47,7 @@ angular.module('app')
                 type: 'storeroom',
                 showStateName: baseStateName +'.show.items',
                 labelField: 'name',
+                searchFields: ['name', 'description'],
                 colHeaders: [
                     {title: 'Name', sortField: 'name', render: function(row){
                         return '<a href="'+row.href+'">'+row.source.name+'</a>';
@@ -94,7 +95,7 @@ angular.module('app')
                 }
             })
             .state(baseStateName+'.show', {
-                url: '/{id:[0-9a-fA-F]{1,24}}/show',
+                url: '/{id:[0-9a-fA-F]{1,24}}',
                 activeNav: activeNav,
                 activeSubNav: activeSubNav,
                 controller: 'ShowController',

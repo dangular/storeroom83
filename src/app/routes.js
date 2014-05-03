@@ -17,8 +17,8 @@ angular.module('app')
             }
         });
 
-        $urlRouterProvider.when('/am', ['stateMapper', function(stateMapper){
-            return stateMapper.redirectIfAuthenticated('am.assets');
+        $urlRouterProvider.when('/am', ['urlRouteMapper', function(routeMapper){
+            return routeMapper.whenAuthenticated('am.assets');
         }]);
 
         $stateProvider

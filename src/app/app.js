@@ -67,9 +67,9 @@ angular.module('app', ['ngAnimate', 'ngSanitize', 'ngCookies', 'ui.router', 'ela
 
     }])
 
-    .factory('stateMapper', ['$state', '$stateParams', 'Auth', function($state, $stateParams, Auth) {
+    .factory('urlRouteMapper', ['$state', '$stateParams', 'Auth', function($state, $stateParams, Auth) {
         return {
-            redirectIfAuthenticated: function(destination) {
+            whenAuthenticated: function(destination) {
                 if (Auth.isLoggedIn()) {
                     $state.transitionTo(destination, $stateParams);
                     return true;
