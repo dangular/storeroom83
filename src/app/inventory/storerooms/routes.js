@@ -7,7 +7,8 @@ angular.module('app')
     .config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $urlRouterProvider){
 
         var collectionName = 'storerooms', baseApiUrl = '/api/inventory',
-            activeNav = 'inventory', activeSubNav = 'storerooms', entityName = 'Storeroom',
+            activeNav = 'inventory', activeSubNav = 'storerooms',
+            entityName = 'Storeroom', labelField = 'name',
             partialsPath = '/partials/inventory/storerooms', baseUrl = '/storerooms',
             baseStateName = 'inventory.storerooms';
 
@@ -28,11 +29,8 @@ angular.module('app')
                 url: baseUrl,
                 template: '<div class="view" ui-view/>',
                 controller: 'EntityController',
-                activeNav: activeNav,
-                activeSubNav: activeSubNav,
-                entityName: entityName,
                 resolve: {
-                    repository: ['RestRepository', function(RestRepository) {
+                    restRepository: ['RestRepository', function(RestRepository) {
                         return new RestRepository(collectionName, baseApiUrl);
                     }]
                 }
@@ -43,31 +41,33 @@ angular.module('app')
                 activeSubNav: activeSubNav,
                 templateUrl: partialsPath+'/list',
                 controller: 'ListController',
-                index: 'storerooms',
-                type: 'storeroom',
-                showStateName: baseStateName +'.show.items',
-                labelField: 'name',
-                searchFields: ['name', 'description'],
-                colHeaders: [
-                    {title: 'Name', sortField: 'name', render: function(row){
-                        return '<a href="'+row.href+'">'+row.source.name+'</a>';
-                    }},
-                    {title: 'Description', sortField: 'description', dataField: 'description'},
-                    {title: 'Created At', sortField: 'createdAt', render: function(row, scope, filter) {
-                        return filter('date')(row.source.createdAt, 'medium');
-                    }},
-                    {title: 'Updated At', sortField: 'updatedAt', render: function(row, scope, filter) {
-                        return filter('date')(row.source.updatedAt, 'medium');
-                    }}
-                ],
-                actionList: [
-                    {btnLabel: 'Edit', btnClass:'btn-default', onClick: function(row, scope) {
-                        scope.$state.go('inventory.storerooms.edit', {id: row.source._id}); }
-                    },
-                    {btnLabel: 'Delete', btnClass: 'btn-danger', onClick: function(row, scope) {
-                        scope.remove(row); }
-                    }
-                ]
+                resolve: {
+                    gridConfig: ['$filter', '$state', function($filter, $state) {
+                        // gridConfig is customized for each entity type
+                        return {
+                            colDefs: [
+                                {title: 'Name', sortField: 'name', render: function(row){
+                                    return '<a href="'+row.href+'">'+row.source.name+'</a>';
+                                }},
+                                {title: 'Description', sortField: 'description', dataField: 'description'},
+                                {title: 'Created At', sortField: 'createdAt', render: function(row) {
+                                    return $filter('date')(row.source.createdAt, 'medium');
+                                }},
+                                {title: 'Updated At', sortField: 'updatedAt', render: function(row) {
+                                    return $filter('date')(row.source.updatedAt, 'medium');
+                                }}
+                            ],
+                            actions: [
+                                {btnLabel: 'Edit', btnClass:'btn-default', onClick: function(row) {
+                                    $state.go('inventory.storerooms.edit', {id: row.source._id}); }
+                                },
+                                {btnLabel: 'Delete', btnClass: 'btn-danger', onClick: function(row, scope) {
+                                    scope.confirmDelete(row); }
+                                }
+                            ]
+                        }
+                    }]
+                }
             })
             .state(baseStateName+'.new', {
                 url: '/new',
@@ -75,6 +75,8 @@ angular.module('app')
                 activeSubNav: activeSubNav,
                 controller: 'EntityFormController',
                 templateUrl: partialsPath+'/form',
+                entityName: entityName,
+                labelField: labelField,
                 resolve: {
                     entity: function(){
                         return {};
@@ -87,6 +89,8 @@ angular.module('app')
                 activeSubNav: activeSubNav,
                 controller: 'EntityFormController',
                 templateUrl: partialsPath+'/form',
+                entityName: entityName,
+                labelField: labelField,
                 resolve: {
                     entity: ['RestRepository', '$stateParams', function(RestRepository, $stateParams) {
                         var repo = new RestRepository(collectionName, baseApiUrl);

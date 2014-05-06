@@ -1,14 +1,5 @@
-doctype
-
-h3.page-header Storerooms
-    a.btn.btn-sm.btn-default.pull-right(ui-sref="inventory.storerooms.new")
-        i.fa.fa-plus.fa-lg
-        | &nbsp;Add Storeroom
-
-search-header
-
-pagination(on-select-page="goToPage(page)", total-items="results.total", page="results.page", items-per-page="searchParams.perPage", max-size="5", class="pagination-sm pull-right", boundary-links="true")
-
-search-results-table
-
-search-results-footer
+entity-search(search-params="searchParams", col-defs="gridConfig.colDefs", actions="gridConfig.actions",
+    create-route="inventory.storerooms.new", show-route="inventory.storerooms.show", index-name="storerooms",
+    index-type="storeroom", search-fields="['name', 'description']",
+    label-field="name", page-title="Storerooms", entity-name="Storeroom",
+    on-confirm-delete="remove(entity)")

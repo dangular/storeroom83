@@ -4,7 +4,7 @@
  */
 'use strict';
 
-angular.module('app', ['ngAnimate', 'ngSanitize', 'ngCookies', 'ui.router', 'elasticsearch', 'entity.controllers', 'entity.services', 'entity.directives', 'alert.services'])
+angular.module('app', ['ngAnimate', 'ngSanitize', 'ngCookies', 'ui.router', 'elasticsearch', 'entity.controllers', 'entity.services', 'entity.directives', 'search.directives', 'alert.services'])
 
     .config(['$httpProvider', function($httpProvider) {
         var interceptor = ['$q', '$rootScope', function($q, $rootScope) {
