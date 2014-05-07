@@ -68,7 +68,7 @@ angular.module('search.directives', ['ui.bootstrap', 'ngCookies'])
                     return {
                         total: raw.hits.total,
                         page: $scope.searchParams.page,
-                        pages: Math.ceil(raw.hits.total / $scope.searchParams.perPage),
+                        pages: Math.ceil(raw.hits.total / $scope.itemsPerPage),
                         items: _.map(raw.hits.hits, function(hit) {
                             return {
                                 source: hit._source,
