@@ -13,7 +13,10 @@ angular.module('search.directives', ['ui.bootstrap', 'ngCookies'])
                 '<div class="clearfix"></div>'+
                 '<div class="panel panel-default" ng-show="showColumnPanel">'+
                     '<div class="panel-heading">Toggle Column Visibility' +
-                    '<button class="btn btn-xs btn-default pull-right clearfix" ng-click="showColumnPanel = false">Hide</button>'+
+                    '<div class="btn-toolbar pull-right clearfix">'+
+                        '<button class="btn btn-xs btn-warning" ng-click="resetColVisibility()">Reset</button>'+
+                        '<button class="btn btn-xs btn-default" ng-click="showColumnPanel = false">Hide</button>'+
+                    '</div>'+
                 '</div>'+
                     '<div class="panel-body" >'+
                         '<div class="col-md-3" ng-repeat="col in colDefs">'+
@@ -66,13 +69,16 @@ angular.module('search.directives', ['ui.bootstrap', 'ngCookies'])
 
                 $scope.itemsPerPageOptions = [1,5,10,25,50,100,250];
                 $scope.itemsPerPage = $cookieStore.get($scope.entityName+'.perPage') || 5;
-                $scope.columnVisibility = $cookieStore.get($scope.entityName+'.colVisibility') || function() {
+
+                var defaultColumnVisibility = function() {
                     var visible = {};
                     angular.forEach($scope.colDefs, function(col) {
                         visible[col.title] = col.visible;
                     });
                     return visible;
-                }();
+                };
+
+                $scope.columnVisibility = $cookieStore.get($scope.entityName+'.colVisibility') || defaultColumnVisibility();
 
                 var convertElasticSearchResults = function(raw) {
                     return {
@@ -96,6 +102,11 @@ angular.module('search.directives', ['ui.bootstrap', 'ngCookies'])
 
                 $scope.saveColVisibility = function() {
                     $cookieStore.put($scope.entityName+'.colVisibility', $scope.columnVisibility);
+                };
+
+                $scope.resetColVisibility = function() {
+                    $scope.columnVisibility = defaultColumnVisibility();
+                    $scope.saveColVisibility();
                 };
 
                 $scope.visibleColumns = function() {
