@@ -12,7 +12,6 @@ angular.module('entity.controllers',['alert.services'])
         $scope.searchParams = {
             query: undefined,
             page: 1,
-            perPage: 5,
             sortField: undefined,
             sortDirection: undefined
         };

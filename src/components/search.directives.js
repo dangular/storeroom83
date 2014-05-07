@@ -9,7 +9,7 @@ angular.module('search.directives', ['ui.bootstrap', 'ngCookies'])
             '<div>'+
                 '<entity-search-page-header></entity-search-page-header>'+
                 '<search-header></search-header>'+
-                '<pagination on-select-page="goToPage(page)" total-items="results.total" page="results.page" items-per-page="searchParams.perPage" max-size="5" class="pagination-sm pull-right" boundary-links="true"></pagination>'+
+                '<pagination on-select-page="goToPage(page)" total-items="results.total" page="results.page" items-per-page="itemsPerPage" max-size="5" class="pagination-sm pull-right" boundary-links="true"></pagination>'+
                 '<div class="clearfix"></div>'+
                 '<div class="panel panel-default" ng-show="showColumnPanel">'+
                     '<div class="panel-heading">Toggle Column Visibility' +
@@ -88,6 +88,14 @@ angular.module('search.directives', ['ui.bootstrap', 'ngCookies'])
                     return visible;
                 };
 
+                $scope.itemsPerPage = $cookieStore.get($scope.entityName+'.perPage') || 5;
+
+                $scope.itemsPerPageChanged = function() {
+                    console.log($scope.itemsPerPage);
+                    $scope.search();
+                    $cookieStore.put($scope.entityName+'.perPage', $scope.itemsPerPage);
+                };
+
                 $scope.columnVisibility = $cookieStore.get($scope.entityName+'.colVisibility') || initialColVisibility();
 
                 $scope.saveColVisibility = function() {
@@ -155,9 +163,9 @@ angular.module('search.directives', ['ui.bootstrap', 'ngCookies'])
                     elasticClient.search({
                         index: $scope.indexName,
                         type: $scope.indexType,
-                        from: ($scope.searchParams.page - 1) * $scope.searchParams.perPage,
+                        from: ($scope.searchParams.page - 1) * $scope.itemsPerPage,
                         sort: sort || '',
-                        size: $scope.searchParams.perPage,
+                        size: $scope.itemsPerPage,
                         body: { query: q }
                     }).then(function (resp) {
                         $scope.results = convertElasticSearchResults(resp);
@@ -225,7 +233,7 @@ angular.module('search.directives', ['ui.bootstrap', 'ngCookies'])
                 '</div>'+
                 '<div class="form-group col-md-1">'+
                     '<label for="searchPerPage">Per Page</label>'+
-                    '<select id="searchPerPage" class="form-control input-sm" ng-change="search()" ng-model="searchParams.perPage" ng-options="value for value in pageSizeOptions">'+
+                    '<select id="searchPerPage" class="form-control input-sm" ng-change="itemsPerPageChanged()" ng-model="itemsPerPage" ng-options="value for value in pageSizeOptions">'+
                 '</div>'+
             '</form>';
         return {
