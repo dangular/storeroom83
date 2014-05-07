@@ -64,6 +64,16 @@ angular.module('search.directives', ['ui.bootstrap', 'ngCookies'])
             },
             controller: ['$scope', '$state', 'elasticClient', 'ConfirmService', 'AlertService', '$cookieStore', function($scope, $state, elasticClient, confirmService, alertService, $cookieStore) {
 
+                $scope.itemsPerPageOptions = [1,5,10,25,50,100,250];
+                $scope.itemsPerPage = $cookieStore.get($scope.entityName+'.perPage') || 5;
+                $scope.columnVisibility = $cookieStore.get($scope.entityName+'.colVisibility') || function() {
+                    var visible = {};
+                    angular.forEach($scope.colDefs, function(col) {
+                        visible[col.title] = col.visible;
+                    });
+                    return visible;
+                }();
+
                 var convertElasticSearchResults = function(raw) {
                     return {
                         total: raw.hits.total,
@@ -78,25 +88,11 @@ angular.module('search.directives', ['ui.bootstrap', 'ngCookies'])
                     }
                 };
 
-                $scope.pageSizeOptions = [1,5,10,25,50,100,250];
-
-                var initialColVisibility = function() {
-                    var visible = {};
-                    angular.forEach($scope.colDefs, function(col) {
-                        visible[col.title] = col.visible;
-                    });
-                    return visible;
-                };
-
-                $scope.itemsPerPage = $cookieStore.get($scope.entityName+'.perPage') || 5;
-
                 $scope.itemsPerPageChanged = function() {
-                    console.log($scope.itemsPerPage);
+                    $scope.searchParams.page = 1;
                     $scope.search();
                     $cookieStore.put($scope.entityName+'.perPage', $scope.itemsPerPage);
                 };
-
-                $scope.columnVisibility = $cookieStore.get($scope.entityName+'.colVisibility') || initialColVisibility();
 
                 $scope.saveColVisibility = function() {
                     $cookieStore.put($scope.entityName+'.colVisibility', $scope.columnVisibility);
@@ -116,11 +112,6 @@ angular.module('search.directives', ['ui.bootstrap', 'ngCookies'])
                     $scope.searchParams.query = undefined;
                     $scope.searchParams.sortField = undefined;
                     $scope.searchParams.sortDirection = undefined;
-                    $scope.search();
-                };
-
-                $scope.changePerPage = function() {
-                    $scope.searchParams.page = 1;
                     $scope.search();
                 };
 
@@ -233,7 +224,7 @@ angular.module('search.directives', ['ui.bootstrap', 'ngCookies'])
                 '</div>'+
                 '<div class="form-group col-md-1">'+
                     '<label for="searchPerPage">Per Page</label>'+
-                    '<select id="searchPerPage" class="form-control input-sm" ng-change="itemsPerPageChanged()" ng-model="itemsPerPage" ng-options="value for value in pageSizeOptions">'+
+                    '<select id="searchPerPage" class="form-control input-sm" ng-change="itemsPerPageChanged()" ng-model="itemsPerPage" ng-options="value for value in itemsPerPageOptions">'+
                 '</div>'+
             '</form>';
         return {
