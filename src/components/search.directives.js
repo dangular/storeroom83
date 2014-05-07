@@ -2,7 +2,7 @@
  * Created by: dhayes on 5/6/14.
  * Filename: search.directives
  */
-angular.module('search.directives', ['ui.bootstrap'])
+angular.module('search.directives', ['ui.bootstrap', 'ngCookies'])
 
     .directive('entitySearch', function() {
         var template =
@@ -10,10 +10,21 @@ angular.module('search.directives', ['ui.bootstrap'])
                 '<entity-search-page-header></entity-search-page-header>'+
                 '<search-header></search-header>'+
                 '<pagination on-select-page="goToPage(page)" total-items="results.total" page="results.page" items-per-page="searchParams.perPage" max-size="5" class="pagination-sm pull-right" boundary-links="true"></pagination>'+
+                '<div class="clearfix"></div>'+
+                '<div class="panel panel-default" ng-show="showColumnPanel">'+
+                    '<div class="panel-heading">Toggle Column Visibility' +
+                    '<button class="btn btn-xs btn-default pull-right clearfix" ng-click="showColumnPanel = false">Hide</button>'+
+                '</div>'+
+                    '<div class="panel-body" >'+
+                        '<div class="col-md-3" ng-repeat="col in colDefs">'+
+                            '<input type="checkbox" ng-change="saveColVisibility()" ng-model="columnVisibility[col.title]">&nbsp;{{col.title}}'+
+                        '</div>'+
+                    '</div>'+
+                '</div>'+
                 '<table class="table table-condensed table-hover">'+
                     '<thead>'+
                         '<tr>'+
-                            '<th ng-repeat="col in colDefs">'+
+                            '<th ng-repeat="col in visibleColumns()">'+
                                 '<a href="" ng-click="sort(col.sortField)">{{col.title}}'+
                                     '<span class="sort-container" ng-show="searchParams.sortField === col.sortField">'+
                                         '<i ng-class="{true: \'fa fa-arrow-up\', false: \'fa fa-arrow-down\'}[searchParams.sortDirection === \'asc\']"></i>'+
@@ -25,7 +36,7 @@ angular.module('search.directives', ['ui.bootstrap'])
                     '</thead>'+
                     '<tbody>' +
                     '<tr ng-repeat="row in results.items">' +
-                        '<td ng-repeat="col in colDefs" ng-bind-html="row.source[col.dataField] || col.render(row)"></td>'+
+                        '<td ng-repeat="col in visibleColumns()" ng-bind-html="row.source[col.dataField] || col.render(row)"></td>'+
                         '<td class="btn-toolbar">'+
                             '<a ng-repeat="action in actions" class="btn btn-xs" ng-class="action.btnClass" ng-click="invokeAction(action.onClick, row)">{{action.btnLabel}}</a>'+
                         '</td>'+
@@ -48,10 +59,10 @@ angular.module('search.directives', ['ui.bootstrap'])
                 showRoute: '@',
                 indexName: '@',
                 indexType: '@',
-                searchFields: '@',
+                searchFields: '=',
                 onConfirmDelete: '&'
             },
-            controller: ['$scope', '$state', 'elasticClient', 'ConfirmService', 'AlertService', function($scope, $state, elasticClient, confirmService, alertService) {
+            controller: ['$scope', '$state', 'elasticClient', 'ConfirmService', 'AlertService', '$cookieStore', function($scope, $state, elasticClient, confirmService, alertService, $cookieStore) {
 
                 var convertElasticSearchResults = function(raw) {
                     return {
@@ -68,6 +79,30 @@ angular.module('search.directives', ['ui.bootstrap'])
                 };
 
                 $scope.pageSizeOptions = [1,5,10,25,50,100,250];
+
+                var initialColVisibility = function() {
+                    var visible = {};
+                    angular.forEach($scope.colDefs, function(col) {
+                        visible[col.title] = col.visible;
+                    });
+                    return visible;
+                };
+
+                $scope.columnVisibility = $cookieStore.get($scope.entityName+'.colVisibility') || initialColVisibility();
+
+                $scope.saveColVisibility = function() {
+                    $cookieStore.put($scope.entityName+'.colVisibility', $scope.columnVisibility);
+                };
+
+                $scope.visibleColumns = function() {
+                    var result = [];
+                    angular.forEach($scope.colDefs, function(col) {
+                        if ($scope.columnVisibility[col.title]) {
+                            result.push(col);
+                        }
+                    });
+                    return result;
+                };
 
                 $scope.clear = function() {
                     $scope.searchParams.query = undefined;
@@ -101,7 +136,7 @@ angular.module('search.directives', ['ui.bootstrap'])
                     var queryString = $scope.searchParams.query;
 
                     if (angular.isString(queryString) && queryString.length > 0) {
-                        // q = { prefix: { _all: queryString } }
+//                        q = { prefix: { _all: queryString } }
                         q = {
                             multi_match: {
                                 query: queryString,
@@ -166,7 +201,7 @@ angular.module('search.directives', ['ui.bootstrap'])
     .directive('searchHeader', function() {
         var template =
             '<form class="form-inline" role="form">'+
-                '<div class="form-group col-md-4">'+
+                '<div class="form-group col-md-3">'+
                     '<label for="searchQuery">Search Query</label>'+
                     '<input id="searchQuery" class="form-control input-sm" change-delay="search()" delay="400" ng-model="searchParams.query" placeholder="Enter Query Text">'+
                 '</div>'+
@@ -183,6 +218,12 @@ angular.module('search.directives', ['ui.bootstrap'])
                     '</button>'+
                 '</div>'+
                 '<div class="form-group col-md-1">'+
+                    '<label for="toggleColumns">Columns</label>'+
+                    '<button id="toggleColumns" class="form-control input-sm btn btn-sm btn-info" ng-click="showColumnPanel = !showColumnPanel">'+
+                        '<i class="fa" ng-class="{\'fa-eye-slash\': showColumnPanel, \'fa-eye\': !showColumnPanel}"></i>'+
+                    '</button>'+
+                '</div>'+
+                '<div class="form-group col-md-1">'+
                     '<label for="searchPerPage">Per Page</label>'+
                     '<select id="searchPerPage" class="form-control input-sm" ng-change="search()" ng-model="searchParams.perPage" ng-options="value for value in pageSizeOptions">'+
                 '</div>'+
@@ -191,7 +232,7 @@ angular.module('search.directives', ['ui.bootstrap'])
             template: template,
             restrict: 'E',
             replace: true,
-            scope: true
+            scope: false
         }
     })
 
@@ -204,7 +245,7 @@ angular.module('search.directives', ['ui.bootstrap'])
             template: template,
             restrict: 'E',
             replace: true,
-            scope: true
+            scope: false
         }
     })
 
@@ -219,7 +260,7 @@ angular.module('search.directives', ['ui.bootstrap'])
             template: template,
             restrict: 'E',
             replace: true,
-            scope: true
+            scope: false
         }
     });
 

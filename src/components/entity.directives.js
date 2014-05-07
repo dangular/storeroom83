@@ -75,18 +75,23 @@ angular.module('entity.directives', [])
 
         var templateMap = {
             input: '<div class="form-group" ng-class="{\'has-error\': $field.$invalid && ($field.$dirty || $form.attempt )}">'+
-                '<label class="control-label">{{label}}</label>'+
+                '<label class="control-label"></label>'+
                 '<input class="form-control input-sm">'+
                 '<small class="text-danger validation-label" ng-repeat="(key, error) in $field.$error" ng-show="error && ($field.$dirty || $form.attempt )"> {{$validationMessages[key]}}</small>',
             select: '<div class="form-group" ng-class="{\'has-error\' : $field.$invalid && $field.$dirty}">'+
-                '<label class="control-label">{{label}}</label>'+
+                '<label class="control-label"></label>'+
                 '<select class="form-control input-sm"></select>'+
                 '<small class="text-danger validation-label" ng-repeat="(key, error) in $field.$error" ng-show="error && $field.$dirty">{{$validationMessages[key]}}</small>'+
                     '</div>',
             textarea: '<div class="form-group" ng-class="{\'has-error\' : $field.$invalid && $field.$dirty}">'+
-                '<label class="control-label">{{label}}</label>'+
+                '<label class="control-label"></label>'+
                 '<textarea class="form-control input-sm"></textarea>'+
                 '<small class="text-danger validation-label" ng-repeat="(key, error) in $field.$error" ng-show="error && $field.$dirty">{{$validationMessages[key]}}</small>'+
+                '</div>',
+            checkbox: '<div class="form-group" ng-class="{\'has-error\': $field.$invalid && ($field.$dirty || $form.attempt )}">'+
+                '<label class="control-label"></label>'+
+                '<input class="checkbox">'+
+                '<small class="text-danger validation-label" ng-repeat="(key, error) in $field.$error" ng-show="error && ($field.$dirty || $form.attempt )"> {{$validationMessages[key]}}</small>'+
                 '</div>'
         };
 

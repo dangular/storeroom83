@@ -9,6 +9,16 @@ form.form(submit-valid="save()", role="form", name="storeroomForm", novalidate)
                 validator(key='minlength') Name must be at least 4 characters in length
             field(ng-model='entity.description', type='text', label='Description', required)
                 validator(key='required') Description is required
+            field(ng-model='entity.useInPurchasing', type='checkbox', template='checkbox', label='Use in PO/PR?')
+        fieldsset.col-md-4
+            field(ng-model='entity.controlAccount', type='text', label='GL Control Account', capitalize)
+            field(ng-model='entity.costAdjAccount', type='text', label='Cost Adjustment Account', capitalize)
+            field(ng-model='entity.receiptVarAccount', type='text', label='Receipt Variance Account', capitalize)
+            field(ng-model='entity.purchaseVarAccount', type='text', label='Purchase Variance Account', capitalize)
+        fieldset.col-md-4
+            field(ng-model='entity.shrinkageAccount', type='text', label='Shrinkage Account', capitalize)
+            field(ng-model='entity.invoiceVarAccount', type='text', label='Invoice Variance Account', capitalize)
+            field(ng-model='entity.currencyVarAccount', type='text', label='Currency Variance Account', capitalize)
 
     form-footer(save-button-text="Save", show-cancel="true", cancel-button-text="Cancel", on-cancel="backToPrevious()")
 

@@ -46,14 +46,24 @@ angular.module('app')
                         // gridConfig is customized for each entity type
                         return {
                             colDefs: [
-                                {title: 'Name', sortField: 'name', render: function(row){
+                                {title: 'Name', sortField: 'name', visible: true, render: function(row){
                                     return '<a href="'+row.href+'">'+row.source.name+'</a>';
                                 }},
-                                {title: 'Description', sortField: 'description', dataField: 'description'},
-                                {title: 'Created At', sortField: 'createdAt', render: function(row) {
+                                {title: 'Description', sortField: 'description', dataField: 'description', visible: true},
+                                {title: 'Control Account', sortField: 'controlAccount', dataField: 'controlAccount', visible: false},
+                                {title: 'Cost Adj Account', sortField: 'costAdjAccount', dataField: 'costAdjAccount', visible: false},
+                                {title: 'Receipt Var Account', sortField: 'receiptVarAccount', dataField: 'receiptVarAccount', visible: false},
+                                {title: 'Purchase Var Account', sortField: 'purchaseVarAccount', dataField: 'purchaseVarAccount', visible: false},
+                                {title: 'Shrinkage Account', sortField: 'shrinkageAccount', dataField: 'shrinkageAccount', visible: false},
+                                {title: 'Invoice Var Account', sortField: 'invoiceVarAccount', dataField: 'invoiceVarAccount', visible: false},
+                                {title: 'Currency Var Account', sortField: 'currencyVarAccount', dataField: 'currencyVarAccount', visible: false},
+                                {title: 'Use in PO/PR?', sortField: 'useInPurchasing', visible: false, render: function(row){
+                                    return angular.isDefined(row.source.useInPurchasing) ? (row.source.useInPurchasing ? 'Y' : 'N') : '' ;
+                                }},
+                                {title: 'Created At', sortField: 'createdAt', visible: true, render: function(row) {
                                     return $filter('date')(row.source.createdAt, 'medium');
                                 }},
-                                {title: 'Updated At', sortField: 'updatedAt', render: function(row) {
+                                {title: 'Updated At', sortField: 'updatedAt', visible: true, render: function(row) {
                                     return $filter('date')(row.source.updatedAt, 'medium');
                                 }}
                             ],
