@@ -13,11 +13,11 @@ angular.module('search.directives', ['ui.bootstrap', 'ngCookies'])
                 '<div class="clearfix"></div>'+
                 '<div class="panel panel-default" ng-show="showColumnPanel">'+
                     '<div class="panel-heading">Toggle Column Visibility' +
-                    '<div class="btn-toolbar pull-right clearfix">'+
-                        '<button class="btn btn-xs btn-warning" ng-click="resetColVisibility()">Reset</button>'+
-                        '<button class="btn btn-xs btn-default" ng-click="showColumnPanel = false">Hide</button>'+
+                        '<div class="btn-toolbar pull-right clearfix">'+
+                            '<button class="btn btn-xs btn-warning" ng-click="resetColVisibility()">Reset</button>'+
+                            '<button class="btn btn-xs btn-default" ng-click="showColumnPanel = false">Hide</button>'+
+                        '</div>'+
                     '</div>'+
-                '</div>'+
                     '<div class="panel-body" >'+
                         '<div class="col-md-3" ng-repeat="col in colDefs">'+
                             '<input type="checkbox" ng-change="saveColVisibility()" ng-model="columnVisibility[col.title]">&nbsp;{{col.title}}'+

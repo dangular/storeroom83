@@ -75,7 +75,7 @@ angular.module('app')
                                     scope.confirmDelete(row); }
                                 }
                             ]
-                        }
+                        };
                     }]
                 }
             })

@@ -79,9 +79,9 @@ body.modal-open, .modal-open .navbar-fixed-top, .modal-open .navbar-fixed-bottom
 }
 
 tr {
-  &.ng-leave {
-//    -webkit-animation: fadeOut 0.5s;
-//    animation: fadeOut 0.5s;
+  &.ng-enter {
+    -webkit-animation: fadeIn 0.25s;
+    animation: fadeIn 0.25s;
   }
 }
 
@@ -96,3 +96,17 @@ span {
     padding-left: 5px;
   }
 }
+
+.panel {
+  &.ng-hide-remove {
+    -webkit-animation: fadeIn 0.5s;
+    animation: fadeIn 0.5s;
+  }
+
+  &.ng-hide-add {
+    -webkit-animation: fadeOut 0.25s;
+    animation: fadeOut 0.25s;
+    display: block !important;
+  }
+}
+
