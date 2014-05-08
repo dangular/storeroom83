@@ -35,7 +35,7 @@ describe('App spec', function(){
         beforeEach(inject(function($httpBackend){
             $httpBackend.expectGET('/partials/app')
                 .respond(200, 'App Layout HTML');
-            $httpBackend.expectGET('/partials/inventory/items')
+            $httpBackend.expectGET('/partials/inventory/items/list')
                 .respond(200, 'Items HTML');
         }));
 

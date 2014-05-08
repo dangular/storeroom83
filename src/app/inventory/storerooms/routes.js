@@ -27,7 +27,7 @@ angular.module('app')
         $stateProvider
             .state(baseStateName, {
                 url: baseUrl,
-                template: '<div class="view" ui-view/>',
+                template: '<div class="view" ui-view></div>',
                 controller: 'EntityController',
                 resolve: {
                     restRepository: ['RestRepository', function(RestRepository) {
@@ -49,7 +49,7 @@ angular.module('app')
                                 {title: 'Name', sortField: 'name', visible: true, render: function(row){
                                     return '<a href="'+row.href+'">'+row.source.name+'</a>';
                                 }},
-                                {title: 'Description', sortField: 'description', dataField: 'description', visible: true},
+                                {title: 'Description', sortField: 'description.raw', dataField: 'description', visible: true},
                                 {title: 'Control Account', sortField: 'controlAccount', dataField: 'controlAccount', visible: false},
                                 {title: 'Cost Adj Account', sortField: 'costAdjAccount', dataField: 'costAdjAccount', visible: false},
                                 {title: 'Receipt Var Account', sortField: 'receiptVarAccount', dataField: 'receiptVarAccount', visible: false},
@@ -69,7 +69,7 @@ angular.module('app')
                             ],
                             actions: [
                                 {btnLabel: 'Edit', btnClass:'btn-default', onClick: function(row) {
-                                    $state.go('inventory.storerooms.edit', {id: row.source._id}); }
+                                    $state.go('inventory.storerooms.edit', {id: row._id}); }
                                 },
                                 {btnLabel: 'Delete', btnClass: 'btn-danger', onClick: function(row, scope) {
                                     scope.confirmDelete(row); }

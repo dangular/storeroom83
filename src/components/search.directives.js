@@ -2,7 +2,7 @@
  * Created by: dhayes on 5/6/14.
  * Filename: search.directives
  */
-angular.module('search.directives', ['ui.bootstrap', 'ngCookies'])
+angular.module('search.directives', ['ui.bootstrap', 'ngCookies', 'search.services'])
 
     .directive('entitySearch', function() {
         var template =
@@ -39,7 +39,7 @@ angular.module('search.directives', ['ui.bootstrap', 'ngCookies'])
                     '</thead>'+
                     '<tbody>' +
                     '<tr ng-repeat="row in results.items">' +
-                        '<td ng-repeat="col in visibleColumns()" ng-bind-html="row.source[col.dataField] || col.render(row)"></td>'+
+                        '<td ng-repeat="col in visibleColumns()" ng-bind-html="col.render(row) || row.source[col.dataField]" ng-class="col.cssClass"></td>'+
                         '<td class="btn-toolbar">'+
                             '<a ng-repeat="action in actions" class="btn btn-xs" ng-class="action.btnClass" ng-click="invokeAction(action.onClick, row)">{{action.btnLabel}}</a>'+
                         '</td>'+
@@ -60,12 +60,11 @@ angular.module('search.directives', ['ui.bootstrap', 'ngCookies'])
                 entityName: '@',
                 createRoute: '@',
                 showRoute: '@',
-                indexName: '@',
-                indexType: '@',
+                searchUrl: '@',
                 searchFields: '=',
                 onConfirmDelete: '&'
             },
-            controller: ['$scope', '$state', 'elasticClient', 'ConfirmService', 'AlertService', '$cookieStore', function($scope, $state, elasticClient, confirmService, alertService, $cookieStore) {
+            controller: ['$scope', '$state', 'SearchService', 'ConfirmService', 'AlertService', '$cookieStore', function($scope, $state, searchService, confirmService, alertService, $cookieStore) {
 
                 $scope.itemsPerPageOptions = [1,5,10,25,50,100,250];
                 $scope.itemsPerPage = $cookieStore.get($scope.entityName+'.perPage') || 5;
@@ -88,7 +87,8 @@ angular.module('search.directives', ['ui.bootstrap', 'ngCookies'])
                         items: _.map(raw.hits.hits, function(hit) {
                             return {
                                 source: hit._source,
-                                href: $state.href($scope.showRoute, {id: hit._id})
+                                href: $state.href($scope.showRoute, {id: hit._id}),
+                                _id: hit._id
                             }
                         })
                     }
@@ -158,29 +158,29 @@ angular.module('search.directives', ['ui.bootstrap', 'ngCookies'])
                         q = { match_all: {} }
                     }
 
-                    var sort;
+                    var sort = {};
                     if ($scope.searchParams.sortField && $scope.searchParams.sortDirection) {
-                        sort = $scope.searchParams.sortField + ':' + $scope.searchParams.sortDirection;
+                        sort[$scope.searchParams.sortField] = {
+                            order: $scope.searchParams.sortDirection
+                        };
                     }
-                    elasticClient.search({
-                        index: $scope.indexName,
-                        type: $scope.indexType,
+                    searchService.search($scope.searchUrl, {
                         from: ($scope.searchParams.page - 1) * $scope.itemsPerPage,
-                        sort: sort || '',
+                        sort: sort,
                         size: $scope.itemsPerPage,
-                        body: { query: q }
+                        query: q
                     }).then(function (resp) {
                         $scope.results = convertElasticSearchResults(resp);
                     }, function (err) {
-                        console.trace(err.message);
-                        alertService.inline('danger', err.message, true);
+                        console.trace(err);
+                        alertService.inline('danger', "Error searching for "+$scope.entityName, true);
                     });
                 };
 
                 $scope.confirmDelete = function(row) {
 
                     confirmService.confirm('Are you sure you want to delete '+$scope.entityName+' '+row.source.name, function () {
-                        $scope.onConfirmDelete({entity:row.source}).then(function(){
+                        $scope.onConfirmDelete({id:row._id}).then(function(){
                             $scope.results.items = _.without($scope.results.items, row);
                             alertService.growl('success', $scope.entityName+' '+row.source.name+' successfully removed.', true);
                         }, function(err){

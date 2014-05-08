@@ -1,0 +1,5 @@
+entity-search(search-params="searchParams", col-defs="gridConfig.colDefs", actions="gridConfig.actions",
+    create-route="inventory.items.new", show-route="inventory.items.show",
+    search-url="/api/inventory/items/_search", search-fields="['partNumber', 'description', 'commodity']",
+    label-field="partNumber", page-title="Items", entity-name="Item",
+    on-confirm-delete="remove(id)")

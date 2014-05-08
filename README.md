@@ -98,56 +98,19 @@ If you have problems executing the script, make sure the script has execute perm
 $ sudo chmod +x start_mongodb.sh
 ```
 
-*IMPORTANT*
-
-If you use ./start_mongodb.sh shell script in the project to start Mongo, you will need perform a ONE-TIME task to initialize the replica set that is referenced in the startup script.  After starting Mongo, open a mongo command shell:
-
-```
-$ mongo
-```
-
-In the command shell execute the following:
-
-```
-> rs.initiate()
-```
-
-This will initialize the replica set for the instance.  A replica set is required, even if you are running a standalone instance. The Elasticsearch MongoDB River Connector (installed below), requires the op log features provided by the replica set.  If you do not start your MongoDB instance with the ./start_mongodb.sh shell script, you must configure the replica set yourself. To do so, follow the procedures [here](http://docs.mongodb.org/manual/tutorial/convert-standalone-to-replica-set/).
-
 #### Elasticsearch
 
 Storeroom83 now relies on Elasticsearch for its search capability.  To install Elasticsearch, following the instructions [here](http://www.elasticsearch.org/guide/en/elasticsearch/reference/current/setup.html).
 
-Next, set up the elasticsearch mongodb river by following the instructions [here](https://github.com/richardwilly98/elasticsearch-river-mongodb/wiki).  Note that the plugin requires the elasticsearch-mapper-attachment so don't skip that part of the installation instructions.
-
-Each collection in mongo requires its own *river*.  Currently, we only want to index the storerooms collection so we must create the river by inserting the following document in the elasticsearch meta data collection.  You can use a REST client to PUT this document:
+Once Elasticsearch is installed, set an env variable 'ELASTICSEARCH_HOME' to the path to your Elasticsearch install directory (do not include the 'bin' in the env variable).  If you haven't already started Elasticsearch, you may do so by executed the following script located in the root of the project directory
 
 ```
-PUT /_river/storeroom_river/_meta
-{
-      "type": "mongodb",
-      "mongodb": {
-         "db": "Storeroom83",
-         "collection": "storerooms"
-      },
-      "index": {
-         "name": "storerooms",
-         "type": "storeroom"
-      }
-}
+$ ./start_elasticsearch
 ```
-
-Note the name of the river is "storeroom_river".  The name of the index is "storerooms" and the name of the type is "storeroom".  There are other configuration options but this will suffice for now.  AFTER you've seeded the storerooms collection (below), you can test the elasticsearch configuration by executing the curl command:
-
-```
-$ curl -XGET 'http://localhost:9200/storerooms/storeroom/_search?q=name:west'
-```
-
-You should see a JSON response with at least 1 storeroom object.  In the Storeroom83 project, we will be using the angular build of the elasticsearch.js client library.  This library, which is installed automatically via bower, manages the network communication between the browser and the search server.  Currently, it is used mainly in the ListController located in the entity.controllers.js component/module. For more information on the elasticsearch javascript client library can be found [here](http://www.elasticsearch.org/guide/en/elasticsearch/client/javascript-api/current/).
 
 #### Seeding the Database
 
-If you have set up MongoDB, you can seed the database with a few objects to get started.  Currently, there are only a small number of Storeroom documents but the seed data will grow over time.  To seed the development database execute the following Grunt tasks:
+If you have set up MongoDB, you can seed the database with a few objects to get started.  Currently, there is a single User, a small number of Storerooms, and approximately 651 Items in the seed data.  To seed the development database execute the following Grunt tasks:
 
 ```
 $ grunt dropDevDatabase // drops dev database
@@ -159,6 +122,10 @@ $ grunt addDevUsers // adds admin user
 
 ```
 $ grunt addDevStorerooms // add storerooms
+```
+
+```
+$ grunt addDevItems // add items
 ```
 
 ### Building Storeroom83
@@ -187,6 +154,18 @@ Server listening on port 3000
 
 Navigate to [http://localhost:3000](http://localhost:3000)
 
+### Build the Elasticsearch Indexes
+
+While the Storerooms and Items have been loaded into Mongo, they are not yet indexed by Elasticsearch.  After building Storeroom83 and starting Node, execute the following curl commands to build the indexes:
+
+```
+$ curl -XPOST 'http://localhost:3000/api/inventory/storerooms/_reindex'
+$ curl -XPOST 'http://localhost:3000/api/inventory/items/_reindex'
+```
+
+The response output should show the number of entities indexed.
+
+Now when you navigate to [http://localhost:3000/inventory/items](http://localhost:3000/inventory/items) you should see the items in the list.
 
 ## Running Tests
 

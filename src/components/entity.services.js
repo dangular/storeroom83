@@ -16,8 +16,8 @@ angular.module('entity.services', ['restangular'])
                 list: function() {
                     return entities.getList();
                 },
-                remove: function(entity) {
-                    return entities.customDELETE(entity._id);
+                remove: function(id) {
+                    return entities.customDELETE(id);
                 },
                 load: function(id) {
                     return entities.one(id).get();

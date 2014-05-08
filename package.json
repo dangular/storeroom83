@@ -17,7 +17,8 @@
     "mongoose-timestamp": "^0.2.1",
     "passport": "^0.2.0",
     "passport-local": "^1.0.0",
-    "connect-mongo": "^0.4.0"
+    "connect-mongo": "^0.4.0",
+    "mongoosastic": "^0.2.6"
   },
   "devDependencies": {
     "grunt": "^0.4.4",
@@ -40,6 +41,7 @@
     "mocha": "^1.18.2",
     "should": "^3.2.0",
     "grunt-env": "^0.4.1",
-    "grunt-cafe-mocha": "^0.1.12"
+    "grunt-cafe-mocha": "^0.1.12",
+    "csv": "^0.3.7"
   }
 }

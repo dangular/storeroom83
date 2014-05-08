@@ -1,5 +1,5 @@
 entity-search(search-params="searchParams", col-defs="gridConfig.colDefs", actions="gridConfig.actions",
-    create-route="inventory.storerooms.new", show-route="inventory.storerooms.show", index-name="storerooms",
-    index-type="storeroom", search-fields="['name', 'description']",
+    create-route="inventory.storerooms.new", show-route="inventory.storerooms.show",
+    search-url="/api/inventory/storerooms/_search", search-fields="['name', 'description']",
     label-field="name", page-title="Storerooms", entity-name="Storeroom",
-    on-confirm-delete="remove(entity)")
+    on-confirm-delete="remove(id)")

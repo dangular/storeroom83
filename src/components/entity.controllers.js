@@ -49,8 +49,8 @@ angular.module('entity.controllers',['alert.services'])
     .controller('ListController', ['restRepository', 'gridConfig', '$scope', function(restRepository, gridConfig, $scope) {
         $scope.gridConfig = gridConfig;
 
-        $scope.remove = function(entity) {
-            return restRepository.remove(entity);
+        $scope.remove = function(id) {
+            return restRepository.remove(id);
         }
 
     }])

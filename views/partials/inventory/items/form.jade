@@ -1,0 +1,24 @@
+doctype
+
+form.form(submit-valid="save()", role="form", name="itemForm", novalidate)
+    form-header(form-title="{{pageTitle}}", show-cancel="true", cancel-button-text="Cancel", on-cancel="backToPrevious()")
+    .row
+        fieldset.col-md-4
+            field(ng-model='entity.partNumber', type='text', label='Part Number', required, capitalize)
+                validator(key='required') Part number is required
+            field(ng-model='entity.description', type='text', template='textarea', rows="5", label='Description', required)
+                validator(key='required') Description is required
+        fieldset.col-md-4
+            field(ng-model='entity.commodity', type='text', label='Commodity')
+            field(ng-model='entity.orderUnitOfMeasure', type='text', label='Order UOM', capitalize)
+            field(ng-model='entity.issueUnitOfMeasure', type='text', label='Issue UOM', capitalize)
+        fieldset.col-md-4
+            field(ng-model='entity.rotating', type='checkbox', template='checkbox', label='Rotating?')
+            field(ng-model='entity.kit', type='checkbox', template='checkbox', label='Kit?')
+            field(ng-model='entity.capitalized', type='checkbox', template='checkbox', label='Capitalized?')
+            field(ng-model='entity.conditionEnabled', type='checkbox', template='checkbox', label='Condition Enabled?')
+            field(ng-model='entity.inspectOnReceipt', type='checkbox', template='checkbox', label='Inspect on Receipt?')
+
+    form-footer(save-button-text="Save", show-cancel="true", cancel-button-text="Cancel", on-cancel="backToPrevious()")
+
+

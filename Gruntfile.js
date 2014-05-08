@@ -131,6 +131,7 @@ module.exports = function(grunt) {
     grunt.registerTask('addDevUsers', ['env:dev', 'addUsers']);
     grunt.registerTask('addTestStorerooms', ['env:test', 'addStorerooms']);
     grunt.registerTask('addDevStorerooms', ['env:dev', 'addStorerooms']);
-
+    grunt.registerTask('addTestItems', ['env:test', 'addItems']);
+    grunt.registerTask('addDevItems', ['env:dev', 'addItems']);
 
 };
