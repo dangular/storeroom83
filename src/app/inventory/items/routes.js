@@ -26,12 +26,6 @@ angular.module('app')
             };
         };
 
-        var truncateText = function(field, maxLength) {
-            return function(row) {
-                return row.source[field].length > maxLength ? row.source[field].substr(0, maxLength-1)+'&hellip;' : row.source[field];
-            };
-        };
-
         $urlRouterProvider.when('/inventory/items', ['urlRouteMapper', function(routeMapper){
             return routeMapper.whenAuthenticated('inventory.items.list');
         }]);
@@ -58,10 +52,10 @@ angular.module('app')
                         // gridConfig is customized for each entity type
                         return {
                             colDefs: [
-                                {title: 'Part No', sortField: 'partNumber', cssClass: 'text-right', visible: true, render: function(row){
+                                {title: 'Part No', sortField: 'partNumber', cssCellClass: 'text-right', cssHeaderClass: 'text-right', visible: true, render: function(row){
                                     return '<a href="'+row.href+'">'+row.source.partNumber+'</a>';
                                 }},
-                                {title: 'Description', sortField: 'description.raw', visible: true, dataField: 'description', render: truncateText('description', 50)},
+                                {title: 'Description', sortField: 'description.raw', visible: true, dataField: 'description', cssHeaderClass: 'col-md-4'},
                                 {title: 'Commodity', sortField: 'commodity', dataField: 'commodity', visible: true},
                                 {title: 'Order UOM', sortField: 'orderUnitOfMeasure', dataField: 'orderUnitOfMeasure', visible: false},
                                 {title: 'Issue UOM', sortField: 'issueUnitOfMeasure', dataField: 'issueUnitOfMeasure', visible: false},

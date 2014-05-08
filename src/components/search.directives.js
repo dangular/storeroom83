@@ -27,7 +27,7 @@ angular.module('search.directives', ['ui.bootstrap', 'ngCookies', 'search.servic
                 '<table class="table table-condensed table-hover">'+
                     '<thead>'+
                         '<tr>'+
-                            '<th ng-repeat="col in visibleColumns()">'+
+                            '<th ng-repeat="col in visibleColumns()" ng-class="col.cssHeaderClass" >'+
                                 '<a href="" ng-click="sort(col.sortField)">{{col.title}}'+
                                     '<span class="sort-container" ng-show="searchParams.sortField === col.sortField">'+
                                         '<i ng-class="{true: \'fa fa-arrow-up\', false: \'fa fa-arrow-down\'}[searchParams.sortDirection === \'asc\']"></i>'+
@@ -39,7 +39,7 @@ angular.module('search.directives', ['ui.bootstrap', 'ngCookies', 'search.servic
                     '</thead>'+
                     '<tbody>' +
                     '<tr ng-repeat="row in results.items">' +
-                        '<td ng-repeat="col in visibleColumns()" ng-bind-html="col.render(row) || row.source[col.dataField]" ng-class="col.cssClass"></td>'+
+                        '<td ng-repeat="col in visibleColumns()" ng-bind-html="col.render(row) || row.source[col.dataField]" ng-class="col.cssCellClass"></td>'+
                         '<td class="btn-toolbar">'+
                             '<a ng-repeat="action in actions" class="btn btn-xs" ng-class="action.btnClass" ng-click="invokeAction(action.onClick, row)">{{action.btnLabel}}</a>'+
                         '</td>'+
@@ -58,6 +58,7 @@ angular.module('search.directives', ['ui.bootstrap', 'ngCookies', 'search.servic
                 actions: '=',
                 pageTitle: '@',
                 entityName: '@',
+                labelField: '@',
                 createRoute: '@',
                 showRoute: '@',
                 searchUrl: '@',
@@ -178,10 +179,10 @@ angular.module('search.directives', ['ui.bootstrap', 'ngCookies', 'search.servic
                 };
 
                 $scope.confirmDelete = function(row) {
-
-                    confirmService.confirm('Are you sure you want to delete '+$scope.entityName+' '+row.source.name, function () {
+                    confirmService.confirm('Are you sure you want to delete '+$scope.entityName+' '+row.source[$scope.labelField], function () {
                         $scope.onConfirmDelete({id:row._id}).then(function(){
                             $scope.results.items = _.without($scope.results.items, row);
+                            $scope.results.total--;
                             alertService.growl('success', $scope.entityName+' '+row.source.name+' successfully removed.', true);
                         }, function(err){
                             alertService.inline('danger', err.message, true);
