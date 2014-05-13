@@ -7,5 +7,8 @@
     "logger": {
         "path": "./logs",
         "truncateOnStart": true
+    },
+    "elasticsearch": {
+        "host": "http://localhost:9200"
     }
 }

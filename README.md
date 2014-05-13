@@ -98,6 +98,22 @@ If you have problems executing the script, make sure the script has execute perm
 $ sudo chmod +x start_mongodb.sh
 ```
 
+*IMPORTANT*
+
+If you use ./start_mongodb.sh shell script in the project to start Mongo, you will need perform a ONE-TIME task to initialize the replica set that is referenced in the startup script.  After starting Mongo, open a mongo command shell:
+
+```
+$ mongo
+```
+
+In the command shell execute the following:
+
+```
+> rs.initiate()
+```
+
+This will initialize the replica set for the instance.  A replica set is required, even if you are running a standalone instance. The Elasticsearch MongoDB River Connector (installed below), requires the op log features provided by the replica set.  If you do not start your MongoDB instance with the ./start_mongodb.sh shell script, you must configure the replica set yourself. To do so, follow the procedures [here](http://docs.mongodb.org/manual/tutorial/convert-standalone-to-replica-set/).
+
 #### Elasticsearch
 
 Storeroom83 now relies on Elasticsearch for its search capability.  To install Elasticsearch, following the instructions [here](http://www.elasticsearch.org/guide/en/elasticsearch/reference/current/setup.html).
@@ -106,6 +122,14 @@ Once Elasticsearch is installed, set an env variable 'ELASTICSEARCH_HOME' to the
 
 ```
 $ ./start_elasticsearch
+```
+
+You must also configure Elasticsearch with the [mongodb-river plugin](https://github.com/richardwilly98/elasticsearch-river-mongodb).  The mongodb-plugin uses the *river* functionality of elasticsearch to update the indexes (which you will build below) whenever there is a change to a document in the mongo collection associated with the *river*.  An elasticsearch *river* is created for each entity (i.e. mongo collection) that is searchable (see Building the Elasticsearch Indexes below). This plugin also relies on the elasticsearch-mapper-attachment plugin which must be installed as well.  The complete installation instructions can be found [here](https://github.com/richardwilly98/elasticsearch-river-mongodb/wiki).  However, they can be condensed into 2 install commands as follows:
+
+```
+$ cd %ELASTICSEARCH_HOME%
+$ .\bin\plugin -install elasticsearch/elasticsearch-mapper-attachments/1.9.0
+$ .\bin\plugin -install com.github.richardwilly98.elasticsearch/elasticsearch-river-mongodb/2.0.0
 ```
 
 #### Seeding the Database
@@ -156,16 +180,13 @@ Navigate to [http://localhost:3000](http://localhost:3000)
 
 ### Build the Elasticsearch Indexes
 
-While the Storerooms and Items have been loaded into Mongo, they are not yet indexed by Elasticsearch.  After building Storeroom83 and starting Node, execute the following curl commands to build the indexes:
+To set up elasticsearch, you must create the indexes (with associated mappings) and the rivers (with associated river configuration) for each entity that is searchable.  To do so, execute the shell command 'elasticsearch_setup.sh' (first make sure you installed the mongodb-river and elasticsearch-mapper-attachment plugins as described above).  This will drop all the indexes and rivers (if they exist) and build new ones from scratch.  Any entities that are in the mongodb database will automatically be indexed.
 
 ```
-$ curl -XPOST 'http://localhost:3000/api/inventory/storerooms/_reindex'
-$ curl -XPOST 'http://localhost:3000/api/inventory/items/_reindex'
+$ ./elasticsearch_setup
 ```
 
-The response output should show the number of entities indexed.
-
-Now when you navigate to [http://localhost:3000/inventory/items](http://localhost:3000/inventory/items) you should see the items in the list.
+Now when you navigate to [http://localhost:3000/inventory/items](http://localhost:3000/inventory/items) you should see the items in the list. Note, you may be required to login.  Currently, there is only 1 admin user.  Just click the 'Login' button on the login page.
 
 ## Running Tests
 

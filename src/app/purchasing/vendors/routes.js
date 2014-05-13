@@ -6,28 +6,21 @@
 angular.module('app')
     .config(['$stateProvider', '$urlRouterProvider', function($stateProvider, $urlRouterProvider){
 
-        var collectionName = 'items', baseApiUrl = '/api/inventory',
-            activeNav = 'inventory', activeSubNav = 'items',
-            entityName = 'Item', labelField = 'partNumber',
-            partialsPath = '/partials/inventory/items', baseUrl = '/items',
-            baseStateName = 'inventory.items';
+        var collectionName = 'vendors', baseApiUrl = '/api/purchasing',
+            activeNav = 'purchasing', activeSubNav = 'vendors',
+            entityName = 'Vendor', labelField = 'code',
+            partialsPath = '/partials/purchasing/vendors', baseUrl = '/vendors',
+            baseStateName = 'purchasing.vendors';
 
         var showDetail = {
-            tabs: [
-                { heading: 'Inventory', route: 'inventory.items.show.inventory', active: false },
-                { heading: 'Vendors', route: 'inventory.items.show.vendors', active: false },
-                { heading: 'Back to Items', route: 'inventory.items.list', active: false}
-            ]
-        };
-
-        var renderBoolean = function(field) {
-            return function(row){
-                return angular.isDefined(row.source[field]) ? (row.source[field] ? 'Y' : 'N') : '' ;
+                tabs: [
+                    { heading: 'Orders', route: 'purchasing.vendors.show.orders', active: false },
+                    { heading: 'Back to List', route: 'purchasing.vendors.list', active: false}
+                ]
             };
-        };
 
-        $urlRouterProvider.when('/inventory/items', ['urlRouteMapper', function(routeMapper){
-            return routeMapper.whenAuthenticated('inventory.items.list');
+        $urlRouterProvider.when('/purchasing/vendors', ['urlRouteMapper', function(routeMapper){
+            return routeMapper.whenAuthenticated('purchasing.vendors.list');
         }]);
 
         $stateProvider
@@ -52,18 +45,13 @@ angular.module('app')
                         // gridConfig is customized for each entity type
                         return {
                             colDefs: [
-                                {title: 'Part No', sortField: 'partNumber', cssCellClass: 'text-right', cssHeaderClass: 'text-right', visible: true, render: function(row){
-                                    return '<a href="'+row.href+'">'+row.source.partNumber+'</a>';
+                                {title: 'Code', sortField: 'code', visible: true, render: function(row){
+                                    return '<a href="'+row.href+'">'+row.source.code+'</a>';
                                 }},
-                                {title: 'Description', sortField: 'description.raw', visible: true, dataField: 'description', cssHeaderClass: 'col-md-4'},
-                                {title: 'Commodity', sortField: 'commodity', dataField: 'commodity', visible: true},
-                                {title: 'Order UOM', sortField: 'orderUnitOfMeasure', dataField: 'orderUnitOfMeasure', visible: false},
-                                {title: 'Issue UOM', sortField: 'issueUnitOfMeasure', dataField: 'issueUnitOfMeasure', visible: false},
-                                {title: 'Rotating', sortField: 'rotating', visible: false, render: renderBoolean('rotating')},
-                                {title: 'Condition Enabled', sortField: 'conditionEnabled', visible: false, render: renderBoolean('conditionEnabled')},
-                                {title: 'Kit', sortField: 'kit', dataField: 'kit', visible: false, render: renderBoolean('kit')},
-                                {title: 'Inspect on Receipt', sortField: 'inspectOnReceipt', visible: false, render: renderBoolean('inspectOnReceipt')},
-                                {title: 'Capitalized', sortField: 'capitalized', visible: false, render: renderBoolean('capitalized')},
+                                {title: 'Name', sortField: 'name.raw', dataField: 'name', visible: true},
+                                {title: 'Active?', sortField: 'active', visible: false, render: function(row){
+                                    return angular.isDefined(row.source.active) ? (row.source.active ? 'Y' : 'N') : '' ;
+                                }},
                                 {title: 'Created At', sortField: 'createdAt', visible: true, render: function(row) {
                                     return $filter('date')(row.source.createdAt, 'medium');
                                 }},
@@ -73,7 +61,7 @@ angular.module('app')
                             ],
                             actions: [
                                 {btnLabel: 'Edit', btnClass:'btn-default', onClick: function(row) {
-                                    $state.go('inventory.items.edit', {id: row._id}); }
+                                    $state.go('purchasing.vendors.edit', {id: row._id}); }
                                 },
                                 {btnLabel: 'Delete', btnClass: 'btn-danger', onClick: function(row, scope) {
                                     scope.confirmDelete(row); }
@@ -91,7 +79,7 @@ angular.module('app')
                 templateUrl: partialsPath+'/form',
                 entityName: entityName,
                 labelField: labelField,
-                showRoute: baseStateName+'.show.inventory',
+                showRoute: baseStateName+'.show.orders',
                 resolve: {
                     entity: ['RestRepository', function(RestRepository){
                         var repo = new RestRepository(collectionName, baseApiUrl);
@@ -107,7 +95,7 @@ angular.module('app')
                 templateUrl: partialsPath+'/form',
                 entityName: entityName,
                 labelField: labelField,
-                showRoute: baseStateName+'.show.inventory',
+                showRoute: baseStateName+'.show.orders',
                 resolve: {
                     entity: ['RestRepository', '$stateParams', function(RestRepository, $stateParams) {
                         var repo = new RestRepository(collectionName, baseApiUrl);
@@ -132,18 +120,11 @@ angular.module('app')
                 }
             })
             // The following states are almost always CUSTOM
-            .state(baseStateName+'.show.vendors', {
+            .state(baseStateName+'.show.orders', {
                 activeNav: activeNav,
                 activeSubNav: activeSubNav,
-                url: '/vendors',
-                templateUrl: partialsPath+'/vendors'
-            })
-            .state(baseStateName+'.show.inventory', {
-                activeNav: activeNav,
-                activeSubNav: activeSubNav,
-                url: '/inventory',
-                templateUrl: partialsPath+'/inventory'
+                url: '/orders',
+                templateUrl: partialsPath+'/orders'
             });
-
 
     }]);

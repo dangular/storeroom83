@@ -1,0 +1,37 @@
+{
+    "settings": {
+        "analysis": {
+            "analyzer": {
+                "vendor_code_analyzer": {
+                    "type": "custom",
+                    "tokenizer": "keyword",
+                    "filter": "lowercase"
+                }
+            }
+        }
+    },
+    "mappings": {
+        "item": {
+            "properties": {
+                "name": {
+                    "type": "string",
+                    "fields": {
+                        "raw": {
+                            "type": "string",
+                            "index": "not_analyzed"
+                        }
+                    }
+                },
+                "code": {
+                    "type": "string",
+                    "fields": {
+                        "raw": {
+                            "type": "string",
+                            "analyzer": "vendor_code_analyzer"
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

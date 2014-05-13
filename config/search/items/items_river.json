@@ -1,0 +1,11 @@
+{
+    "type": "mongodb",
+    "mongodb": {
+        "db": "Storeroom83",
+        "collection": "items"
+    },
+    "index": {
+        "name": "items",
+        "type": "item"
+    }
+}

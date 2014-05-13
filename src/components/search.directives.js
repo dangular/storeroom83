@@ -54,6 +54,7 @@ angular.module('search.directives', ['ui.bootstrap', 'ngCookies', 'search.servic
             replace: true,
             scope: {
                 searchParams: '=',
+                filter: '=',
                 colDefs: '=',
                 actions: '=',
                 pageTitle: '@',
@@ -146,7 +147,7 @@ angular.module('search.directives', ['ui.bootstrap', 'ngCookies', 'search.servic
                     var q;
                     var queryString = $scope.searchParams.query;
 
-                    if (angular.isString(queryString) && queryString.length > 0) {
+                    if (angular.isDefined(queryString) && queryString.length > 0) {
 //                        q = { prefix: { _all: queryString } }
                         q = {
                             multi_match: {
@@ -157,6 +158,15 @@ angular.module('search.directives', ['ui.bootstrap', 'ngCookies', 'search.servic
                         }
                     } else {
                         q = { match_all: {} }
+                    }
+
+                    if (angular.isDefined($scope.filter)) {
+                        q = {
+                            filtered : {
+                                query : q,
+                                filter: $scope.filter
+                            }
+                        }
                     }
 
                     var sort = {};

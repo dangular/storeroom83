@@ -14,9 +14,9 @@ angular.module('app')
 
         var showDetail = {
                 tabs: [
-                    { heading: 'Storeroom Items', route: 'inventory.storerooms.show.items', active: false },
+                    { heading: 'Inventory', route: 'inventory.storerooms.show.inventory', active: false },
                     { heading: 'Detail 2', route: 'inventory.storerooms.show.detail2', active: false },
-                    { heading: 'Back to List', route: 'inventory.storerooms.list', active: false}
+                    { heading: 'Back to Storerooms', route: 'inventory.storerooms.list', active: false}
                 ]
             };
 
@@ -87,10 +87,12 @@ angular.module('app')
                 templateUrl: partialsPath+'/form',
                 entityName: entityName,
                 labelField: labelField,
+                showRoute: baseStateName+'.show.inventory',
                 resolve: {
-                    entity: function(){
-                        return {};
-                    }
+                    entity: ['RestRepository', function(RestRepository){
+                        var repo = new RestRepository(collectionName, baseApiUrl);
+                        return repo.create();
+                    }]
                 }
             })
             .state(baseStateName+'.edit', {
@@ -101,6 +103,7 @@ angular.module('app')
                 templateUrl: partialsPath+'/form',
                 entityName: entityName,
                 labelField: labelField,
+                showRoute: baseStateName+'.show.inventory',
                 resolve: {
                     entity: ['RestRepository', '$stateParams', function(RestRepository, $stateParams) {
                         var repo = new RestRepository(collectionName, baseApiUrl);
@@ -131,11 +134,11 @@ angular.module('app')
                 url: '/detail2',
                 templateUrl: partialsPath+'/detail2'
             })
-            .state(baseStateName+'.show.items', {
+            .state(baseStateName+'.show.inventory', {
                 activeNav: activeNav,
                 activeSubNav: activeSubNav,
-                url: '/items',
-                templateUrl: partialsPath+'/items'
+                url: '/inventory',
+                templateUrl: partialsPath+'/inventory'
             });
 
 

@@ -57,8 +57,10 @@ angular.module('entity.controllers',['alert.services'])
 
     .controller('EntityFormController', ['entity', '$scope', '$rootScope', 'AlertService', '$state', '$log', '$window', function(entity, $scope, $rootScope, alertService, $state, $log, $window) {
         $scope.entity = entity;
+        var showRoute = $state.current.showRoute;
+
         var isNew = function() {
-            return !$scope.entity._id;
+            return !$scope.entity.createdAt;
         };
 
         if (!isNew()) {
@@ -80,7 +82,8 @@ angular.module('entity.controllers',['alert.services'])
         $scope.save = function() {
             if (!isNew()) {
                 $scope.restRepository.update($scope.entity).then(function(saved) {
-                    alertService.growl('success', $state.current.entityName + ' '+saved[$state.current.labelField]+' updated successfully', true);
+                    var showAnchor = '<p><a href="'+$state.href(showRoute, {id: saved._id})+'">Show '+$state.current.entityName+'</a></p>';
+                    alertService.growl('success', $state.current.entityName + ' '+saved[$state.current.labelField]+' updated successfully.'+showAnchor, true);
                     $scope.$emit('s83:entityUpdated',saved);
                     $scope.backToPrevious();
                 }, function(err){
@@ -90,7 +93,8 @@ angular.module('entity.controllers',['alert.services'])
 
             } else {
                 $scope.restRepository.save($scope.entity).then(function(saved) {
-                    alertService.growl('success', $state.current.entityName+' '+saved[$state.current.labelField]+' created successfully', true);
+                    var showAnchor = '<p><a href="'+$state.href(showRoute, {id: saved._id})+'">Show '+$state.current.entityName+'</a></p>';
+                    alertService.growl('success', $state.current.entityName+' '+saved[$state.current.labelField]+' created successfully.'+showAnchor, true);
                     $scope.$emit('s83:entityAdded',saved);
                     $scope.backToPrevious();
                 }, function(err){

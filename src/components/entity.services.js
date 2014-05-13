@@ -11,6 +11,7 @@ angular.module('entity.services', ['restangular'])
                 Configurer.setBaseUrl(baseUrl);
             });
             var entities = rest.all(collectionName);
+            var createUrl = rest.oneUrl('new', baseUrl+'/'+collectionName+'/new');
 
             return {
                 list: function() {
@@ -21,6 +22,9 @@ angular.module('entity.services', ['restangular'])
                 },
                 load: function(id) {
                     return entities.one(id).get();
+                },
+                create: function() {
+                    return createUrl.get();
                 },
                 edit: function(id) {
                     return entities.one(id).get().then(function(entity){

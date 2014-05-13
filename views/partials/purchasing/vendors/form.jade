@@ -1,0 +1,16 @@
+doctype
+
+form.form(submit-valid="save()", role="form", name="vendorForm", novalidate)
+    form-header(form-title="{{pageTitle}}", show-cancel="true", cancel-button-text="Cancel", on-cancel="backToPrevious()")
+    .row
+        fieldset.col-md-4
+            field(ng-model='entity.code', type='text', label='Code', required, ng-minlength='4', capitalize)
+                validator(key='required') Code is required
+                validator(key='minlength') Code must be at least 4 characters in length
+            field(ng-model='entity.name', type='text', label='Name', required)
+                validator(key='required') Name is required
+            field(ng-model='entity.active', type='checkbox', template='checkbox', label='Active?')
+
+    form-footer(save-button-text="Save", show-cancel="true", cancel-button-text="Cancel", on-cancel="backToPrevious()")
+
+

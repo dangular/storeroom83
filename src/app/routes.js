@@ -83,12 +83,6 @@ angular.module('app')
                 activeNav: 'work',
                 templateUrl: '/partials/work/index'
             })
-            .state('purchasing', {
-                parent: 'app',
-                url: '/purchasing',
-                activeNav: 'purchasing',
-                templateUrl: '/partials/purchasing/index'
-            })
             .state('maintenance', {
                 parent: 'app',
                 url: '/maintenance',

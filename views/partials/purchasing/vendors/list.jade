@@ -1,0 +1,5 @@
+entity-search(search-params="searchParams", col-defs="gridConfig.colDefs", actions="gridConfig.actions",
+create-route="purchasing.vendors.new", show-route="purchasing.vendors.show",
+search-url="/api/purchasing/vendors/_search", search-fields="['code', 'code.raw', 'name', 'name.raw']",
+label-field="code", page-title="Vendors", entity-name="Vendor",
+on-confirm-delete="remove(id)")

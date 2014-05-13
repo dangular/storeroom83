@@ -60,9 +60,22 @@ doctype
                         li(ng-class="{active: $state.current.activeSubNav === 'locations'}")
                             a(ui-sref="am.locations") Locations
                 li(ng-class="{active: $state.current.activeNav === 'purchasing'}")
-                    a(ui-sref="purchasing")
+                    a(ng-click="sidebarService.collapsed.purchasing = !sidebarService.collapsed.purchasing")
                         i.fa.fa-money.fa-fw
                         | &nbsp;Purchasing
+                        i.pull-right.fa.fa-plus-square-o.fa-fw(ng-show="sidebarService.collapsed.purchasing")
+                        i.pull-right.fa.fa-minus-square-o.fa-fw(ng-show="!sidebarService.collapsed.purchasing")
+                    ul.nav.sub-nav(collapse="sidebarService.collapsed.purchasing")
+                        li(ng-class="{active: $state.current.activeSubNav === 'vendors'}")
+                            a(ui-sref="purchasing.vendors") Vendors
+                        li(ng-class="{active: $state.current.activeSubNav === 'purchaseOrders'}")
+                            a(ui-sref="purchasing.purchaseOrders") Purchase Orders
+                        li(ng-class="{active: $state.current.activeSubNav === 'purchaseRequisitions'}")
+                            a(ui-sref="purchasing.purchaseRequisitions") Purchase Requisitions
+                        li(ng-class="{active: $state.current.activeSubNav === 'requestForQuote'}")
+                            a(ui-sref="purchasing.requestForQuote") Request for Quote
+                        li(ng-class="{active: $state.current.activeSubNav === 'receiving'}")
+                            a(ui-sref="purchasing.receiving") Receiving
                 li(ng-class="{active: $state.current.activeNav === 'maintenance'}")
                     a(ui-sref="maintenance")
                         i.fa.fa-calendar.fa-fw

@@ -1,0 +1,26 @@
+doctype
+
+h5 Known vendors of part {{entity.partNumber}}
+
+table.table.table-condensed.table-hover
+    thead
+        tr
+            th Vendor
+            th Vendor Part
+            th Manufacturer
+            th Mfr Part
+            th Mfr Retail
+            th UOM
+            th Qty/UOM
+            th Last Price
+    tbody
+        tr(ng-repeat="row in entity.vendorParts")
+            td {{row.vendorCode}}
+            td {{row.vendorPartNumber}}
+            td {{row.manufacturer}}
+            td {{row.manufacturerPartNumber}}
+            td {{row.manufacturerRetailPrice | currency}}
+            td {{row.lastPrice | currency}}
+            td {{row.unitOfMeasure}}
+            td {{row.qtyPerUnitOfMeasure}}
+

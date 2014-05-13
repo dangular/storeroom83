@@ -110,9 +110,10 @@ module.exports = function(grunt) {
 
         require('../lib/models/items');
         var Item = mongoose.model('Item');
+        require('../lib/models/vendors');
+        var Vendor = mongoose.model('Vendor');
 
         var items = [];
-
         csv().from.path(path.join(__dirname,'seed_items.csv'))
             .on('record', function(row){
                 items.push(new Item({
@@ -120,7 +121,19 @@ module.exports = function(grunt) {
                     commodity: row[1],
                     description: row[2],
                     orderUnitOfMeasure: row[4],
-                    issueUnitOfMeasure: row[4]
+                    issueUnitOfMeasure: row[4],
+                    vendorParts: [
+                        {
+                            //vendor: "536d14925d5b3321c2f15cb5",
+                            vendorCode: 'GRAINGER',
+                            unitOfMeasure: row[4],
+                            qtyPerUnitOfMeasure: row[5],
+                            vendorPartNumber: row[8],
+                            manufacturer: row[6],
+                            manufacturerPartNumber: row[7],
+                            manufacturerRetailPrice: row[9],
+                            lastPrice: row[10]
+                        }]
                 }));
             })
             .on('end', function(count){
@@ -144,8 +157,6 @@ module.exports = function(grunt) {
                 console.log(error.message);
                 done();
             });
-
-
     });
 
 };

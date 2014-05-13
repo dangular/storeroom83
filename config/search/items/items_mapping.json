@@ -1,0 +1,87 @@
+{
+    "settings": {
+        "analysis": {
+            "analyzer": {
+                "part_number_analyzer": {
+                    "type": "custom",
+                    "tokenizer": "keyword",
+                    "filter": "lowercase"
+                }
+            }
+        }
+    },
+    "mappings": {
+        "item": {
+            "properties": {
+                "description": {
+                    "type": "string",
+                    "fields": {
+                        "raw": {
+                            "type": "string",
+                            "index": "not_analyzed"
+                        }
+                    }
+                },
+                "partNumber": {
+                    "type": "string",
+                    "fields": {
+                        "raw": {
+                            "type": "string",
+                            "analyzer": "part_number_analyzer"
+                        }
+                    }
+                },
+                "orderUnitOfMeasure": {
+                    "type": "string",
+                    "index": "not_analyzed"
+                },
+                "issueUnitOfMeasure": {
+                    "type": "string",
+                    "index": "not_analyzed"
+                },
+                "vendorParts": {
+                    "properties": {
+                        "_id": {
+                            "type": "string",
+                            "index": "not_analyzed"
+                        },
+                        "manufacturerPartNumber": {
+                            "type": "string",
+                            "fields": {
+                                "raw": {
+                                    "type": "string",
+                                    "analyzer": "part_number_analyzer"
+                                }
+                            }
+                        },
+                        "vendorPartNumber": {
+                            "type": "string",
+                            "fields": {
+                                "raw": {
+                                    "type": "string",
+                                    "analyzer": "part_number_analyzer"
+                                }
+                            }
+                        },
+                        "unitOfMeasure": {
+                            "type": "string",
+                            "index": "no"
+                        },
+                        "qtyPerUnitOfMeasure": {
+                            "type": "integer",
+                            "index": "no"
+                        },
+                        "manufacturerRetailPrice": {
+                            "type": "double",
+                            "index": "no"
+                        },
+                        "lastPrice": {
+                            "type": "double",
+                            "index": "no"
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

@@ -1,0 +1,65 @@
+{
+    "settings": {
+        "analysis": {
+            "analyzer": {
+                "storeroom_name_analyzer": {
+                    "type": "custom",
+                    "tokenizer": "keyword",
+                    "filter": "lowercase"
+                }
+            }
+        }
+    },
+    "mappings": {
+        "item": {
+            "properties": {
+                "description": {
+                    "type": "string",
+                    "fields": {
+                        "raw": {
+                            "type": "string",
+                            "index": "not_analyzed"
+                        }
+                    }
+                },
+                "name": {
+                    "type": "string",
+                    "fields": {
+                        "raw": {
+                            "type": "string",
+                            "analyzer": "storeroom_name_analyzer"
+                        }
+                    }
+                },
+                "controlAccount": {
+                    "type": "string",
+                    "index": "not_analyzed"
+                },
+                "costAdjAccount": {
+                    "type": "string",
+                    "index": "not_analyzed"
+                },
+                "receiptVarAccount": {
+                    "type": "string",
+                    "index": "not_analyzed"
+                },
+                "purchaseVarAccount": {
+                    "type": "string",
+                    "index": "not_analyzed"
+                },
+                "shrinkageAccount": {
+                    "type": "string",
+                    "index": "not_analyzed"
+                },
+                "invoiceVarAccount": {
+                    "type": "string",
+                    "index": "not_analyzed"
+                },
+                "currencyVarAccount": {
+                    "type": "string",
+                    "index": "not_analyzed"
+                }
+            }
+        }
+    }
+}
