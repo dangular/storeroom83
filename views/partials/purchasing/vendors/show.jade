@@ -1,23 +1,26 @@
 doctype
 
-.col-md-9
-    tabset
-        tab(ng-repeat="t in tabs", heading="{{t.heading}}", select="$state.go(t.route)", active="t.active")
-    .view(ui-view)
+.panel.panel-default
+    .panel-heading
+        h3.panel-title {{entity.code}}
+            a.btn.btn-default.btn-xs.pull-right(ui-sref="purchasing.vendors.edit({id:entity._id})") Edit
+    .panel-body
+        small
+            .col-md-3
+                dl
+                    dt Code
+                    dd {{entity.code}}
+                    dt Name
+                    dd {{entity.name}}
+                    dt Active
+                    dd {{entity.active | boolean }}
+            .col-md-3
+                dl
+                    dt Created
+                    dd {{entity.createdAt | date:'medium'}}
+                    dt Updated
+                    dd {{entity.updatedAt | date:'medium'}}
 
-.col-md-3
-    .panel.panel-default
-        .panel-heading
-            h3.panel-title {{entity.code}}
-                a.btn.btn-default.btn-xs.pull-right(ui-sref="purchasing.vendors.edit({id:entity._id})") Edit
-        .panel-body
-            dl
-                dt Name
-                dd {{entity.name}}
-                dt Active
-                dd {{entity.active ? 'Yes' : 'No'}}
-                dt Created
-                dd {{entity.createdAt | date:'medium'}}
-                dt Updated
-                dd {{entity.updatedAt | date:'medium'}}
-
+tabset
+    tab(ng-repeat="t in tabs", heading="{{t.heading}}", select="$state.go(t.route)", active="t.active")
+.view(ui-view)

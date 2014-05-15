@@ -1,0 +1,50 @@
+doctype
+
+.panel.panel-default
+    .panel-heading
+        h3.panel-title Inventory Detail for Part #: <strong>{{entity.item.partNumber}}</strong> in Storeroom: <strong>{{entity.storeroom.description}}</strong>
+    .panel-body
+        small
+            .col-md-3
+                dl
+                    dt Part #
+                    dd
+                        a(ui-sref="inventory.items.show.inventory({id: entity.item._id})") {{entity.item.partNumber}}
+                    dt Description
+                    dd {{entity.item.description}}
+                    dt Storeroom
+                    dd
+                        a(ui-sref="inventory.storerooms.show.inventory({id: entity.storeroom._id})") {{entity.storeroom.description}}
+            .col-md-3
+                dl
+                    dt Stock Category
+                    dd {{entity.stockCategory}}
+                    dt Default Bin
+                    dd {{entity.defaultBin}}
+                    dt ABC Type
+                    dd {{entity.abcType}}
+                    dt Count Freq
+                    dd {{entity.countFrequency | number: 0}}
+            .col-md-3
+                dl
+                    dt Reorder Point
+                    dd {{entity.reorderPoint | number: 2}}
+                    dt Lead Time (Days)
+                    dd {{entity.leadTimeDays | number: 0}}
+                    dt Safety Stock
+                    dd {{entity.safetyStock | number: 2 }}
+                    dt Economic Order Qty
+                    dd {{entity.economicOrderQty | number: 2 }}
+            .col-md-3
+                dl
+                    dt Created
+                    dd {{entity.createdAt | date:'medium'}}
+                    dt Updated
+                    dd {{entity.updatedAt | date:'medium'}}
+
+
+tabset
+    tab(ng-repeat="t in tabs", heading="{{t.heading}}", select="$state.go(t.route)", active="t.active")
+.view(ui-view)
+
+

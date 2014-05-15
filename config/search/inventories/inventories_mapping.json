@@ -1,0 +1,120 @@
+{
+    "settings": {
+        "analysis": {
+            "analyzer": {
+                "code_analyzer": {
+                    "type": "custom",
+                    "tokenizer": "keyword",
+                    "filter": "lowercase"
+                }
+            }
+        }
+    },
+    "mappings": {
+        "inventory": {
+            "properties": {
+                "item": {
+                    "properties": {
+                        "_id": {
+                            "type": "string",
+                            "index": "not_analyzed"
+                        },
+                        "partNumber": {
+                            "type": "string",
+                            "fields": {
+                                "raw": {
+                                    "type": "string",
+                                    "analyzer": "code_analyzer"
+                                }
+                            }
+                        },
+                        "description": {
+                            "type": "string",
+                            "fields": {
+                                "raw": {
+                                    "type": "string",
+                                    "index": "not_analyzed"
+                                }
+                            }
+                        }
+                    }
+                },
+                "storeroom": {
+                    "properties": {
+                        "_id": {
+                            "type": "string",
+                            "index": "not_analyzed"
+                        },
+                        "name": {
+                            "type": "string",
+                            "fields": {
+                                "raw": {
+                                    "type": "string",
+                                    "analyzer": "code_analyzer"
+                                }
+                            }
+                        },
+                        "description": {
+                            "type": "string",
+                            "fields": {
+                                "raw": {
+                                    "type": "string",
+                                    "index": "not_analyzed"
+                                }
+                            }
+                        }
+                    }
+                },
+                "stockCategory": {
+                    "type": "string",
+                    "analyzer": "code_analyzer"
+                },
+                "defaultBin": {
+                    "type": "string",
+                    "fields": {
+                        "raw": {
+                            "type": "string",
+                            "analyzer": "code_analyzer"
+                        }
+                    }
+                },
+                "abcType": {
+                    "type": "string",
+                    "index": "not_analyzed"
+                },
+                "countFrequency": {
+                    "type": "integer"
+                },
+                "reorderPoint": {
+                    "type": "double"
+                },
+                "leadTimeDays": {
+                    "type": "integer"
+                },
+                "safetyStock": {
+                    "type": "double"
+                },
+                "economicOrderQty": {
+                    "type": "double"
+                },
+                "currentBalance": {
+                    "type": "double"
+                },
+                "qtyReserved": {
+                    "type": "double"
+                },
+                "expiredQtyInStock": {
+                    "type": "double"
+                },
+                "qtyAvailable": {
+                    "type": "double"
+                },
+                "qtyInHoldingLocation": {
+                    "type": "double"
+                }
+            }
+        }
+    }
+}
+
+

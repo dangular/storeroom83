@@ -1,0 +1,5 @@
+entity-search(search-params="searchParams", col-defs="gridConfig.colDefs", actions="gridConfig.actions",
+    show-route="inventory.inventories.show",
+    search-url="/api/inventory/inventories/_search",
+    search-fields="['item.partNumber', 'item.partNumber.raw', 'item.description', 'storeroom.name', 'storeroom.description']",
+    label-field="item.partNumber", page-title="Inventory", entity-name="Inventory")

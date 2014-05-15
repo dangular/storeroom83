@@ -1,2 +1,11 @@
-h5 This page will show inventory records for item {{entity.partNumber}}.
+br
+
+entity-search(search-params="inventorySearchParams", col-defs="inventoryGridConfig.colDefs", actions="inventoryGridConfig.actions",
+    search-url="/api/inventory/inventories/_search",
+    show-route="inventory.inventories.show",
+    filter="inventoryFilter",
+    search-fields="['item.partNumber', 'item.partNumber.raw', 'item.description', 'storeroom.name', 'storeroom.description', 'defaultBin', 'defaultBin.raw']",
+    label-field="item.partNumber", entity-name="Inventory")
+
+
 

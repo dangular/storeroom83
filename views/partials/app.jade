@@ -44,6 +44,8 @@ doctype
                             a(ui-sref="inventory.storerooms") Storerooms
                         li(ng-class="{active: $state.current.activeSubNav === 'items'}")
                             a(ui-sref="inventory.items") Item Master
+                        li(ng-class="{active: $state.current.activeSubNav === 'inventories'}")
+                            a(ui-sref="inventory.inventories") Inventory
                 li(ng-class="{active: $state.current.activeNav === 'work'}")
                     a(ui-sref="work")
                         i.fa.fa-wrench.fa-fw

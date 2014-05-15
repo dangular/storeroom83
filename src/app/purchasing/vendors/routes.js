@@ -15,7 +15,7 @@ angular.module('app')
         var showDetail = {
                 tabs: [
                     { heading: 'Orders', route: 'purchasing.vendors.show.orders', active: false },
-                    { heading: 'Back to List', route: 'purchasing.vendors.list', active: false}
+                    { heading: 'Back to Vendors', route: 'purchasing.vendors.list', active: false}
                 ]
             };
 

@@ -13,7 +13,8 @@ table.table.table-condensed.table-hover
             th Last Price
     tbody
         tr(ng-repeat="row in entity.vendorParts")
-            td {{row.vendorCode}}
+            td
+                a(ui-sref="purchasing.vendors.show({id: row.vendor._id})") {{row.vendor.name}}
             td {{row.vendorPartNumber}}
             td {{row.manufacturer}}
             td {{row.manufacturerPartNumber}}

@@ -39,7 +39,7 @@ angular.module('search.directives', ['ui.bootstrap', 'ngCookies', 'search.servic
                     '</thead>'+
                     '<tbody>' +
                     '<tr ng-repeat="row in results.items">' +
-                        '<td ng-repeat="col in visibleColumns()" ng-bind-html="col.render(row) || row.source[col.dataField]" ng-class="col.cssCellClass"></td>'+
+                        '<td ng-repeat="col in visibleColumns()" ng-bind-html="col.render(row) || renderDataField(row, col.dataField)" ng-class="col.cssCellClass"></td>'+
                         '<td class="btn-toolbar">'+
                             '<a ng-repeat="action in actions" class="btn btn-xs" ng-class="action.btnClass" ng-click="invokeAction(action.onClick, row)">{{action.btnLabel}}</a>'+
                         '</td>'+
@@ -69,7 +69,18 @@ angular.module('search.directives', ['ui.bootstrap', 'ngCookies', 'search.servic
             controller: ['$scope', '$state', 'SearchService', 'ConfirmService', 'AlertService', '$cookieStore', function($scope, $state, searchService, confirmService, alertService, $cookieStore) {
 
                 $scope.itemsPerPageOptions = [1,5,10,25,50,100,250];
-                $scope.itemsPerPage = $cookieStore.get($scope.entityName+'.perPage') || 5;
+
+                var searchSettings = $cookieStore.get('search') || {};
+
+                if (!searchSettings[$state.current.name]) {
+                    searchSettings[$state.current.name] = {};
+                }
+
+                if (!searchSettings[$state.current.name][$scope.searchUrl]) {
+                    searchSettings[$state.current.name][$scope.searchUrl] = {}
+                }
+
+                $scope.itemsPerPage = searchSettings[$state.current.name][$scope.searchUrl]['perPage'] || 5;
 
                 var defaultColumnVisibility = function() {
                     var visible = {};
@@ -79,7 +90,7 @@ angular.module('search.directives', ['ui.bootstrap', 'ngCookies', 'search.servic
                     return visible;
                 };
 
-                $scope.columnVisibility = $cookieStore.get($scope.entityName+'.colVisibility') || defaultColumnVisibility();
+                $scope.columnVisibility = searchSettings[$state.current.name][$scope.searchUrl]['colVisibility'] || defaultColumnVisibility();
 
                 var convertElasticSearchResults = function(raw) {
                     return {
@@ -99,11 +110,13 @@ angular.module('search.directives', ['ui.bootstrap', 'ngCookies', 'search.servic
                 $scope.itemsPerPageChanged = function() {
                     $scope.searchParams.page = 1;
                     $scope.search();
-                    $cookieStore.put($scope.entityName+'.perPage', $scope.itemsPerPage);
+                    searchSettings[$state.current.name][$scope.searchUrl]['perPage'] = $scope.itemsPerPage;
+                    $cookieStore.put('search', searchSettings);
                 };
 
                 $scope.saveColVisibility = function() {
-                    $cookieStore.put($scope.entityName+'.colVisibility', $scope.columnVisibility);
+                    searchSettings[$state.current.name][$scope.searchUrl]['colVisibility'] = $scope.columnVisibility;
+                    $cookieStore.put('search', searchSettings);
                 };
 
                 $scope.resetColVisibility = function() {
@@ -149,10 +162,16 @@ angular.module('search.directives', ['ui.bootstrap', 'ngCookies', 'search.servic
 
                     if (angular.isDefined(queryString) && queryString.length > 0) {
 //                        q = { prefix: { _all: queryString } }
+//                        q = {
+//                            multi_match: {
+//                                query: queryString,
+//                                type: 'phrase_prefix',
+//                                fields: $scope.searchFields
+//                            }
+//                        }
                         q = {
-                            multi_match: {
+                            query_string: {
                                 query: queryString,
-                                type: 'phrase_prefix',
                                 fields: $scope.searchFields
                             }
                         }
@@ -207,6 +226,15 @@ angular.module('search.directives', ['ui.bootstrap', 'ngCookies', 'search.servic
                     if (fn) {
                         fn(row, $scope);
                     }
+                };
+
+                $scope.renderDataField = function(row, dataField) {
+                    var v = row.source;
+                    var arr = dataField.split('.');
+                    for(var i=0; i< arr.length; i++) {
+                        v = v[arr[i]];
+                    }
+                    return v;
                 };
 
                 $scope.$on('s83:searchRefreshRequired',function() {
@@ -272,8 +300,8 @@ angular.module('search.directives', ['ui.bootstrap', 'ngCookies', 'search.servic
 
     .directive('entitySearchPageHeader', function() {
         var template =
-            '<h3 class="page-header">{{pageTitle}}'+
-                '<a class="btn btn-sm btn-default pull-right" ui-sref="{{createRoute}}">'+
+            '<h3 ng-if="pageTitle" class="page-header">{{pageTitle}}'+
+                '<a ng-if="createRoute" class="btn btn-sm btn-default pull-right" ui-sref="{{createRoute}}">'+
                     '<i class="fa fa-plus fa-lg">&nbsp;Add {{entityName}}</i>'+
                 '</a>'+
             '</h3>';

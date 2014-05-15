@@ -110,8 +110,6 @@ module.exports = function(grunt) {
 
         require('../lib/models/items');
         var Item = mongoose.model('Item');
-        require('../lib/models/vendors');
-        var Vendor = mongoose.model('Vendor');
 
         var items = [];
         csv().from.path(path.join(__dirname,'seed_items.csv'))
@@ -124,8 +122,11 @@ module.exports = function(grunt) {
                     issueUnitOfMeasure: row[4],
                     vendorParts: [
                         {
-                            //vendor: "536d14925d5b3321c2f15cb5",
-                            vendorCode: 'GRAINGER',
+                            vendor: {
+                                _id: "536d14925d5b3321c2f15cb5",
+                                code: "GRAINGER",
+                                name: "Grainger LLC"
+                            },
                             unitOfMeasure: row[4],
                             qtyPerUnitOfMeasure: row[5],
                             vendorPartNumber: row[8],
@@ -157,6 +158,67 @@ module.exports = function(grunt) {
                 console.log(error.message);
                 done();
             });
+    });
+
+    grunt.registerTask('addInventories', 'Add Inventories', function() {
+        var config = require('../lib/configuration');
+        var dbURI = config.get('mongodb:dbURI');
+        var mongoose = require('mongoose');
+        var path = require('path');
+        var csv = require('csv');
+
+        // async mode
+        var done = this.async();
+
+        require('../lib/models/inventories');
+        var Inventory = mongoose.model('Inventory');
+
+        var inventories = [];
+        csv().from.path(path.join(__dirname,'seed_inventories.csv'))
+            .on('record', function(row){
+                inventories.push(new Inventory({
+                    item: {
+                        _id: row[0],
+                        partNumber: row[1],
+                        description: row[2]
+                    },
+                    storeroom: {
+                        _id: "536be62bd8898ce0b7d2a2e3",
+                        name: "NORTH",
+                        description: "North Storeroom"
+                    },
+                    stockCategory: 'STOCK',
+                    defaultBin: row[3],
+                    abcType: row[4],
+                    countFrequency: 30,
+                    reorderPoint: 0.00,
+                    leadTimeDays: 0.00,
+                    safetyStock: 0.00,
+                    economicOrderQty: 0.00
+                }));
+            })
+            .on('end', function(count){
+                console.log('Number of lines: '+count);
+                mongoose.connect(dbURI);
+
+                mongoose.connection.on('open', function () {
+                    Inventory.create(inventories, function(err) {
+                        if (err) {
+                            console.log(err);
+                            mongoose.connection.close(done);
+                        } else {
+                            console.log('Created Inventories');
+                            mongoose.connection.close(done);
+                        }
+
+                    });
+                });
+            })
+            .on('error', function(error){
+                console.log(error.message);
+                done();
+            });
+
     });
 
 };

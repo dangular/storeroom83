@@ -138,7 +138,53 @@ angular.module('app')
                 activeNav: activeNav,
                 activeSubNav: activeSubNav,
                 url: '/inventory',
-                templateUrl: partialsPath+'/inventory'
+                templateUrl: partialsPath+'/inventory',
+                controller: ['$scope', '$state', '$filter', function ($scope, $state, $filter) {
+                    $scope.inventoryFilter = {
+                        term: {
+                            'storeroom._id': $scope.entity._id
+                        }
+                    };
+
+                    $scope.inventorySearchParams = {
+                        query: undefined,
+                        page: 1,
+                        sortField: undefined,
+                        sortDirection: undefined
+                    };
+
+                    $scope.inventoryGridConfig = {
+                        colDefs: [
+                            {title: 'Inventory', sortField: 'item._id', visible: true, dataField: '_id', render: function(row) {
+                                var href = $state.href('inventory.inventories.show.balances', {id: row.source._id});
+                                return '<a href="'+href+'">View Detail</a>';
+                            }},
+                            {title: 'Item', sortField: 'item.partNumber.raw', dataField: 'item.partNumber', visible: true, render: function (row) {
+                                var href = $state.href('inventory.items.show.inventory', {id: row.source.item._id});
+                                return '<a href="' + href + '">' + row.source.item.partNumber + '</a>';
+                            }},
+                            {title: 'Description', sortField: 'item.description.raw', visible: true, dataField: 'item.description', cssHeaderClass: 'col-md-4'},
+                            {title: 'Type', sortField: 'stockCategory', dataField: 'stockCategory', visible: true},
+                            {title: 'Default Bin', sortField: 'defaultBin.raw', dataField: 'defaultBin', visible: true},
+                            {title: 'Current Bal', sortField: 'currentBalance', dataField: 'currentBalance', visible: true, render: function (row) {
+                                return $filter('number')(row.source.currentBalance, 2);
+                            }},
+                            {title: 'Qty Available', sortField: 'qtyAvailable', dataField: 'qtyAvailable', visible: true, render: function (row) {
+                                return $filter('number')(row.source.qtyAvailable, 2);
+                            }},
+                            {title: 'Qty Reserved', sortField: 'qtyReserved', dataField: 'qtyReserved', visible: true, render: function (row) {
+                                return $filter('number')(row.source.qtyReserved, 2);
+                            }},
+                            {title: 'Exp Qty', sortField: 'expiredQtyInStock', dataField: 'expiredQtyInStock', visible: false, render: function (row) {
+                                return $filter('number')(row.source.expiredQtyInStock, 2);
+                            }},
+                            {title: 'Qty Holding', sortField: 'qtyInHoldingLocation', dataField: 'qtyInHoldingLocation', visible: false, render: function (row) {
+                                return $filter('number')(row.source.qtyInHoldingLocation, 2);
+                            }}
+                        ],
+                        actions: []
+                    };
+                }]
             });
 
 

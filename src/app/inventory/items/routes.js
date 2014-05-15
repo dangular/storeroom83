@@ -20,12 +20,6 @@ angular.module('app')
             ]
         };
 
-        var renderBoolean = function(field) {
-            return function(row){
-                return angular.isDefined(row.source[field]) ? (row.source[field] ? 'Y' : 'N') : '' ;
-            };
-        };
-
         $urlRouterProvider.when('/inventory/items', ['urlRouteMapper', function(routeMapper){
             return routeMapper.whenAuthenticated('inventory.items.list');
         }]);
@@ -59,11 +53,21 @@ angular.module('app')
                                 {title: 'Commodity', sortField: 'commodity', dataField: 'commodity', visible: true},
                                 {title: 'Order UOM', sortField: 'orderUnitOfMeasure', dataField: 'orderUnitOfMeasure', visible: false},
                                 {title: 'Issue UOM', sortField: 'issueUnitOfMeasure', dataField: 'issueUnitOfMeasure', visible: false},
-                                {title: 'Rotating', sortField: 'rotating', visible: false, render: renderBoolean('rotating')},
-                                {title: 'Condition Enabled', sortField: 'conditionEnabled', visible: false, render: renderBoolean('conditionEnabled')},
-                                {title: 'Kit', sortField: 'kit', dataField: 'kit', visible: false, render: renderBoolean('kit')},
-                                {title: 'Inspect on Receipt', sortField: 'inspectOnReceipt', visible: false, render: renderBoolean('inspectOnReceipt')},
-                                {title: 'Capitalized', sortField: 'capitalized', visible: false, render: renderBoolean('capitalized')},
+                                {title: 'Rotating', sortField: 'rotating', visible: false, render: function(row) {
+                                    return $filter('boolean')(row.source.rotating);
+                                }},
+                                {title: 'Condition Enabled', sortField: 'conditionEnabled', visible: false, render: function(row) {
+                                    return $filter('boolean')(row.source.conditionEnabled);
+                                }},
+                                {title: 'Kit', sortField: 'kit', dataField: 'kit', visible: false, render: function(row) {
+                                    return $filter('boolean')(row.source.kit);
+                                }},
+                                {title: 'Inspect on Receipt', sortField: 'inspectOnReceipt', visible: false, render: function(row) {
+                                    return $filter('boolean')(row.source.inspectOnReceipt);
+                                }},
+                                {title: 'Capitalized', sortField: 'capitalized', visible: false, render: function(row) {
+                                    return $filter('boolean')(row.source.capitalized);
+                                }},
                                 {title: 'Created At', sortField: 'createdAt', visible: true, render: function(row) {
                                     return $filter('date')(row.source.createdAt, 'medium');
                                 }},
@@ -142,8 +146,53 @@ angular.module('app')
                 activeNav: activeNav,
                 activeSubNav: activeSubNav,
                 url: '/inventory',
-                templateUrl: partialsPath+'/inventory'
+                templateUrl: partialsPath + '/inventory',
+                controller: ['$scope', '$state', '$filter', function ($scope, $state, $filter) {
+                    $scope.inventoryFilter = {
+                        term: {
+                            'item._id': $scope.entity._id
+                        }
+                    };
+
+                    $scope.inventorySearchParams = {
+                        query: undefined,
+                        page: 1,
+                        sortField: undefined,
+                        sortDirection: undefined
+                    };
+
+                    $scope.inventoryGridConfig = {
+                        colDefs: [
+                            {title: 'Inventory', sortField: 'item._id', visible: true, dataField: '_id', render: function(row) {
+                                var href = $state.href('inventory.inventories.show.balances', {id: row.source._id});
+                                return '<a href="'+href+'">View Detail</a>';
+                            }},
+                            {title: 'Storeroom', sortField: 'storeroom.name.raw', dataField: 'storeroom.name', visible: true, render: function (row) {
+                                var href = $state.href('inventory.storerooms.show', {id: row.source.storeroom._id});
+                                return '<a href="' + href + '">' + row.source.storeroom.name + '</a>';
+                            }},
+                            {title: 'Type', sortField: 'stockCategory', dataField: 'stockCategory', visible: true},
+                            {title: 'Default Bin', sortField: 'defaultBin.raw', dataField: 'defaultBin', visible: true},
+                            {title: 'Current Bal', sortField: 'currentBalance', dataField: 'currentBalance', visible: true, render: function (row) {
+                                return $filter('number')(row.source.currentBalance, 2);
+                            }},
+                            {title: 'Qty Available', sortField: 'qtyAvailable', dataField: 'qtyAvailable', visible: true, render: function (row) {
+                                return $filter('number')(row.source.qtyAvailable, 2);
+                            }},
+                            {title: 'Qty Reserved', sortField: 'qtyReserved', dataField: 'qtyReserved', visible: true, render: function (row) {
+                                return $filter('number')(row.source.qtyReserved, 2);
+                            }},
+                            {title: 'Exp Qty', sortField: 'expiredQtyInStock', dataField: 'expiredQtyInStock', visible: false, render: function (row) {
+                                return $filter('number')(row.source.expiredQtyInStock, 2);
+                            }},
+                            {title: 'Qty Holding', sortField: 'qtyInHoldingLocation', dataField: 'qtyInHoldingLocation', visible: false, render: function (row) {
+                                return $filter('number')(row.source.qtyInHoldingLocation, 2);
+                            }}
+                        ],
+                        actions: []
+
+                    };
+
+                }]
             });
-
-
     }]);

@@ -45,6 +45,20 @@
                             "type": "string",
                             "index": "not_analyzed"
                         },
+                        "vendor": {
+                            "properties": {
+                                "_id": {
+                                    "type": "string",
+                                    "index": "not_analyzed"
+                                },
+                                "code": {
+                                    "type": "string"
+                                },
+                                "name": {
+                                    "type": "string"
+                                }
+                            }
+                        },
                         "manufacturerPartNumber": {
                             "type": "string",
                             "fields": {
