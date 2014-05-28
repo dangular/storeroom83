@@ -1,4 +1,4 @@
-h5 Known vendors of part {{entity.partNumber}}
+h5 Known vendors of part {{item.partNumber}}
 
 table.table.table-condensed.table-hover
     thead
@@ -11,8 +11,8 @@ table.table.table-condensed.table-hover
             th Last Price
             th UOM
             th Qty/UOM
-     tbody
-        tr(ng-repeat="row in entity.vendorParts")
+    tbody
+        tr(ng-repeat="row in item.vendorParts")
             td
                 a(ui-sref="purchasing.vendors.show({id: row.vendor._id})") {{row.vendor.name}}
             td {{row.vendorPartNumber}}

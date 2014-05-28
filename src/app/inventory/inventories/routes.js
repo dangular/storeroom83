@@ -8,12 +8,14 @@ angular.module('app')
 
         var collectionName = 'inventories', baseApiUrl = '/api/inventory',
             activeNav = 'inventory', activeSubNav = 'inventories',
+            entityName = 'Inventory',
             partialsPath = '/partials/inventory/inventories', baseUrl = '/inventories',
             baseStateName = 'inventory.inventories';
 
         var showDetail = {
             tabs: [
                 { heading: 'Balances', route: 'inventory.inventories.show.balances', active: false },
+                { heading: 'Vendors', route: 'inventory.inventories.show.vendors', active: false },
                 { heading: 'Back to Inventories', route: 'inventory.inventories.list', active: false}
             ]
         };
@@ -97,8 +99,42 @@ angular.module('app')
                                     return $filter('date')(row.source.updatedAt, 'medium');
                                 }}
                             ],
-                            actions: []
+                            actions: [
+                                {btnLabel: 'Edit', btnClass:'btn-default', onClick: function(row) {
+                                    $state.go('inventory.inventories.edit', {id: row._id}); }
+                                }
+                            ]
                         };
+                    }]
+                }
+            })
+            .state(baseStateName+'.new', {
+                url: '/new',
+                activeNav: activeNav,
+                activeSubNav: activeSubNav,
+                controller: 'EntityFormController',
+                templateUrl: partialsPath+'/form',
+                entityName: entityName,
+                showRoute: baseStateName+'.show.balances',
+                resolve: {
+                    entity: ['RestRepository', function(RestRepository){
+                        var repo = new RestRepository(collectionName, baseApiUrl);
+                        return repo.create();
+                    }]
+                }
+            })
+            .state(baseStateName+'.edit', {
+                url: '/{id:[0-9a-fA-F]{1,24}}/edit',
+                activeNav: activeNav,
+                activeSubNav: activeSubNav,
+                controller: 'EntityFormController',
+                templateUrl: partialsPath+'/form',
+                entityName: entityName,
+                showRoute: baseStateName+'.show.balances',
+                resolve: {
+                    entity: ['RestRepository', '$stateParams', function(RestRepository, $stateParams) {
+                        var repo = new RestRepository(collectionName, baseApiUrl);
+                        return repo.edit($stateParams.id);
                     }]
                 }
             })
@@ -124,6 +160,21 @@ angular.module('app')
                 activeSubNav: activeSubNav,
                 url: '/balances',
                 templateUrl: partialsPath+'/balances'
+            })
+            .state(baseStateName+'.show.vendors', {
+                activeNav: activeNav,
+                activeSubNav: activeSubNav,
+                url: '/vendors',
+                templateUrl: partialsPath+'/vendors',
+                resolve: {
+                    item: ['RestRepository', 'entity', function(RestRepository, inventory) {
+                        var repo = new RestRepository('items', baseApiUrl);
+                        return repo.load(inventory.item._id);
+                    }]
+                },
+                controller: ['$scope', 'item', function($scope, item){
+                    $scope.item = item;
+                }]
             });
 
 

@@ -83,7 +83,8 @@ angular.module('entity.controllers',['alert.services'])
             if (!isNew()) {
                 $scope.restRepository.update($scope.entity).then(function(saved) {
                     var showAnchor = '<p><a href="'+$state.href(showRoute, {id: saved._id})+'">Show '+$state.current.entityName+'</a></p>';
-                    alertService.growl('success', $state.current.entityName + ' '+saved[$state.current.labelField]+' updated successfully.'+showAnchor, true);
+                    var label = $state.current.labelField || '';
+                    alertService.growl('success', $state.current.entityName + ' '+label+' updated successfully.'+showAnchor, true);
                     $scope.$emit('s83:entityUpdated',saved);
                     $scope.backToPrevious();
                 }, function(err){
@@ -94,7 +95,8 @@ angular.module('entity.controllers',['alert.services'])
             } else {
                 $scope.restRepository.save($scope.entity).then(function(saved) {
                     var showAnchor = '<p><a href="'+$state.href(showRoute, {id: saved._id})+'">Show '+$state.current.entityName+'</a></p>';
-                    alertService.growl('success', $state.current.entityName+' '+saved[$state.current.labelField]+' created successfully.'+showAnchor, true);
+                    var label = $state.current.labelField || '';
+                    alertService.growl('success', $state.current.entityName+' '+label+' created successfully.'+showAnchor, true);
                     $scope.$emit('s83:entityAdded',saved);
                     $scope.backToPrevious();
                 }, function(err){

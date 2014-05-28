@@ -11,7 +11,7 @@
         }
     },
     "mappings": {
-        "item": {
+        "vendor": {
             "properties": {
                 "name": {
                     "type": "string",

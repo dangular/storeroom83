@@ -25,6 +25,7 @@ module.exports = function(config) {
       'bower_components/angular-bootstrap/ui-bootstrap.js',
       'bower_components/angular-mocks/angular-mocks.js',
       'bower_components/lodash/dist/lodash.js',
+      'bower_components/moment/min/moment.min.js',
       'bower_components/restangular/dist/restangular.js',
       'src/app/**/*.js',
       'src/components/**/*.js'

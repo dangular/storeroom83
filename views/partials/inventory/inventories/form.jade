@@ -1,0 +1,34 @@
+doctype
+
+form.form(submit-valid="save()", role="form", name="inventoryForm", novalidate)
+    form-header(form-title="{{pageTitle}}", show-cancel="true", cancel-button-text="Cancel", on-cancel="backToPrevious()")
+    .row
+        fieldset.col-md-4(disabled)
+            .form-group
+                label.control-label Storeroom
+                .form-control.input-sm {{entity.storeroom.description}}
+            .form-group
+                label.control-label Part Number
+                .form-control.input-sm {{entity.item.partNumber}}
+            .form-group
+                label.control-label Item
+                textarea.form-control(rows='5', style='resize: none') {{entity.item.description}}
+        fieldset.col-md-4
+            field(ng-model='entity.stockCategory', template='select', label='Stock Category', ng-options="cat for cat in ['STOCK','NON_STOCK','SP_ORDER']", required)
+                validator(key='required') Stock Category is required
+            field(ng-model='entity.defaultBin', type='text', label='Default Bin', capitalize)
+            field(ng-model='entity.abcType', template='select', label='ABC Type', ng-options="abc for abc in ['A','B','C']")
+            field(ng-model='entity.countFrequency', type='text', label='Count Frequency')
+        fieldset.col-md-4
+            field(ng-model='entity.reorderPoint', type='type', label='Reorder Point', ng-pattern='/^[0-9]+(\.[0-9]{0,2})?$/')
+                validator(key='pattern') Reorder Point must be number (up to 2 decimal places)
+            field(ng-model='entity.leadTimeDays', type='type', label='Lead Time (Days)', ng-pattern='/^[0-9]+$/')
+                validator(key='pattern') Lead Time (Days) must be a number (no decimal places)
+            field(ng-model='entity.safetyStock', type='type', label='Safety Stock', ng-pattern='/^[0-9]+(\.[0-9]{0,2})?$/')
+                validator(key='pattern') Reorder Point must be number (up to 2 decimal places)
+            field(ng-model='entity.economicOrderQty', type='type', label='Economic Order Qty', ng-pattern='/^[0-9]+(\.[0-9]{0,2})?$/')
+                validator(key='pattern') Reorder Point must be number (up to 2 decimal places)
+
+    form-footer(save-button-text="Save", show-cancel="true", cancel-button-text="Cancel", on-cancel="backToPrevious()")
+
+
